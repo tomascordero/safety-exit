@@ -31,13 +31,9 @@ if ( is_admin() ){
 	$admin = new Safety_Exit_Admin();
     $admin->init();
 } else {
-  	// non-admin enqueues, actions, and filters
 	$frontend = new Safety_Exit_Frontend();
 	$frontend->init();
 }
-
-// add_action( 'wp_footer', 'safety_exit_injectTest', 100 );
-
 
 // display button depending on options
 

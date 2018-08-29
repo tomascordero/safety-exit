@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var sourcemaps = require('gulp-sourcemaps');
 var notify = require("gulp-notify");
-var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
 
 var autoprefixer = require('gulp-autoprefixer');;
@@ -26,7 +25,6 @@ gulp.task('serve', ['sass','autoprefixer'], function() {
 
     gulp.watch("./assets/sass/**/*.scss", ['sass']);
     gulp.watch("./assets/css/**/*.css", ['autoprefixer']);
-    gulp.watch("./*.html").on('change', browserSync.reload);
     gulp.watch("./assets/js/**/*.js").on('change', browserSync.reload);
 
 });
