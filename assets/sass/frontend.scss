@@ -1,3 +1,52 @@
-#sftExt-button {
+@mixin aspect-ratio($width, $height) {
+	// position: relative;
+	&:before {
+		display: block;
+		content: "";
+		width: 100%;
+		padding-top: ($height / $width) * 100%;
+	}
+	>.content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+#sftExt-frontend-button {
+	position: fixed;
+	display: inline-block;
+	cursor: pointer;
+
+	// defaults
+	left: 20px;
+	top: 20px;
+	padding: 10px 20px;
+	font-family: inherit;
+	width: 25px;
+	height: 25px;
+	&.round {
+		border-radius: 50%;
+		padding: 10px;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: 75%;
+	}
+	&.bottom {
+		top: auto;
+		bottom: 20px; // make an option
+	}
+	&.top {
+		top: 20px; // make an option
+	}
+	&.right {
+		left: auto;
+		right: 20px; // make an option
+	}
+	&.left {
+		left: 20px; // make an option
+	}
 
 }

@@ -31,7 +31,7 @@ if ( is_admin() ){
 	$admin = new Safety_Exit_Admin();
     $admin->init();
 } else {
-	$frontend = new Safety_Exit_Frontend();
+	$frontend = new Safety_Exit_Frontend(__FILE__);
 	$frontend->init();
 }
 
@@ -41,3 +41,5 @@ if ( is_admin() ){
 // use as menu item
 // use as widget
 // use shortcode
+
+// make option to have button as bar at top of site or floating in corner

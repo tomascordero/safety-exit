@@ -21,6 +21,12 @@ class Safety_Exit_Admin {
     public function init() {
         add_action( 'admin_menu', array( $this, 'safety_exit_add_options_page' ) );
         add_action('admin_init', array( $this, 'plugin_admin_init'));
+        add_action('update_option_sftExt_settings', array($this, 'sftExt_generateCSS'));
+    }
+    public function sftExt_generateCSS() {
+        $cssDir = plugins_url() . '/safety-exit/assets/css/';
+        // die;
+        add_settings_error('safety_exit', $function_to_add, $priority, $accepted_args)
 
     }
     public function safety_exit_add_options_page() {
@@ -38,6 +44,7 @@ class Safety_Exit_Admin {
     public function plugin_admin_init(){
 		register_setting( 'pluginPage', 'sftExt_settings' );
 
+
         add_settings_section(
             'sftExt_pluginPage_section',
             __( 'Your section description', 'wordpress' ),
@@ -45,20 +52,46 @@ class Safety_Exit_Admin {
             'pluginPage'
         );
 
+        // Button position
+
         add_settings_field(
-            'sftExt_select_field_0',
-            __( 'Settings field description', 'wordpress' ),
-            array( $this, 'sftExt_select_field_0_render'),
+            'sftExt_position',
+            __( 'Button Position', 'wordpress' ),
+            array( $this, 'sftExt_position_render'),
             'pluginPage',
             'sftExt_pluginPage_section'
         );
+
+        // End Button position
+        // Button type
+
+        add_settings_field(
+            'sftExt_type',
+            __( 'Button Type', 'wordpress' ),
+            array( $this, 'sftExt_type_render'),
+            'pluginPage',
+            'sftExt_pluginPage_section'
+        );
+
+        // End Button type
 	}
-    function sftExt_select_field_0_render(  ) {
+    function sftExt_position_render(  ) {
         $options = get_option( 'sftExt_settings' );
         ?>
-        <select name='sftExt_settings[sftExt_select_field_0]'>
-            <option value='bottom-left' <?php selected( $options['sftExt_select_field_0'], 'bottom-left' ); ?>>Bottom Left</option>
-            <option value='bottom-right' <?php selected( $options['sftExt_select_field_0'], 'bottom-right' ); ?>>Bottom Right</option>
+        <select name='sftExt_settings[sftExt_position]'>
+            <option value='bottom left' <?php selected( $options['sftExt_position'], 'bottom left' ); ?>>Bottom Left</option>
+            <option value='bottom right' <?php selected( $options['sftExt_position'], 'bottom right' ); ?>>Bottom Right</option>
+        </select>
+
+    <?php
+
+    }
+    function sftExt_type_render(  ) {
+        $options = get_option( 'sftExt_settings' );
+        ?>
+        <select name='sftExt_settings[sftExt_type]'>
+            <option value='round' <?php selected( $options['sftExt_type'], 'round' ); ?>>Round</option>
+            <option value='rectangle' <?php selected( $options['sftExt_type'], 'rectangle' ); ?>>Rectangle</option>
         </select>
 
     <?php

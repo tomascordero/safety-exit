@@ -1,0 +1,26 @@
+#sftExt-frontend-button {
+  position: fixed;
+  display: inline-block;
+  cursor: pointer;
+  left: 20px;
+  top: 20px;
+  padding: 10px 20px;
+  font-family: inherit;
+  width: 25px;
+  height: 25px; }
+  #sftExt-frontend-button.round {
+    border-radius: 50%;
+    padding: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 75%; }
+  #sftExt-frontend-button.bottom {
+    top: auto;
+    bottom: 20px; }
+  #sftExt-frontend-button.top {
+    top: 20px; }
+  #sftExt-frontend-button.right {
+    left: auto;
+    right: 20px; }
+  #sftExt-frontend-button.left {
+    left: 20px; }

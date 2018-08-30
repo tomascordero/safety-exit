@@ -34,8 +34,7 @@ gulp.task('sass', function() {
     return gulp.src("./assets/sass/**/*.scss")
         .pipe(sass({includePaths: ['node_modules/foundation-sites/scss']}).on('error', sass.logError))
         .pipe(gulp.dest("./assets/css"))
-        .pipe(notify("Sass is done!"))
-        .pipe(browserSync.stream());
+        .pipe(notify("Sass is done!"));
 });
 
 gulp.task('watch:sass', function() {
