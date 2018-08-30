@@ -26,7 +26,6 @@ class Safety_Exit_Admin {
     public function sftExt_generateCSS() {
         $cssDir = plugins_url() . '/safety-exit/assets/css/';
         // die;
-        add_settings_error('safety_exit', $function_to_add, $priority, $accepted_args)
 
     }
     public function safety_exit_add_options_page() {

@@ -8,5 +8,5 @@
 ?>
 
 <aside id="sftExt-frontend-button" class="<?= $classes; ?>">
-	<!-- <div class="sftExt-inner">Safety Exit</div> -->
+	<div class="sftExt-inner">Safety Exit</div>
 </aside>
