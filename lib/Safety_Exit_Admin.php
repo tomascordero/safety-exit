@@ -129,10 +129,16 @@ class Safety_Exit_Admin {
 
 		register_setting( 'pluginPage', 'sftExt_settings' );
         $options = get_option( 'sftExt_settings' );
+        $recClasses;
+        if($options['sftExt_type'] == 'rectangle') {
+            $recClasses = 'option-wrapper rectangle-only';
+        }else{
+            $recClasses = 'option-wrapper rectangle-only hidden';
+        }
 
         add_settings_section(
             'sftExt_pluginPage_section',
-            __( 'Your section description', 'wordpress' ),
+            __( 'General Settings', 'wordpress' ),
             array( $this, 'sftExt_settings_section_callback'),
             'pluginPage',
             array( 'section_id' => 'sftExt_pluginPage_section' )
@@ -170,25 +176,26 @@ class Safety_Exit_Admin {
             'sftExt_pluginPage_section',
             array ( 'class' => 'option-wrapper sftExt_type', 'label_for' => 'sftExt_type' )
         );
-        if($options['sftExt_type'] == 'rectangle'){
-            add_settings_field(
-                'sftExt_rectangle_text',
-                __( 'Button Text', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
-                'pluginPage',
-                'sftExt_pluginPage_section',
-                array ( 'class' => 'option-wrapper sftExt_rectangle_text ', 'label_for' => 'sftExt_rectangle_text' )
-            );
-        }else{
-            add_settings_field(
-                'sftExt_rectangle_text',
-                __( 'Button Text', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
-                'pluginPage',
-                'sftExt_pluginPage_section',
-                array ( 'class' => 'option-wrapper sftExt_rectangle_text hidden', 'label_for' => 'sftExt_rectangle_text' )
-            );
-        }
+
+        // Rectangle Settings
+
+        add_settings_field(
+            'sftExt_rectangle_text',
+            __( 'Button Text', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_section',
+            array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_text' )
+        );
+
+        add_settings_field(
+            'sftExt_rectangle_icon_onOff',
+            __( 'Include Icon?', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_section',
+            array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_icon_onOff' )
+        );
 
         // End Button type
 
@@ -264,6 +271,11 @@ class Safety_Exit_Admin {
             case 'sftExt_rectangle_text':
                 ?>
                     <input type="text" id="sftExt_rectangle_text" name="sftExt_settings[sftExt_rectangle_text]" value="<?= $options['sftExt_rectangle_text']; ?>">
+                <?php
+                break;
+            case 'sftExt_rectangle_icon_onOff':
+                ?>
+                    <input type="checkbox" name="sftExt_settings[sftExt_rectangle_icon_onOff]" value="1"<?php checked( 1 == $options['sftExt_rectangle_icon_onOff'] ); ?> />
                 <?php
                 break;
         }
