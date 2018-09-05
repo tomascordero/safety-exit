@@ -33,10 +33,12 @@
 	&.round {
 		border-radius: 50%;
 		padding: 10px;
-		background-image: url(../images/close-icon.svg);
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: 75%;
+		text-align: center;
+		> i {
+			font-size: 30px;
+			line-height: 25px;
+			color: white;
+		}
 	}
 	&.rectangle {
 		border-radius: 100px;
@@ -44,9 +46,6 @@
 		width: auto;
 		display: inline-flex;
 		flex-direction: column;
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: 75%;
 		&:before, &:after {
 			content: '';
 			flex: 1;
@@ -54,20 +53,23 @@
 		.sftExt-inner {
 			color: white;
 			text-transform: uppercase;
-			padding-left: 25px;
+			// padding-left: 25px;
 			position: relative;
-
+			text-align: center;
+			> i {
+				margin-right: 10px;
+			}
 			&:before {
 				position: absolute;
-				content: '';
+				// content: '';
 				left: 0;
 				top: 0;
 				height: 20px;
 				width: 20px;
-				background-image: url(../images/close-icon.svg);
-				background-position: center;
-				background-size: contain;
-				background-repeat: no-repeat;
+				// background-image: url(../images/close-icon.svg);
+				// background-position: center;
+				// background-size: contain;
+				// background-repeat: no-repeat;
 			}
 		}
 	}

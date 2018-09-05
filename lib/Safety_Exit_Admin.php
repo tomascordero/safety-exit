@@ -22,8 +22,8 @@ class Safety_Exit_Admin {
 
     public function init() {
         add_action( 'admin_menu', array( $this, 'safety_exit_add_options_page' ) );
-        add_action('admin_init', array( $this, 'plugin_admin_init'));
-        add_action('admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts'));
+        add_action( 'admin_init', array( $this, 'plugin_admin_init') );
+        add_action( 'admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts') );
         add_action( 'admin_head-nav-menus.php', array( $this, 'my_register_menu_metabox'), 10, 1  );
         // add_action('update_option_sftExt_settings', array($this, 'sftExt_generateCSS'));
     }
@@ -32,7 +32,7 @@ class Safety_Exit_Admin {
 
 	    add_meta_box(
             'my-menu-test-metabox',
-            'Test Menu Metabox',
+            'Safety Exit Button',
             array( $this, 'my_render_menu_metabox'),
             'nav-menus',
             'side',
@@ -120,6 +120,8 @@ class Safety_Exit_Admin {
             wp_register_script('sftExt-admin-js', $this->root . 'assets/js/admin.js', array('jquery'));
             wp_enqueue_script( 'sftExt-admin-js');
 
+            wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
+
         }
     }
     public function plugin_admin_init(){
@@ -147,7 +149,17 @@ class Safety_Exit_Admin {
             array ( 'class' => 'option-wrapper sftExt_position', 'label_for' => 'sftExt_position' )
         );
 
-        // End Button position
+        // Button Icon
+        add_settings_field(
+            'sftExt_fontawesome_icon_classes',
+            __( 'Button Icon', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_section',
+            array ( 'class' => 'option-wrapper sftExt_fontawesome_icon_classes', 'label_for' => 'sftExt_fontawesome_icon_classes' )
+        );
+
+        // End Button Icon
         // Button type
 
         add_settings_field(
@@ -221,6 +233,14 @@ class Safety_Exit_Admin {
                         <option value='bottom right' <?php selected( $options['sftExt_position'], 'bottom right' ); ?>>Bottom Right</option>
                     </select>
 
+                <?php
+                break;
+            case 'sftExt_fontawesome_icon_classes':
+                ?>
+                    <select id="sftExt_fontawesome_icon_classes" name='sftExt_settings[sftExt_fontawesome_icon_classes]' class="fas">
+                        <option value='fas fa-times' class="fas" <?php selected( $options['sftExt_fontawesome_icon_classes'], 'fas fa-times' ); ?>>&#xf00d;</option>
+                        <option value='fas fa-window-close' <?php selected( $options['sftExt_fontawesome_icon_classes'], 'fas times-circle' ); ?>>&#xf057;</option>
+                    </select>
                 <?php
                 break;
             case 'sftExt_type':
