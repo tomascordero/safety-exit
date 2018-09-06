@@ -119,7 +119,10 @@ class Safety_Exit_Admin {
 
             wp_register_script('sftExt-admin-js', $this->root . 'assets/js/admin.js', array('jquery'));
             wp_enqueue_script( 'sftExt-admin-js');
+            wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
+            wp_enqueue_script('sftExt-admin-icon-picker-js', $this->root . 'assets/js/fontawesome-iconpicker.min.js');
 
+            // wp_register_script( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/js/all.js' );
             wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
 
         }
@@ -244,10 +247,10 @@ class Safety_Exit_Admin {
                 break;
             case 'sftExt_fontawesome_icon_classes':
                 ?>
-                    <select id="sftExt_fontawesome_icon_classes" name='sftExt_settings[sftExt_fontawesome_icon_classes]' class="fas">
-                        <option value='fas fa-times' class="fas" <?php selected( $options['sftExt_fontawesome_icon_classes'], 'fas fa-times' ); ?>>&#xf00d;</option>
-                        <option value='fas fa-window-close' <?php selected( $options['sftExt_fontawesome_icon_classes'], 'fas times-circle' ); ?>>&#xf057;</option>
-                    </select>
+                    <div id="sftExt_icon_display" style="height: 75px;"><i class="fa-3x <?= $options['sftExt_fontawesome_icon_classes']; ?>"></i></div>
+                    <!-- <button id="sftExt_fontawesome_icon_classes_btn" >Change Icon</button> -->
+                    <input type="hidden" id="sftExt_fontawesome_icon_classes" name="sftExt_settings[sftExt_fontawesome_icon_classes]" value="<?= $options['sftExt_fontawesome_icon_classes']; ?>">
+
                 <?php
                 break;
             case 'sftExt_type':
