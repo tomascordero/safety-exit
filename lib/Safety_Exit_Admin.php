@@ -139,8 +139,8 @@ class Safety_Exit_Admin {
         'sftExt_new_tab_url' => 'https://google.com',
         'sftExt_rectangle_text' => 'Safety Exit',
         'sftExt_rectangle_icon_onOff' => 'yes',
-        'sftExt_rectangle_font_size_units' => 'em',
-        'sftExt_rectangle_font_size' => '20',
+        'sftExt_rectangle_font_size_units' => 'rem',
+        'sftExt_rectangle_font_size' => '1',
         'sftExt_bg_color' => 'rgba(58, 194, 208, 1)',
         'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
         'sftExt_letter_spacing' => 'inherit'
