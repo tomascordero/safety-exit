@@ -322,8 +322,6 @@ class Safety_Exit_Admin {
                 <?php
                 break;
             case 'sftExt_type':
-
-                echo $options['sftExt_css'];
                 ?>
                     <select id="sftExt_type" name='sftExt_settings[sftExt_type]'>
                         <option value='round' <?php selected( $options['sftExt_type'], 'round' ); ?>>Round</option>

@@ -2,6 +2,7 @@
   position: fixed;
   display: inline-block;
   cursor: pointer;
+  z-index: 999999999999999999;
   left: 20px;
   top: 20px;
   padding: 10px 20px;
