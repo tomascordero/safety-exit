@@ -28,7 +28,7 @@
 	width: 25px;
 	height: 25px;
 
-	background-color: #3ac2d0;
+	// background-color: #3ac2d0;
 
 	&.round {
 		border-radius: 50%;
@@ -37,7 +37,7 @@
 		> i {
 			font-size: 25px;
 			line-height: 25px;
-			color: white;
+			// color: white;
 		}
 	}
 	&.rectangle {
@@ -52,7 +52,7 @@
 			flex: 1;
 		}
 		.sftExt-inner {
-			color: white;
+			// color: white;
 			text-transform: uppercase;
 			// padding-left: 25px;
 			position: relative;

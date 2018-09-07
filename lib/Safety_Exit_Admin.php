@@ -119,10 +119,12 @@ class Safety_Exit_Admin {
         // echo $hook;die;
         if( $hook == 'settings_page_safety_exit' ) {
 
-            wp_register_script('sftExt-admin-js', $this->root . 'assets/js/admin.js', array('jquery'));
-            wp_enqueue_script( 'sftExt-admin-js');
             wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
+            wp_enqueue_style('sftExt-admin-admin', $this->root . 'assets/css/admin.css');
+            wp_enqueue_script('sftExt-admin-color-picker', $this->root . 'assets/js/vanilla-picker.min.js');
             wp_enqueue_script('sftExt-admin-icon-picker-js', $this->root . 'assets/js/fontawesome-iconpicker.min.js');
+            wp_register_script('sftExt-admin-js', $this->root . 'assets/js/admin.js', array('jquery', 'sftExt-admin-icon-picker-js', 'sftExt-admin-color-picker'));
+            wp_enqueue_script( 'sftExt-admin-js');
 
             // wp_register_script( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/js/all.js' );
             wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
@@ -138,7 +140,10 @@ class Safety_Exit_Admin {
         'sftExt_rectangle_text' => 'Safety Exit',
         'sftExt_rectangle_icon_onOff' => 'yes',
         'sftExt_rectangle_font_size_units' => 'em',
-        'sftExt_rectangle_font_size' => '20'
+        'sftExt_rectangle_font_size' => '20',
+        'sftExt_bg_color' => 'rgba(58, 194, 208, 1)',
+        'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
+        'sftExt_letter_spacing' => 'inherit'
     );
     public function plugin_admin_init(){
 
@@ -181,6 +186,28 @@ class Safety_Exit_Admin {
         );
 
         // End Button Icon
+
+        // Button Color
+        add_settings_field(
+            'sftExt_bg_color',
+            __( 'Button Background Color', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_section',
+            array ( 'class' => 'option-wrapper sftExt_bg_color', 'label_for' => 'sftExt_bg_color' )
+        );
+        // End Button Color
+        // Button font Color
+        add_settings_field(
+            'sftExt_font_color',
+            __( 'Button Font/Icon Color', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_section',
+            array ( 'class' => 'option-wrapper sftExt_font_color', 'label_for' => 'sftExt_font_color' )
+        );
+        // End Button font Color
+
         // Button type
 
         add_settings_field(
@@ -277,6 +304,20 @@ class Safety_Exit_Admin {
                     <div id="sftExt_icon_display" style="height: 75px;"><i class="fa-3x <?= $options['sftExt_fontawesome_icon_classes']; ?>"></i></div>
                     <!-- <button id="sftExt_fontawesome_icon_classes_btn" >Change Icon</button> -->
                     <input type="hidden" id="sftExt_fontawesome_icon_classes" name="sftExt_settings[sftExt_fontawesome_icon_classes]" value="<?= $options['sftExt_fontawesome_icon_classes']; ?>">
+
+                <?php
+                break;
+            case 'sftExt_bg_color':
+                ?>
+                    <div id="sftExt_color_picker_btn_bg_color" style="background-color: <?= $options['sftExt_bg_color']?>">Choose Color</div>
+                    <input type="hidden" id="sftExt_bg_color" name="sftExt_settings[sftExt_bg_color]" value="<?= $options['sftExt_bg_color']; ?>">
+
+                <?php
+                break;
+            case 'sftExt_font_color':
+                ?>
+                    <div id="sftExt_color_picker_btn_font_color" style="background-color: <?= $options['sftExt_font_color']?>">Choose Color</div>
+                    <input type="hidden" id="sftExt_font_color" name="sftExt_settings[sftExt_font_color]" value="<?= $options['sftExt_font_color']; ?>">
 
                 <?php
                 break;

@@ -1,0 +1,10 @@
+#sftExt_color_picker_btn_bg_color,
+#sftExt_color_picker_btn_font_color {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+  transition: background .5s linear;
+  display: inline-block;
+  color: #333;
+  text-align: center;
+  cursor: pointer; }

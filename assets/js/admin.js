@@ -1,4 +1,5 @@
 jQuery(function($){
+
 	$('#sftExt_type').on('change', function(e){
 		if($(this).val() == 'rectangle') {
 			$('.rectangle-only').removeClass('hidden')
@@ -28,7 +29,28 @@ jQuery(function($){
         e.iconpickerInstance.options.fullClassFormatter(e.iconpickerValue));
 		// $('#sftExt_fontawesome_icon_classes').val() = e.iconpickerInstance.options.fullClassFormatter(e.iconpickerValue);
 	})
-
+	var $bgParent = document.querySelector('#sftExt_color_picker_btn_bg_color');
+	var $fontParent = document.querySelector('#sftExt_color_picker_btn_font_color');
+	var bg_color_picker = new Picker({
+		parent: $bgParent,
+		color:$('#sftExt_bg_color').val()
+	});
+	bg_color_picker.onChange = function(color) {
+		$('#sftExt_bg_color').val(color.rgbaString);
+		$('#sftExt_color_picker_btn_bg_color').css({
+			'background-color': color.rgbaString
+		});
+    };
+	var font_color_picker = new Picker({
+		parent: $fontParent,
+		color:$('#sftExt_font_color').val()
+	});
+	font_color_picker.onChange = function(color) {
+		$('#sftExt_font_color').val(color.rgbaString);
+		$('#sftExt_color_picker_btn_font_color').css({
+			'background-color': color.rgbaString
+		});
+    };
 })
 // sftExt_icon_display
 

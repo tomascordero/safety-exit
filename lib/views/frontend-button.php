@@ -8,7 +8,10 @@
         'sftExt_rectangle_text' => 'Safety Exit',
         'sftExt_rectangle_icon_onOff' => 'yes',
         'sftExt_rectangle_font_size_units' => 'em',
-        'sftExt_rectangle_font_size' => '20'
+        'sftExt_rectangle_font_size' => '20',
+        'sftExt_bg_color' => 'rgba(58, 194, 208, 1)',
+        'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
+        'sftExt_letter_spacing' => 'inherit'
 	));
 	$classes = $sftExtSettings['sftExt_position'] . ' ' . $sftExtSettings['sftExt_type'];
 	$icon = '';
@@ -19,8 +22,13 @@
 	}
 ?>
 <style>
+	#sftExt-frontend-button {
+		background-color: <?php echo $sftExtSettings['sftExt_bg_color'] ?>;
+		color: <?php echo $sftExtSettings['sftExt_font_color'] ?>;
+	}
 	#sftExt-frontend-button.rectangle {
-		font-size: <?php echo $sftExtSettings['sftExt_rectangle_font_size'] . $sftExtSettings['sftExt_rectangle_font_size_units']  ; ?>
+		font-size: <?php echo $sftExtSettings['sftExt_rectangle_font_size'] . $sftExtSettings['sftExt_rectangle_font_size_units']  ; ?>;
+		letter-spacing: <?php echo $sftExtSettings['sftExt_letter_spacing']; ?>;
 	}
 </style>
 <aside id="sftExt-frontend-button" class="<?= $classes; ?>" data-new-tab="<?= $sftExtSettings['sftExt_new_tab_url']; ?>" data-url="<?= $sftExtSettings['sftExt_current_tab_url']; ?>">
