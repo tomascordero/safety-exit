@@ -16,8 +16,10 @@
 class Safety_Exit_Admin {
 
     private $root = '';
+    private $rootFile = '';
     public function __construct( $file ) {
         $this->root = plugins_url() . '/safety-exit/';
+        $this->rootFile = $file;
     }
 
     public function init() {
@@ -25,7 +27,7 @@ class Safety_Exit_Admin {
         add_action( 'admin_init', array( $this, 'plugin_admin_init') );
         add_action( 'admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts') );
         add_action( 'admin_head-nav-menus.php', array( $this, 'my_register_menu_metabox'), 10, 1  );
-        // add_action('update_option_sftExt_settings', array($this, 'sftExt_generateCSS'));
+        // add_action( 'update_option_sftExt_settings', array($this, 'sftExt_generateCSS') );
     }
     public function my_register_menu_metabox(  ) {
         $custom_param = array( 0 => 'This param will be passed to my_render_menu_metabox' );
@@ -93,13 +95,13 @@ class Safety_Exit_Admin {
         <?php
     }
     public function sftExt_generateCSS() {
-        $cssDir = $this->root . 'assets/css/';
-        $backgroundColor = '';
-        $cssString = '#sftExt-frontend-button{background:' . $backgroundColor . ';}';
-        $cssFile = fopen($this->root . 'assets/css/generated.css','w') or die('error with file');
-
-        fwrite($cssFile, $cssString);
-        fclose($cssFile);
+        // die;
+        $options = wp_parse_args(get_option('sftExt_settings'), $this->defaults);
+        $cssString = '#sftExt-frontend-button.rectangle{font-size: '. $options['sftExt_rectangle_font_size'] . $options['sftExt_rectangle_font_size_units'] . ';}' ;
+        wp_parse_args(update_option('sftExt_settings'), array(
+            'sftExt_css' => $cssString
+        ));
+        // update_option('sftExt_css', $cssString);
     }
     public function safety_exit_add_options_page() {
 
@@ -127,18 +129,28 @@ class Safety_Exit_Admin {
 
         }
     }
+    private $defaults = array(
+        'sftExt_position' => 'bottom right',
+        'sftExt_fontawesome_icon_classes' => 'fas fa-times',
+        'sftExt_type' => 'rectangle',
+        'sftExt_current_tab_url' => 'https://google.com',
+        'sftExt_new_tab_url' => 'https://google.com',
+        'sftExt_rectangle_text' => 'Safety Exit',
+        'sftExt_rectangle_icon_onOff' => 'yes',
+        'sftExt_rectangle_font_size_units' => 'em',
+        'sftExt_rectangle_font_size' => '20'
+    );
     public function plugin_admin_init(){
 
 
 		register_setting( 'pluginPage', 'sftExt_settings' );
-        $options = get_option( 'sftExt_settings' );
+        $options = wp_parse_args(get_option('sftExt_settings'), $this->defaults);
         $recClasses;
         if($options['sftExt_type'] == 'rectangle') {
             $recClasses = 'option-wrapper rectangle-only';
         }else{
             $recClasses = 'option-wrapper rectangle-only hidden';
         }
-
         add_settings_section(
             'sftExt_pluginPage_section',
             __( 'General Settings', 'wordpress' ),
@@ -199,8 +211,24 @@ class Safety_Exit_Admin {
             'sftExt_pluginPage_section',
             array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_icon_onOff' )
         );
+        add_settings_field(
+            'sftExt_rectangle_font_size',
+            __( 'Font Size', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_section',
+            array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_font_size' )
+        );
+        add_settings_field(
+            'sftExt_rectangle_font_size_units',
+            __( 'Font Size Units', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_section',
+            array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_font_size_units' )
+        );
 
-        // End Button type
+        // End Rectangle Settings
 
         // Redirect URLs
         add_settings_section(
@@ -232,8 +260,7 @@ class Safety_Exit_Admin {
 	}
 
     function sftExt_options_render( $args ) {
-        $options = get_option( 'sftExt_settings' );
-        // var_dump($args);
+        $options = wp_parse_args(get_option('sftExt_settings'), $this->defaults);
 
         switch($args['label_for']) {
             case 'sftExt_position':
@@ -254,10 +281,26 @@ class Safety_Exit_Admin {
                 <?php
                 break;
             case 'sftExt_type':
+
+                echo $options['sftExt_css'];
                 ?>
                     <select id="sftExt_type" name='sftExt_settings[sftExt_type]'>
                         <option value='round' <?php selected( $options['sftExt_type'], 'round' ); ?>>Round</option>
                         <option value='rectangle' <?php selected( $options['sftExt_type'], 'rectangle' ); ?>>Rectangle</option>
+                    </select>
+                <?php
+                break;
+            case 'sftExt_rectangle_font_size':
+                ?>
+                    <input type="number" id="sftExt_rectangle_font_size" name="sftExt_settings[sftExt_rectangle_font_size]" value="<?= $options['sftExt_rectangle_font_size']; ?>"> <span class="sftExt_units"><?= $options['sftExt_rectangle_font_size_units']; ?></span>
+                <?php
+                break;
+            case 'sftExt_rectangle_font_size_units':
+                ?>
+                    <select id="sftExt_rectangle_font_size_units" name='sftExt_settings[sftExt_rectangle_font_size_units]'>
+                        <option value='px' <?php selected( $options['sftExt_rectangle_font_size_units'], 'px' ); ?>>px</option>
+                        <option value='em' <?php selected( $options['sftExt_rectangle_font_size_units'], 'em' ); ?>>em</option>
+                        <option value='rem' <?php selected( $options['sftExt_rectangle_font_size_units'], 'rem' ); ?>>rem</option>
                     </select>
                 <?php
                 break;
@@ -278,7 +321,10 @@ class Safety_Exit_Admin {
                 break;
             case 'sftExt_rectangle_icon_onOff':
                 ?>
-                    <input type="checkbox" name="sftExt_settings[sftExt_rectangle_icon_onOff]" value="1"<?php checked( 1 == $options['sftExt_rectangle_icon_onOff'] ); ?> />
+                    <select id="sftExt_rectangle_icon_onOff" name='sftExt_settings[sftExt_rectangle_icon_onOff]'>
+                        <option value='no' <?php selected( $options['sftExt_rectangle_icon_onOff'], 'no' ); ?>>No</option>
+                        <option value='yes' <?php selected( $options['sftExt_rectangle_icon_onOff'], 'yes' ); ?>>Yes</option>
+                    </select>
                 <?php
                 break;
         }

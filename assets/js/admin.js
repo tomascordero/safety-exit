@@ -11,6 +11,9 @@ jQuery(function($){
 			$('.round-only').addClass('hidden')
 		}
 	});
+	$('#sftExt_rectangle_font_size_units').on('change', function(e){
+		$('.sftExt_units').text($(this).val());
+	});
 
 	$('#sftExt_fontawesome_icon_classes_btn').on('click' , function(e){
 		e.preventDefault();
