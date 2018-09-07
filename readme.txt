@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 4.0.0
 Tested up to: 4.9.8
 Requires PHP: 5.2.4
-Stable tag: trunk
+Stable tag: 1.0.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ A button to allow for a quick exit on websites dealing with sensitive content su
 == Description ==
 This plugin will insert a safety exit button onto your site. A safety exit button is ideal for websites dealing with sensitive subjects such as domestic violence, rape, child abuse and others. When the user clicks the button they will instantly redirected to a URL of your choosing and a new tab / window will be opened to a URL of your choosing.
 
-The button is customizable with options to change the color of the button and font, pick an icon from fontawesome\'s free icon library, update font size, change what the button says and more features coming in the future.
+The button is customizable with options to change the color of the button and font, pick an icon from fontawesome's free icon library, update font size, change what the button says and more features coming in the future.
 
 == Installation ==
 1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
@@ -23,6 +23,10 @@ The button is customizable with options to change the color of the button and fo
 Once installed and activated navigate to \"Settings > Safety Exit Settings\" to customize the button
 
 == Frequently Asked Questions ==
+
+= Is there an option to delete the browser history? =
+No. Due to security measures taken by browsers, websites can not delete browser history. If this ever changes or if browsers support a new function that will let websites control history you can expect it to be added to the plugin ASAP.
+
 = Can I request features? =
 Yes! I love feature ideas and requests to make this thing better. You can submit a feature request under the support tab.
 
