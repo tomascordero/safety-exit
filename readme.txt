@@ -42,5 +42,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.0.2:
+- Remove menu option for now
+
 1.0.0:
 - Fist release
