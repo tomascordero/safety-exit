@@ -26,7 +26,7 @@ class Safety_Exit_Admin {
         add_action( 'admin_menu', array( $this, 'safety_exit_add_options_page' ) );
         add_action( 'admin_init', array( $this, 'plugin_admin_init') );
         add_action( 'admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts') );
-        add_action( 'admin_head-nav-menus.php', array( $this, 'my_register_menu_metabox'), 10, 1  );
+        // add_action( 'admin_head-nav-menus.php', array( $this, 'my_register_menu_metabox'), 10, 1  );
         // add_action( 'update_option_sftExt_settings', array($this, 'sftExt_generateCSS') );
     }
     public function my_register_menu_metabox(  ) {
