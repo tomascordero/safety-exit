@@ -27,7 +27,6 @@ class Safety_Exit_Frontend {
     }
 	public function sftExt_enqueue() {
 		wp_enqueue_style('frontendCSS', plugins_url() . '/safety-exit/assets/css/frontend.css');
-		wp_enqueue_style('frontendOptions', plugins_url() . '/safety-exit/assets/css/generated.css', array('frontendCSS'));
 		wp_enqueue_script( 'frontendJs', plugins_url() . '/safety-exit/assets/js/frontend.js', array('jquery') );
 		wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
 	}
