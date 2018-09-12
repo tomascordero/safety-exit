@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 4.0.0
 Tested up to: 4.9.8
 Requires PHP: 5.2.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,8 +42,11 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.0.3:
+	Changed
+	  - Fixed 404s on frontend
 1.0.2:
-- Remove menu option for now
-
+	Removed:
+	  - Menu option for now (not ready for prod)
 1.0.0:
 - Fist release
