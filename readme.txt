@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 4.0.0
 Tested up to: 4.9.8
 Requires PHP: 5.2.4
-Stable tag: 1.0.3
+Stable tag: 1.1.3
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,9 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.1.3:
+	Changed
+	- Made it so you arent forced to have all uppercase text. Now to control the font capitalization you just type the word with the capitalization you want to be displayed
 1.0.3:
 	Changed
 	  - Fixed 404s on frontend
