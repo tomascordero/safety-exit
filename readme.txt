@@ -43,13 +43,10 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 
 == Changelog ==
 1.1.3:
-	Changed
-	- Made it so you arent forced to have all uppercase text. Now to control the font capitalization you just type the word with the capitalization you want to be displayed
+	- Tweak: Made it so you arent forced to have all uppercase text. Now to control the font capitalization you just type the word with the capitalization you want to be displayed
 1.0.3:
-	Changed
-	  - Fixed 404s on frontend
+	- Fixed: 404s on frontend
 1.0.2:
-	Removed:
-	  - Menu option for now (not ready for prod)
+	- Removed: Menu option for now (not ready for prod)
 1.0.0:
 - Fist release
