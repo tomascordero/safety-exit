@@ -27,7 +27,6 @@
       content: '';
       flex: 1; }
     #sftExt-frontend-button.rectangle .sftExt-inner {
-      text-transform: uppercase;
       position: relative;
       text-align: center; }
       #sftExt-frontend-button.rectangle .sftExt-inner > i {
