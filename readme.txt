@@ -17,8 +17,12 @@ This plugin will insert a safety exit button onto your site. A safety exit butto
 The button is customizable with options to change the color of the button and font, pick an icon from fontawesome's free icon library, update font size, change what the button says and more features coming in the future.
 
 == Installation ==
-1. Upload `plugin-name.php` to the `wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Search for 'Safety Exit' in the plugin directory
+2. Click install then Activate.
+OR to install manually
+1. Download the plugin
+2. Upload `safety-exit.zip` to the `wp-content/plugins/` directory
+3. Activate the plugin through the 'Plugins' menu in WordPress
 
 Once installed and activated you will see a new menu item for "Safety Exit". That is where you can customize the button.
 
