@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 4.0.0
 Tested up to: 4.9.8
 Requires PHP: 5.2.4
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,10 +17,10 @@ This plugin will insert a safety exit button onto your site. A safety exit butto
 The button is customizable with options to change the color of the button and font, pick an icon from fontawesome's free icon library, update font size, change what the button says and more features coming in the future.
 
 == Installation ==
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the \'Plugins\' menu in WordPress
+1. Upload `plugin-name.php` to the `wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
 
-Once installed and activated navigate to \"Settings > Safety Exit Settings\" to customize the button
+Once installed and activated you will see a new menu item for "Safety Exit". That is where you can customize the button.
 
 == Frequently Asked Questions ==
 
@@ -42,6 +42,11 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.2.0:
+	- New: Added option to change border radius on the rectangle.
+	- New: Added option for square button
+	- Tweak: Moved the settings link to the main menu and out from under the settings tab. This should make it easier to find.
+	- Fixed: The round button had a bug where it wouldnt display the icon correctly. That is fixed and should display correctly
 1.1.3:
 	- Tweak: Made it so you arent forced to have all uppercase text. Now to control the font capitalization you just type the word with the capitalization you want to be displayed
 1.0.3:

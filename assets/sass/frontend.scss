@@ -28,12 +28,24 @@
 	width: 25px;
 	height: 25px;
 
-	// background-color: #3ac2d0;
-
 	&.round {
 		border-radius: 50%;
 		padding: 10px;
 		text-align: center;
+		width: 45px;
+		height: 45px;
+		> i {
+			font-size: 25px;
+			line-height: 25px;
+			// color: white;
+		}
+	}
+	&.square {
+		border-radius: 0;
+		padding: 10px;
+		text-align: center;
+		width: 45px;
+		height: 45px;
 		> i {
 			font-size: 25px;
 			line-height: 25px;
@@ -41,7 +53,7 @@
 		}
 	}
 	&.rectangle {
-		border-radius: 100px;
+		// border-radius: 100px;
 		padding: 10px 20px;
 		height: auto;
 		width: auto;

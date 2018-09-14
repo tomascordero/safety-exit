@@ -11,7 +11,7 @@
  * Plugin Name: Safety Exit
  * Plugin URI:
  * Description: A safety exit plugin
- * Version:     1.1.3
+ * Version:     1.2.0
  * Author:      Tomas Cordero
  * Author URI:  https://tomascordero.com
  * License:     GPL-2.0+

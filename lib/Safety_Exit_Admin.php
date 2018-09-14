@@ -144,7 +144,8 @@ class Safety_Exit_Admin {
         'sftExt_rectangle_font_size' => '1',
         'sftExt_bg_color' => 'rgba(58, 194, 208, 1)',
         'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
-        'sftExt_letter_spacing' => 'inherit'
+        'sftExt_letter_spacing' => 'inherit',
+        'sftExt_border_radius' => '100'
     );
     public function plugin_admin_init(){
 
@@ -219,7 +220,14 @@ class Safety_Exit_Admin {
             'sftExt_pluginPage_section',
             array ( 'class' => 'option-wrapper sftExt_type', 'label_for' => 'sftExt_type' )
         );
-
+        add_settings_field(
+            'sftExt_border_radius',
+            __( 'Border Radius', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_section',
+            array ( 'class' => $recClasses, 'label_for' => 'sftExt_border_radius' )
+        );
         // Rectangle Settings
 
         add_settings_field(
@@ -326,8 +334,14 @@ class Safety_Exit_Admin {
                 ?>
                     <select id="sftExt_type" name='sftExt_settings[sftExt_type]'>
                         <option value='round' <?php selected( $options['sftExt_type'], 'round' ); ?>>Round</option>
+                        <option value='square' <?php selected( $options['sftExt_type'], 'square' ); ?>>Square</option>
                         <option value='rectangle' <?php selected( $options['sftExt_type'], 'rectangle' ); ?>>Rectangle</option>
                     </select>
+                <?php
+                break;
+            case 'sftExt_border_radius':
+                ?>
+                    <input type="number" id="sftExt_border_radius" name="sftExt_settings[sftExt_border_radius]" value="<?= $options['sftExt_border_radius']; ?>"> px
                 <?php
                 break;
             case 'sftExt_rectangle_font_size':
