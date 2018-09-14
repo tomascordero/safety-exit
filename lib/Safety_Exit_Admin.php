@@ -104,20 +104,21 @@ class Safety_Exit_Admin {
         // update_option('sftExt_css', $cssString);
     }
     public function safety_exit_add_options_page() {
-
-        add_options_page(
-            'Safety Exit Settings',
-            'Safety Exit Settings',
+        // echo $this->root;die;
+        add_menu_page(
+            'Safety Exit Options',
+            'Safety Exit',
             'manage_options',
             'safety_exit',
             function(){
                 include_once( 'views/plugin-settings.php' );
-            }
+            },
+            'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNmZmY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5Bc3NldCAxPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxnIGlkPSJtaXUiPjxnIGlkPSJBcnRib2FyZC0xIj48cGF0aCBpZD0iY29tbW9uLWxvZ291dC1zaWdub3V0LWV4aXQtZ2x5cGgiIGNsYXNzPSJjbHMtMSIgZD0iTTAsMFYyMkgxNVYxNkgxM3Y0SDJWMkgxM1Y2aDJWMFpNMTUuNjQsNy40NmwxLjQxLTEuNDFMMjIsMTFsLTQuOTUsNC45NS0xLjQxLTEuNDFMMTguMTcsMTJIN1YxMEgxOC4xN1oiLz48L2c+PC9nPjwvZz48L2c+PC9zdmc+'
         );
     }
     public function plugin_admin_enqueue_scripts($hook){
         // echo $hook;die;
-        if( $hook == 'settings_page_safety_exit' ) {
+        if( $hook == 'toplevel_page_safety_exit' ) {
 
             wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
             wp_enqueue_style('sftExt-admin-admin', $this->root . 'assets/css/admin.css');
