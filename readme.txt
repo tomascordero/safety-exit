@@ -1,11 +1,11 @@
 === Safety Exit ===
 Contributors: tcordero
-Tags: quick exit, safety exit, stop abuse, no domestic violence, safe browsing, exit, fast exit, domestic violence
+Tags: quick exit, safety exit, stop abuse, no domestic violence, safe browsing, exit, fast exit, domestic violence, panic button
 Donate link: https://tomascordero.com
 Requires at least: 4.0.0
-Tested up to: 4.9.8
+Tested up to: 5.1.0
 Requires PHP: 5.2.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,8 @@ A button to allow for a quick exit on websites dealing with sensitive content su
 == Description ==
 This plugin will insert a safety exit button onto your site. A safety exit button is ideal for websites dealing with sensitive subjects such as domestic violence, rape, child abuse and others. When the user clicks the button they will instantly redirected to a URL of your choosing and a new tab / window will be opened to a URL of your choosing.
 
-The button is customizable with options to change the color of the button and font, pick an icon from fontawesome's free icon library, update font size, change what the button says and more features coming in the future.
+The button is customizable with options to change the color of the button and font, pick an icon from fontawesome's free icon library, update font size, change what the button says and more features coming in the future. You can see the roadmap here: [Roadmap](https://trello.com/b/Zp7oBfQz/safety-exit)
+
 
 == Installation ==
 1. Search for 'Safety Exit' in the plugin directory
@@ -46,6 +47,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.2.2:
+	- Tweak: Updated Read Me to include new tags and include a road map
 1.2.1:
 	- Fixed: removed debug bug
 1.2.0:
