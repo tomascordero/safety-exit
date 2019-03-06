@@ -33,7 +33,7 @@ Once installed and activated you will see a new menu item for "Safety Exit". Tha
 No. Due to security measures taken by browsers, websites can not delete browser history. If this ever changes or if browsers support a new function that will let websites control history you can expect it to be added to the plugin ASAP.
 
 = Can I request features? =
-Yes! I love feature ideas and requests to make this thing better. You can submit a feature request under the support tab.
+Yes! I love feature ideas and requests to make this thing better. You can submit a feature request under the support tab. Check out the roadmap here: [Roadmap](https://trello.com/b/Zp7oBfQz/safety-exit)
 
 = Can I customize the button more than the options you gave me? =
 You can! If you know some CSS you can insert custom CSS and target \"#sftExt-frontend-button\". In the future there are plans to add support for custom HTML and CSS as well as more options to tweak the button more.
