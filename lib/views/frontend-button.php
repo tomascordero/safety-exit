@@ -14,7 +14,8 @@
         'sftExt_letter_spacing' => 'inherit',
 		'sftExt_border_radius' => '100',
 		'sftExt_show_all' => 'yes',
-		'sftExt_front_page' => 'yes'
+		'sftExt_front_page' => 'yes',
+		'sftExt_pages' => array()
 	));
 	$classes = $sftExtSettings['sftExt_position'] . ' ' . $sftExtSettings['sftExt_type'];
 	$icon = '';
@@ -31,8 +32,8 @@
 	}
 
 	// if is_front_page() and "show on front page option is selected"
-	if($sftExtSettings['sftExt_front_page'] == 'no' && is_front_page()){
-		$displayButton = false;
+	if($sftExtSettings['sftExt_front_page'] == 'yes' && is_front_page()){
+		$displayButton = true;
 	}
 	if($displayButton == true) :
 ?>
