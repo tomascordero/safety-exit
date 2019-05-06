@@ -3,7 +3,7 @@ Contributors: tcordero
 Tags: quick exit, safety exit, stop abuse, no domestic violence, safe browsing, exit, fast exit, domestic violence, panic button
 Donate link: https://tomascordero.com
 Requires at least: 4.0.0
-Tested up to: 5.1.0
+Tested up to: 5.1.1
 Requires PHP: 5.2.4
 Stable tag: 1.4.1
 License: GPL-2.0+
