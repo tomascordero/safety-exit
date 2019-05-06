@@ -17,11 +17,10 @@ class Safety_Exit_Frontend {
 
 	private $pluginRoot;
 
-    public function __construct($file) {
+	public function __construct($file) {
 		$this->pluginRoot = $file;
-    }
-// ref: https://wordpress.stackexchange.com/questions/1445/how-do-i-add-css-options-to-my-plugin-without-using-inline-styles
-    public function init() {
+	}
+	public function init() {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
 		add_action( 'wp_footer', array($this, 'safety_exit_injectTest'), 100 );
     }

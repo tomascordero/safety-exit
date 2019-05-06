@@ -96,7 +96,7 @@ class Safety_Exit_Admin {
     }
     public function sftExt_generateCSS() {
         // die;
-        $options = wp_parse_args(get_option('sftExt_settings'), $this->defaults);
+        $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
         $cssString = '#sftExt-frontend-button.rectangle{font-size: '. $options['sftExt_rectangle_font_size'] . $options['sftExt_rectangle_font_size_units'] . ';}' ;
         wp_parse_args(update_option('sftExt_settings'), array(
             'sftExt_css' => $cssString
@@ -111,7 +111,7 @@ class Safety_Exit_Admin {
             'manage_options',
             'safety_exit',
             function(){
-                include_once( 'views/plugin-settings.php' );
+                include_once( 'views/global-settings.php' );
             },
             'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNmZmY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5Bc3NldCAxPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxnIGlkPSJtaXUiPjxnIGlkPSJBcnRib2FyZC0xIj48cGF0aCBpZD0iY29tbW9uLWxvZ291dC1zaWdub3V0LWV4aXQtZ2x5cGgiIGNsYXNzPSJjbHMtMSIgZD0iTTAsMFYyMkgxNVYxNkgxM3Y0SDJWMkgxM1Y2aDJWMFpNMTUuNjQsNy40NmwxLjQxLTEuNDFMMjIsMTFsLTQuOTUsNC45NS0xLjQxLTEuNDFMMTguMTcsMTJIN1YxMEgxOC4xN1oiLz48L2c+PC9nPjwvZz48L2c+PC9zdmc+'
         );
@@ -132,7 +132,7 @@ class Safety_Exit_Admin {
 
         }
     }
-    private $defaults = array(
+    private $btnDefaults = array(
         'sftExt_position' => 'bottom right',
         'sftExt_fontawesome_icon_classes' => 'fas fa-times',
         'sftExt_type' => 'rectangle',
@@ -145,14 +145,17 @@ class Safety_Exit_Admin {
         'sftExt_bg_color' => 'rgba(58, 194, 208, 1)',
         'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
         'sftExt_letter_spacing' => 'inherit',
-        'sftExt_border_radius' => '100'
+        'sftExt_border_radius' => '100',
+        'sftExt_show_all' => 'yes',
+        'sftExt_front_page' => 'yes',
+        'sftExt_pages' => array()
     );
+
     public function plugin_admin_init(){
 
-
 		register_setting( 'pluginPage', 'sftExt_settings' );
-        $options = wp_parse_args(get_option('sftExt_settings'), $this->defaults);
-        $recClasses;
+        $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
+        $recClasses = '';
         if($options['sftExt_type'] == 'rectangle') {
             $recClasses = 'option-wrapper rectangle-only';
         }else{
@@ -293,10 +296,47 @@ class Safety_Exit_Admin {
         );
 
         // End Button type
+
+        // Button Display Options
+
+        add_settings_section(
+            'sftExt_pluginPage_btn_display_options',
+            __( 'Button Display Options', 'wordpress' ),
+            array( $this, 'sftExt_settings_section_callback'),
+            'pluginPage',
+            array( 'section_id' => 'sftExt_pluginPage_btn_display_options' )
+        );
+        add_settings_field(
+            'sftExt_show_all',
+            __( 'Show on all pages?', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_btn_display_options',
+            array ( 'class' => 'option-wrapper sftExt_show_all', 'label_for' => 'sftExt_show_all' )
+        );
+        add_settings_field(
+            'sftExt_front_page',
+            __( 'Show on Front Page?', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_btn_display_options',
+            array ( 'class' => 'option-wrapper sftExt_front_page', 'label_for' => 'sftExt_front_page' )
+        );
+        add_settings_field(
+            'sftExt_pages',
+            __( 'Select Pages', 'wordpress' ),
+            array( $this, 'sftExt_options_render'),
+            'pluginPage',
+            'sftExt_pluginPage_btn_display_options',
+            array ( 'class' => 'option-wrapper sftExt_pages', 'label_for' => 'sftExt_pages' )
+        );
+
+
+        // End Button Display Options
 	}
 
     function sftExt_options_render( $args ) {
-        $options = wp_parse_args(get_option('sftExt_settings'), $this->defaults);
+        $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
 
         switch($args['label_for']) {
             case 'sftExt_position':
@@ -379,6 +419,31 @@ class Safety_Exit_Admin {
                         <option value='no' <?php selected( $options['sftExt_rectangle_icon_onOff'], 'no' ); ?>>No</option>
                         <option value='yes' <?php selected( $options['sftExt_rectangle_icon_onOff'], 'yes' ); ?>>Yes</option>
                     </select>
+                <?php
+                break;
+            case 'sftExt_pages':
+                $postIDs = get_posts(array(
+                    'fields'          => 'ids', // Only get post IDs
+                    'posts_per_page'  => -1,
+                    'post_type' => 'any'
+                ));
+
+                ?>
+                <?php foreach($postIDs as $key => $postID) : ?>
+                    <input type="checkbox" name="sftExt_settings[sftExt_pages][]" id="sftExt_pages" value="<?= $postID; ?>" <?= in_array($postID, $options['sftExt_pages']) ? 'checked="checked"': ''?>> <?= get_the_title($postID); ?><br/>
+                <?php endforeach; ?>
+                <?php
+                break;
+            case 'sftExt_front_page':
+                ?>
+                    <input type="radio" name="sftExt_settings[sftExt_front_page]" id="sftExt_front_page" value="yes" <?php checked( $options['sftExt_front_page'], 'yes' ); ?>> Yes<br/>
+                    <input type="radio" name="sftExt_settings[sftExt_front_page]" id="sftExt_front_page" value="no" <?php checked( $options['sftExt_front_page'], 'no' ); ?>> No<br/>
+                <?php
+                break;
+            case 'sftExt_show_all':
+                ?>
+                    <input type="radio" name="sftExt_settings[sftExt_show_all]" id="sftExt_show_all" class="sftExt_show_all" value="yes" <?php checked( $options['sftExt_show_all'], 'yes' ); ?>> Yes<br/>
+                    <input type="radio" name="sftExt_settings[sftExt_show_all]" id="sftExt_show_all" class="sftExt_show_all" value="no" <?php checked( $options['sftExt_show_all'], 'no' ); ?>> No<br/>
                 <?php
                 break;
         }

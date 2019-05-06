@@ -12,7 +12,9 @@
         'sftExt_bg_color' => 'rgba(58, 194, 208, 1)',
         'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
         'sftExt_letter_spacing' => 'inherit',
-		'sftExt_border_radius' => '100'
+		'sftExt_border_radius' => '100',
+		'sftExt_show_all' => 'yes',
+		'sftExt_front_page' => 'yes'
 	));
 	$classes = $sftExtSettings['sftExt_position'] . ' ' . $sftExtSettings['sftExt_type'];
 	$icon = '';
@@ -21,6 +23,18 @@
 	}else if($sftExtSettings['sftExt_type'] == 'round' || $sftExtSettings['sftExt_type'] == 'square'){
 		$icon = '<i class="' . $sftExtSettings['sftExt_fontawesome_icon_classes'] . '"></i>';
 	}
+	$displayButton = true;
+	if($sftExtSettings['sftExt_show_all'] == 'no'){
+		if( !in_array(get_the_ID(), $sftExtSettings['sftExt_pages'])){
+			$displayButton = false;
+		}
+	}
+
+	// if is_front_page() and "show on front page option is selected"
+	if($sftExtSettings['sftExt_front_page'] == 'no' && is_front_page()){
+		$displayButton = false;
+	}
+	if($displayButton == true) :
 ?>
 <style>
 	#sftExt-frontend-button {
@@ -40,3 +54,5 @@
 		<?= $icon; ?>
 	<?php } ?>
 </aside>
+
+<?php endif; ?>

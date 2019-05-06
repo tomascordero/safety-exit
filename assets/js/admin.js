@@ -12,6 +12,16 @@ jQuery(function($){
 			$('.round-only').addClass('hidden')
 		}
 	});
+	// $('.sftExt_show_all').on('change', function(e){
+	// 	console.log($(this).val());
+	// 	if($(this).val() == 'no') {
+	// 		$('.sftExt_front_page').show()
+	// 		$('.sftExt_pages').show()
+	// 	}else{
+	// 		$('.sftExt_front_page').hide()
+	// 		$('.sftExt_pages').hide()
+	// 	}
+	// });
 	$('#sftExt_rectangle_font_size_units').on('change', function(e){
 		$('.sftExt_units').text($(this).val());
 	});
