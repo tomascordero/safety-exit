@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 4.0.0
 Tested up to: 5.1.0
 Requires PHP: 5.2.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.4.1:
+	- Fixed: Hot fix for the page selection tool
 1.4.0:
 	- New: Added ability to show safety button on all pages or specific page.
 1.2.2:
