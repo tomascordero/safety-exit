@@ -23,77 +23,26 @@ class Safety_Exit_Admin {
     }
 
     public function init() {
+
         add_action( 'admin_menu', array( $this, 'safety_exit_add_options_page' ) );
         add_action( 'admin_init', array( $this, 'plugin_admin_init') );
         add_action( 'admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts') );
         // add_action( 'admin_head-nav-menus.php', array( $this, 'my_register_menu_metabox'), 10, 1  );
         // add_action( 'update_option_sftExt_settings', array($this, 'sftExt_generateCSS') );
     }
-    public function my_register_menu_metabox(  ) {
-        $custom_param = array( 0 => 'This param will be passed to my_render_menu_metabox' );
+    // public function my_register_menu_metabox(  ) {
+    //     $custom_param = array( 0 => 'This param will be passed to my_render_menu_metabox' );
 
-	    add_meta_box(
-            'my-menu-test-metabox',
-            'Safety Exit Button',
-            array( $this, 'my_render_menu_metabox'),
-            'nav-menus',
-            'side',
-            'default',
-            $custom_param );
-    }
-    public function my_render_menu_metabox( $object, $args ) {
-        global $nav_menu_selected_id;
-        // Create an array of objects that imitate Post objects
-        $my_items = array(
-            (object) array(
-                'ID' => 1,
-                'db_id' => 0,
-                'menu_item_parent' => 0,
-                'object_id' => 1,
-                'post_parent' => 0,
-                'type' => 'test',
-                'object' => 'safety-exit',
-                'type_label' => 'My Cool Plugin',
-                'title' => 'Exit Button',
-                'url' => '#',
-                'target' => '',
-                'attr_title' => 'test',
-                'description' => '',
-                'classes' => array(),
-                'xfn' => '',
-            ),
-        );
-        $db_fields = false;
-        // If your links will be hieararchical, adjust the $db_fields array bellow
-        if ( false ) {
-            $db_fields = array( 'parent' => 'parent', 'id' => 'post_parent' );
-        }
-        $walker = new Walker_Nav_Menu_Checklist( $db_fields );
-        $removed_args = array(
-            'action',
-            'customlink-tab',
-            'edit-menu-item',
-            'menu-item',
-            'page-tab',
-            '_wpnonce',
-        ); ?>
-        <div id="my-plugin-div">
-            <div id="tabs-panel-my-plugin-all" class="tabs-panel tabs-panel-active">
-            <ul id="my-plugin-checklist-pop" class="categorychecklist form-no-clear" >
-                <?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $my_items ), 0, (object) array( 'walker' => $walker ) ); ?>
-            </ul>
+	//     add_meta_box(
+    //         'my-menu-test-metabox',
+    //         'Safety Exit Button',
+    //         array( $this, 'my_render_menu_metabox'),
+    //         'nav-menus',
+    //         'side',
+    //         'default',
+    //         $custom_param );
+    // }
 
-            <p class="button-controls">
-
-
-                <span class="add-to-menu">
-                    <input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-my-plugin-menu-item" id="submit-my-plugin-div" />
-                    <span class="spinner"></span>
-                </span>
-            </p>
-        </div>
-        <?php
-    }
     public function sftExt_generateCSS() {
         // die;
         $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
@@ -153,186 +102,189 @@ class Safety_Exit_Admin {
 
     public function plugin_admin_init(){
 
-		register_setting( 'pluginPage', 'sftExt_settings' );
-        $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
-        $recClasses = '';
-        if($options['sftExt_type'] == 'rectangle') {
-            $recClasses = 'option-wrapper rectangle-only';
-        }else{
-            $recClasses = 'option-wrapper rectangle-only hidden';
+        if(current_user_can('administrator')){
+
+            register_setting( 'pluginPage', 'sftExt_settings' );
+            $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
+            $recClasses = '';
+            if($options['sftExt_type'] == 'rectangle') {
+                $recClasses = 'option-wrapper rectangle-only';
+            }else{
+                $recClasses = 'option-wrapper rectangle-only hidden';
+            }
+            add_settings_section(
+                'sftExt_pluginPage_section',
+                __( 'General Settings', 'wordpress' ),
+                array( $this, 'sftExt_settings_section_callback'),
+                'pluginPage',
+                array( 'section_id' => 'sftExt_pluginPage_section' )
+            );
+
+            // Button position
+
+            add_settings_field(
+                'sftExt_position',
+                __( 'Button Position', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => 'option-wrapper sftExt_position', 'label_for' => 'sftExt_position' )
+            );
+
+            // Button Icon
+            add_settings_field(
+                'sftExt_fontawesome_icon_classes',
+                __( 'Button Icon', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => 'option-wrapper sftExt_fontawesome_icon_classes', 'label_for' => 'sftExt_fontawesome_icon_classes' )
+            );
+
+            // End Button Icon
+
+            // Button Color
+            add_settings_field(
+                'sftExt_bg_color',
+                __( 'Button Background Color', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => 'option-wrapper sftExt_bg_color', 'label_for' => 'sftExt_bg_color' )
+            );
+            // End Button Color
+            // Button font Color
+            add_settings_field(
+                'sftExt_font_color',
+                __( 'Button Font/Icon Color', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => 'option-wrapper sftExt_font_color', 'label_for' => 'sftExt_font_color' )
+            );
+            // End Button font Color
+
+            // Button type
+
+            add_settings_field(
+                'sftExt_type',
+                __( 'Button Type', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => 'option-wrapper sftExt_type', 'label_for' => 'sftExt_type' )
+            );
+            add_settings_field(
+                'sftExt_border_radius',
+                __( 'Border Radius', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => $recClasses, 'label_for' => 'sftExt_border_radius' )
+            );
+            // Rectangle Settings
+
+            add_settings_field(
+                'sftExt_rectangle_text',
+                __( 'Button Text', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_text' )
+            );
+
+            add_settings_field(
+                'sftExt_rectangle_icon_onOff',
+                __( 'Include Icon?', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_icon_onOff' )
+            );
+            add_settings_field(
+                'sftExt_rectangle_font_size',
+                __( 'Font Size', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_font_size' )
+            );
+            add_settings_field(
+                'sftExt_rectangle_font_size_units',
+                __( 'Font Size Units', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_section',
+                array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_font_size_units' )
+            );
+
+            // End Rectangle Settings
+
+            // Redirect URLs
+            add_settings_section(
+                'sftExt_pluginPage_redirection_options',
+                __( 'Redirection Options', 'wordpress' ),
+                array( $this, 'sftExt_settings_section_callback'),
+                'pluginPage',
+                array( 'section_id' => 'sftExt_pluginPage_redirection_options' )
+            );
+
+            add_settings_field(
+                'sftExt_current_tab_url',
+                __( 'Website URL', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_redirection_options',
+                array ( 'class' => 'option-wrapper sftExt_current_tab_url', 'label_for' => 'sftExt_current_tab_url' )
+            );
+            add_settings_field(
+                'sftExt_new_tab_url',
+                __( 'Website URL', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_redirection_options',
+                array ( 'class' => 'option-wrapper sftExt_new_tab_url', 'label_for' => 'sftExt_new_tab_url' )
+            );
+
+            // End Button type
+
+            // Button Display Options
+
+            add_settings_section(
+                'sftExt_pluginPage_btn_display_options',
+                __( 'Button Display Options', 'wordpress' ),
+                array( $this, 'sftExt_settings_section_callback'),
+                'pluginPage',
+                array( 'section_id' => 'sftExt_pluginPage_btn_display_options' )
+            );
+            add_settings_field(
+                'sftExt_show_all',
+                __( 'Show on all pages?', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_btn_display_options',
+                array ( 'class' => 'option-wrapper sftExt_show_all', 'label_for' => 'sftExt_show_all' )
+            );
+            add_settings_field(
+                'sftExt_front_page',
+                __( 'Show on Front Page?', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_btn_display_options',
+                array ( 'class' => 'option-wrapper sftExt_front_page', 'label_for' => 'sftExt_front_page' )
+            );
+            add_settings_field(
+                'sftExt_pages',
+                __( 'Select Pages', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_btn_display_options',
+                array ( 'class' => 'option-wrapper sftExt_pages', 'label_for' => 'sftExt_pages' )
+            );
+
+
+            // End Button Display Options
         }
-        add_settings_section(
-            'sftExt_pluginPage_section',
-            __( 'General Settings', 'wordpress' ),
-            array( $this, 'sftExt_settings_section_callback'),
-            'pluginPage',
-            array( 'section_id' => 'sftExt_pluginPage_section' )
-        );
-
-        // Button position
-
-        add_settings_field(
-            'sftExt_position',
-            __( 'Button Position', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => 'option-wrapper sftExt_position', 'label_for' => 'sftExt_position' )
-        );
-
-        // Button Icon
-        add_settings_field(
-            'sftExt_fontawesome_icon_classes',
-            __( 'Button Icon', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => 'option-wrapper sftExt_fontawesome_icon_classes', 'label_for' => 'sftExt_fontawesome_icon_classes' )
-        );
-
-        // End Button Icon
-
-        // Button Color
-        add_settings_field(
-            'sftExt_bg_color',
-            __( 'Button Background Color', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => 'option-wrapper sftExt_bg_color', 'label_for' => 'sftExt_bg_color' )
-        );
-        // End Button Color
-        // Button font Color
-        add_settings_field(
-            'sftExt_font_color',
-            __( 'Button Font/Icon Color', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => 'option-wrapper sftExt_font_color', 'label_for' => 'sftExt_font_color' )
-        );
-        // End Button font Color
-
-        // Button type
-
-        add_settings_field(
-            'sftExt_type',
-            __( 'Button Type', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => 'option-wrapper sftExt_type', 'label_for' => 'sftExt_type' )
-        );
-        add_settings_field(
-            'sftExt_border_radius',
-            __( 'Border Radius', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => $recClasses, 'label_for' => 'sftExt_border_radius' )
-        );
-        // Rectangle Settings
-
-        add_settings_field(
-            'sftExt_rectangle_text',
-            __( 'Button Text', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_text' )
-        );
-
-        add_settings_field(
-            'sftExt_rectangle_icon_onOff',
-            __( 'Include Icon?', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_icon_onOff' )
-        );
-        add_settings_field(
-            'sftExt_rectangle_font_size',
-            __( 'Font Size', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_font_size' )
-        );
-        add_settings_field(
-            'sftExt_rectangle_font_size_units',
-            __( 'Font Size Units', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_section',
-            array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_font_size_units' )
-        );
-
-        // End Rectangle Settings
-
-        // Redirect URLs
-        add_settings_section(
-            'sftExt_pluginPage_redirection_options',
-            __( 'Redirection Options', 'wordpress' ),
-            array( $this, 'sftExt_settings_section_callback'),
-            'pluginPage',
-            array( 'section_id' => 'sftExt_pluginPage_redirection_options' )
-        );
-
-        add_settings_field(
-            'sftExt_current_tab_url',
-            __( 'Website URL', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_redirection_options',
-            array ( 'class' => 'option-wrapper sftExt_current_tab_url', 'label_for' => 'sftExt_current_tab_url' )
-        );
-        add_settings_field(
-            'sftExt_new_tab_url',
-            __( 'Website URL', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_redirection_options',
-            array ( 'class' => 'option-wrapper sftExt_new_tab_url', 'label_for' => 'sftExt_new_tab_url' )
-        );
-
-        // End Button type
-
-        // Button Display Options
-
-        add_settings_section(
-            'sftExt_pluginPage_btn_display_options',
-            __( 'Button Display Options', 'wordpress' ),
-            array( $this, 'sftExt_settings_section_callback'),
-            'pluginPage',
-            array( 'section_id' => 'sftExt_pluginPage_btn_display_options' )
-        );
-        add_settings_field(
-            'sftExt_show_all',
-            __( 'Show on all pages?', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_btn_display_options',
-            array ( 'class' => 'option-wrapper sftExt_show_all', 'label_for' => 'sftExt_show_all' )
-        );
-        add_settings_field(
-            'sftExt_front_page',
-            __( 'Show on Front Page?', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_btn_display_options',
-            array ( 'class' => 'option-wrapper sftExt_front_page', 'label_for' => 'sftExt_front_page' )
-        );
-        add_settings_field(
-            'sftExt_pages',
-            __( 'Select Pages', 'wordpress' ),
-            array( $this, 'sftExt_options_render'),
-            'pluginPage',
-            'sftExt_pluginPage_btn_display_options',
-            array ( 'class' => 'option-wrapper sftExt_pages', 'label_for' => 'sftExt_pages' )
-        );
-
-
-        // End Button Display Options
 	}
 
     function sftExt_options_render( $args ) {

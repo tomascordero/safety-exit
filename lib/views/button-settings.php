@@ -5,6 +5,7 @@
 		<?php
 			settings_fields( 'pluginPage' );
 			do_settings_sections( 'pluginPage' );
+			wp_nonce_field( 'save_btn_options' );
 			submit_button();
 		?>
     </form>

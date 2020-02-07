@@ -21,6 +21,7 @@
 
 
 // If this file is called directly, abort.
+require_once(realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php");
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
@@ -28,8 +29,10 @@ foreach ( glob( plugin_dir_path( __FILE__ ) . 'lib/*.php' ) as $file ) {
     include_once $file;
 }
 if ( is_admin() ){
-	$admin = new Safety_Exit_Admin(__FILE__);
-    $admin->init();
+	if(current_user_can('administrator')){
+		$admin = new Safety_Exit_Admin(__FILE__);
+		$admin->init();
+	}
 } else {
 	$frontend = new Safety_Exit_Frontend(__FILE__);
 	$frontend->init();
