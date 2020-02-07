@@ -3,9 +3,9 @@ Contributors: tcordero
 Tags: quick exit, safety exit, stop abuse, no domestic violence, safe browsing, exit, fast exit, domestic violence, panic button
 Donate link: https://tomascordero.com
 Requires at least: 4.0.0
-Tested up to: 5.1.1
+Tested up to: 5.3.2
 Requires PHP: 5.2.4
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,9 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.4.2:
+	- Fixed: Removed random options file that was hanging up server cron jobs.
+	- Improved: Added some needed security to protect agains attacks.
 1.4.1:
 	- Fixed: Hot fix for the page selection tool
 1.4.0:
@@ -67,4 +70,4 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 1.0.2:
 	- Removed: Menu option for now (not ready for prod)
 1.0.0:
-- Fist release
+	- Fist release
