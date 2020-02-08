@@ -16,8 +16,11 @@
     width: 45px;
     height: 45px; }
     #sftExt-frontend-button.round > i {
+      position: relative;
+      display: block;
       font-size: 25px;
-      line-height: 25px; }
+      top: 50%;
+      transform: translateY(-50%); }
   #sftExt-frontend-button.square {
     border-radius: 0;
     padding: 10px;
@@ -25,8 +28,11 @@
     width: 45px;
     height: 45px; }
     #sftExt-frontend-button.square > i {
+      position: relative;
+      display: block;
       font-size: 25px;
-      line-height: 25px; }
+      top: 50%;
+      transform: translateY(-50%); }
   #sftExt-frontend-button.rectangle {
     padding: 10px 20px;
     height: auto;
