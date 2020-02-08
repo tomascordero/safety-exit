@@ -48,6 +48,7 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 
 == Changelog ==
 1.4.2:
+	- Fixed: Updated CSS for round and square buttons to center icon.
 	- Fixed: Removed random options file that was hanging up server cron jobs.
 	- Improved: Added some needed security to protect agains attacks.
 1.4.1:
