@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 4.0.0
 Tested up to: 5.3.2
 Requires PHP: 5.2.4
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.4.3:
+	- Fixed: Added quick test to ensure required core files exist. If the test fails it wont initialize the plugin.
 1.4.2:
 	- Fixed: Updated CSS for round and square buttons to center icon.
 	- Fixed: Removed random options file that was hanging up server cron jobs.
