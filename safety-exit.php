@@ -19,26 +19,32 @@
  * Text Domain: safety-exit
  */
 
+$path = realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php";
 
+// This adds support for bedrock, ABSPATH is set by bedrock as part of the config.
+if(defined('ABSPATH')){
+    $path = ABSPATH . '/wp-includes/pluggable.php';
+}
 
 $errors = false;
 // Check to see if required file exists. If not do not initialize plugin
 try {
-	if( !file_exists(realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php") ) {
-		throw new Exception ('Unable to load pluggable.php in: ' . realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php" . ' Safety Exit is disabled until this error is fixed.');
-	}else{
-		require_once(realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php");
-	}
+    if( !file_exists( $path ) ) {
+        throw new Exception ('Unable to load pluggable.php in: ' . $path . ' Safety Exit is disabled until this error is fixed.');
+    }else{
+        require_once($path);
+    }
 }catch(Exception $e){
-	if ( is_admin() ){
-	?>
-	<div class="error notice">
-		<p><?= $e->getMessage(); ?></p>
-	</div>
-	<?php
-	}
-	$errors = true;
+    if ( is_admin() ){
+        ?>
+        <div class="error notice">
+            <p><?= $e->getMessage(); ?></p>
+        </div>
+        <?php
+    }
+    $errors = true;
 }
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
