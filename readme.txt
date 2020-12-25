@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 4.0.0
 Tested up to: 5.6
 Requires PHP: 5.2.4
-Stable tag: 1.4.4
+Stable tag: 1.5.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.5.0:
+	- New: Added the ability to hide the button on mobile.
 1.4.4:
 	- Fixed: Merged PR#1 to add support for bedrock hosted Wordpress sites.
 1.4.3:
