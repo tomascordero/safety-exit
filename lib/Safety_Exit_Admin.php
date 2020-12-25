@@ -95,6 +95,7 @@ class Safety_Exit_Admin {
         'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
         'sftExt_letter_spacing' => 'inherit',
         'sftExt_border_radius' => '100',
+        'sftExt_hide_mobile' => '',
         'sftExt_show_all' => 'yes',
         'sftExt_front_page' => 'yes',
         'sftExt_pages' => array()
@@ -258,6 +259,14 @@ class Safety_Exit_Admin {
                 array( 'section_id' => 'sftExt_pluginPage_btn_display_options' )
             );
             add_settings_field(
+                'sftExt_hide_mobile',
+                __( 'Hide button on mobile?', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_btn_display_options',
+                array ( 'class' => 'option-wrapper sftExt_hide_mobile', 'label_for' => 'sftExt_hide_mobile' )
+            );
+            add_settings_field(
                 'sftExt_show_all',
                 __( 'Show on all pages?', 'wordpress' ),
                 array( $this, 'sftExt_options_render'),
@@ -396,6 +405,11 @@ class Safety_Exit_Admin {
                 ?>
                     <input type="radio" name="sftExt_settings[sftExt_show_all]" id="sftExt_show_all" class="sftExt_show_all" value="yes" <?php checked( $options['sftExt_show_all'], 'yes' ); ?>> Yes<br/>
                     <input type="radio" name="sftExt_settings[sftExt_show_all]" id="sftExt_show_all" class="sftExt_show_all" value="no" <?php checked( $options['sftExt_show_all'], 'no' ); ?>> No<br/>
+                <?php
+                break;
+            case 'sftExt_hide_mobile':
+                ?>
+                    <input type="checkbox" name="sftExt_settings[sftExt_hide_mobile]" id="sftExt_hide_mobile" class="sftExt_hide_mobile" value="yes" <?php checked( $options['sftExt_hide_mobile'], 'yes' ); ?>> Yes
                 <?php
                 break;
         }

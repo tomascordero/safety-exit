@@ -13,6 +13,7 @@
         'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
         'sftExt_letter_spacing' => 'inherit',
 		'sftExt_border_radius' => '100',
+		'sftExt_hide_mobile' => '',
 		'sftExt_show_all' => 'yes',
 		'sftExt_front_page' => 'yes',
 		'sftExt_pages' => array()
@@ -30,6 +31,9 @@
 			$displayButton = false;
 		}
 	}
+	if($sftExtSettings['sftExt_hide_mobile'] == 'yes') {
+		$hideOnMobile = true;
+	}
 
 	// if is_front_page() and "show on front page option is selected"
 	if($sftExtSettings['sftExt_front_page'] == 'yes' && is_front_page()){
@@ -42,6 +46,13 @@
 		background-color: <?= $sftExtSettings['sftExt_bg_color'] ?>;
 		color: <?= $sftExtSettings['sftExt_font_color'] ?>;
 	}
+	<?php if($hideOnMobile) : ?>
+	@media (max-width: 600px) {
+		#sftExt-frontend-button {
+			display: none !important;
+		}
+	}
+	<?php endif; ?>
 	#sftExt-frontend-button.rectangle {
 		font-size: <?= $sftExtSettings['sftExt_rectangle_font_size'] . $sftExtSettings['sftExt_rectangle_font_size_units']  ; ?>;
 		letter-spacing: <?= $sftExtSettings['sftExt_letter_spacing']; ?>;
