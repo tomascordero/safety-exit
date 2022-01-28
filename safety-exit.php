@@ -4,14 +4,14 @@
  *
  * @package   SafetyExit
  * @author    Tomas Cordero
- * @copyright Copyright (c) 2018 Tomas Cordero
+ * @copyright Copyright (c) 2021 Tomas Cordero
  * @license   GPL-2.0+
  *
  * @wordpress-plugin
  * Plugin Name: Safety Exit
  * Plugin URI:
  * Description: A safety exit plugin
- * Version:     1.4.4
+ * Version:     1.5.0
  * Author:      Tomas Cordero
  * Author URI:  https://tomascordero.com
  * License:     GPL-2.0+

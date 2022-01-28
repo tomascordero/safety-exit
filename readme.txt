@@ -3,7 +3,7 @@ Contributors: tcordero
 Tags: quick exit, safety exit, stop abuse, no domestic violence, safe browsing, exit, fast exit, domestic violence, panic button
 Donate link: https://tomascordero.com
 Requires at least: 4.0.0
-Tested up to: 5.6
+Tested up to: 5.9
 Requires PHP: 5.2.4
 Stable tag: 1.5.0
 License: GPL-2.0+
@@ -49,6 +49,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 == Changelog ==
 1.5.0:
 	- New: Added the ability to hide the button on mobile.
+1.4.5:
+	- Maintenance: Ensured plugin worked with latest version of Wordpress
 1.4.4:
 	- Fixed: Merged PR#1 to add support for bedrock hosted Wordpress sites.
 1.4.3:
