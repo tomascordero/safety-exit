@@ -11,7 +11,7 @@
  * Plugin Name: Safety Exit
  * Plugin URI:
  * Description: This plugin will inject a button on your website that will allow a website user to quickly navigate away from your website.
- * Version:     1.5.0
+ * Version:     1.6.0
  * Author:      Tomas Cordero
  * Author URI:  https://tomascordero.com
  * License:     GPL-2.0+
