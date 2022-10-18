@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 4.0.0
 Tested up to: 6.0.2
 Requires PHP: 5.2.4
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.6.1:
+	- Tweak: Switched from injecting the button in the footer to injecting it to the wp_body_open. This fixes a bug with certain page builders that use a post / page to create the footer.
 1.6.0:
 	- Improved: Stopped font awesome from loading on frontend if icon is turned off
 1.5.0:
