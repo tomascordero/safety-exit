@@ -22,7 +22,7 @@ class Safety_Exit_Frontend {
 	}
 	public function init() {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
-		add_action( 'wp_footer', array($this, 'safety_exit_injectTest'), 100 );
+		add_action( 'wp_body_open', array($this, 'safety_exit_injectTest'), 100 );
     }
 	public function sftExt_enqueue() {
 		wp_enqueue_style('frontendCSS', plugins_url() . '/safety-exit/assets/css/frontend.css');
