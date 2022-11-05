@@ -8,9 +8,6 @@
 /**
  * Creates the submenu item for the plugin.
  *
- * Registers a new menu item under 'Tools' and uses the dependency passed into
- * the constructor in order to display the page corresponding to this menu item.
- *
  * @package Frontend_stuff
  */
 class Safety_Exit_Frontend {
@@ -22,7 +19,12 @@ class Safety_Exit_Frontend {
 	}
 	public function init() {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
-		add_action( 'wp_body_open', array($this, 'safety_exit_injectTest'), 100 );
+
+		if (isset(get_option('sftExt_settings')['sftExt_render_in_footer']) && get_option('sftExt_settings')['sftExt_render_in_footer'] === 'yes') {
+			add_action( 'wp_footer', array($this, 'safety_exit_injectTest'), 100 );
+		} else {
+			add_action( 'wp_body_open', array($this, 'safety_exit_injectTest'), 100 );
+		}
     }
 	public function sftExt_enqueue() {
 		wp_enqueue_style('frontendCSS', plugins_url() . '/safety-exit/assets/css/frontend.css');

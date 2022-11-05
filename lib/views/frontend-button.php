@@ -16,6 +16,7 @@
 		'sftExt_hide_mobile' => '',
 		'sftExt_show_all' => 'yes',
 		'sftExt_front_page' => 'yes',
+		'sftExt_render_in_footer' => '',
 		'sftExt_pages' => array()
 	));
 	$classes = $sftExtSettings['sftExt_position'] . ' ' . $sftExtSettings['sftExt_type'];

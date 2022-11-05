@@ -98,6 +98,7 @@ class Safety_Exit_Admin {
         'sftExt_hide_mobile' => '',
         'sftExt_show_all' => 'yes',
         'sftExt_front_page' => 'yes',
+        'sftExt_render_in_footer' => '',
         'sftExt_pages' => array()
     );
 
@@ -291,8 +292,25 @@ class Safety_Exit_Admin {
                 array ( 'class' => 'option-wrapper sftExt_pages', 'label_for' => 'sftExt_pages' )
             );
 
-
             // End Button Display Options
+
+            // Render location
+            add_settings_section(
+                'sftExt_pluginPage_btn_render_options',
+                __( 'Render location', 'wordpress' ),
+                array( $this, 'sftExt_settings_section_callback'),
+                'pluginPage',
+                array( 'section_id' => 'sftExt_pluginPage_btn_render_options' )
+            );
+
+            add_settings_field(
+                'sftExt_render_in_footer',
+                __( 'Render in footer', 'wordpress' ),
+                array( $this, 'sftExt_options_render'),
+                'pluginPage',
+                'sftExt_pluginPage_btn_render_options',
+                array ( 'class' => 'option-wrapper sftExt_render_in_footer', 'label_for' => 'sftExt_render_in_footer' )
+            );
         }
 	}
 
@@ -401,6 +419,11 @@ class Safety_Exit_Admin {
                     <input type="radio" name="sftExt_settings[sftExt_front_page]" id="sftExt_front_page" value="no" <?php checked( $options['sftExt_front_page'], 'no' ); ?>> No<br/>
                 <?php
                 break;
+            case 'sftExt_render_in_footer':
+                ?>
+                    <input type="checkbox" name="sftExt_settings[sftExt_render_in_footer]" id="sftExt_render_in_footer" class="sftExt_render_in_footer" value="yes" <?php checked( $options['sftExt_render_in_footer'], 'yes' ); ?>> Yes
+                <?php
+                break;
             case 'sftExt_show_all':
                 ?>
                     <input type="radio" name="sftExt_settings[sftExt_show_all]" id="sftExt_show_all" class="sftExt_show_all" value="yes" <?php checked( $options['sftExt_show_all'], 'yes' ); ?>> Yes<br/>
@@ -424,6 +447,9 @@ class Safety_Exit_Admin {
             //     break;
             case 'sftExt_pluginPage_redirection_options':
                 echo __( 'Enter the URLs you want the button to redirect to', 'wordpress' );
+                break;
+            case 'sftExt_pluginPage_btn_render_options':
+                echo __( 'Use this option if your theme does not support the "wp_body_open" hook.', 'wordpress' );
                 break;
         }
 
