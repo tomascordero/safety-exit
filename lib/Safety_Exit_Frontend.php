@@ -21,9 +21,9 @@ class Safety_Exit_Frontend {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
 
 		if (isset(get_option('sftExt_settings')['sftExt_render_in_footer']) && get_option('sftExt_settings')['sftExt_render_in_footer'] === 'yes') {
-			add_action( 'wp_footer', array($this, 'safety_exit_injectTest'), 100 );
+			add_action( 'wp_footer', array($this, 'safety_exit_inject'), 100 );
 		} else {
-			add_action( 'wp_body_open', array($this, 'safety_exit_injectTest'), 100 );
+			add_action( 'wp_body_open', array($this, 'safety_exit_inject'), 100 );
 		}
     }
 	public function sftExt_enqueue() {
@@ -38,7 +38,7 @@ class Safety_Exit_Frontend {
 			wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
 		}
 	}
-	public function safety_exit_injectTest() {
+	public function safety_exit_inject() {
 		include_once( 'views/frontend-button.php' );
 	}
 
