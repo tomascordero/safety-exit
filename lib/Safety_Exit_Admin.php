@@ -53,16 +53,6 @@ class Safety_Exit_Admin {
         // update_option('sftExt_css', $cssString);
     }
 
-    function checkTheme() {
-		$themeName = wp_get_theme()->get( 'Name' );
-
-		$themes = [
-			'divi'
-		];
-
-		return in_array(strtolower($themeName), $themes);
-	}
-
     public function safety_exit_add_options_page() {
         // echo $this->root;die;
         add_menu_page(

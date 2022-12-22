@@ -19,16 +19,6 @@ class Safety_Exit_Frontend {
 	public function __construct($file) {
 		$this->pluginRoot = $file;
 	}
-	function checkTheme() {
-		$themeName = wp_get_theme()->get( 'Name' );
-
-		$themes = [
-			'divi'
-		];
-
-		return in_array(strtolower($themeName), $themes);
-	}
-
 	public function init() {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
 		add_action( 'wp_body_open', array($this, 'safety_exit_inject'), 100 );
