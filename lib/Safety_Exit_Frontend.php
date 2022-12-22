@@ -14,17 +14,25 @@ class Safety_Exit_Frontend {
 
 	private $pluginRoot;
 
+	private $buttonInitialized = false;
+
 	public function __construct($file) {
 		$this->pluginRoot = $file;
 	}
+	function checkTheme() {
+		$themeName = wp_get_theme()->get( 'Name' );
+
+		$themes = [
+			'divi'
+		];
+
+		return in_array(strtolower($themeName), $themes);
+	}
+
 	public function init() {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
-
-		if (isset(get_option('sftExt_settings')['sftExt_render_in_footer']) && get_option('sftExt_settings')['sftExt_render_in_footer'] === 'yes') {
-			add_action( 'wp_footer', array($this, 'safety_exit_inject'), 100 );
-		} else {
-			add_action( 'wp_body_open', array($this, 'safety_exit_inject'), 100 );
-		}
+		add_action( 'wp_body_open', array($this, 'safety_exit_inject'), 100 );
+		do_action( 'wp_body_open' );
     }
 	public function sftExt_enqueue() {
 		wp_enqueue_style('frontendCSS', plugins_url() . '/safety-exit/assets/css/frontend.css');

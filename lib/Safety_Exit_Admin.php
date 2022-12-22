@@ -52,6 +52,17 @@ class Safety_Exit_Admin {
         ));
         // update_option('sftExt_css', $cssString);
     }
+
+    function checkTheme() {
+		$themeName = wp_get_theme()->get( 'Name' );
+
+		$themes = [
+			'divi'
+		];
+
+		return in_array(strtolower($themeName), $themes);
+	}
+
     public function safety_exit_add_options_page() {
         // echo $this->root;die;
         add_menu_page(
@@ -98,7 +109,6 @@ class Safety_Exit_Admin {
         'sftExt_hide_mobile' => '',
         'sftExt_show_all' => 'yes',
         'sftExt_front_page' => 'yes',
-        'sftExt_render_in_footer' => '',
         'sftExt_pages' => array()
     );
 
@@ -293,24 +303,6 @@ class Safety_Exit_Admin {
             );
 
             // End Button Display Options
-
-            // Render location
-            add_settings_section(
-                'sftExt_pluginPage_btn_render_options',
-                __( 'Render location', 'wordpress' ),
-                array( $this, 'sftExt_settings_section_callback'),
-                'pluginPage',
-                array( 'section_id' => 'sftExt_pluginPage_btn_render_options' )
-            );
-
-            add_settings_field(
-                'sftExt_render_in_footer',
-                __( 'Render in footer', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
-                'pluginPage',
-                'sftExt_pluginPage_btn_render_options',
-                array ( 'class' => 'option-wrapper sftExt_render_in_footer', 'label_for' => 'sftExt_render_in_footer' )
-            );
         }
 	}
 
@@ -417,11 +409,6 @@ class Safety_Exit_Admin {
                 ?>
                     <input type="radio" name="sftExt_settings[sftExt_front_page]" id="sftExt_front_page" value="yes" <?php checked( $options['sftExt_front_page'], 'yes' ); ?>> Yes<br/>
                     <input type="radio" name="sftExt_settings[sftExt_front_page]" id="sftExt_front_page" value="no" <?php checked( $options['sftExt_front_page'], 'no' ); ?>> No<br/>
-                <?php
-                break;
-            case 'sftExt_render_in_footer':
-                ?>
-                    <input type="checkbox" name="sftExt_settings[sftExt_render_in_footer]" id="sftExt_render_in_footer" class="sftExt_render_in_footer" value="yes" <?php checked( $options['sftExt_render_in_footer'], 'yes' ); ?>> Yes
                 <?php
                 break;
             case 'sftExt_show_all':
