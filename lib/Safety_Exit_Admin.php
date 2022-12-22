@@ -425,9 +425,6 @@ class Safety_Exit_Admin {
             case 'sftExt_pluginPage_redirection_options':
                 echo __( 'Enter the URLs you want the button to redirect to', 'wordpress' );
                 break;
-            case 'sftExt_pluginPage_btn_render_options':
-                echo __( 'Use this option if your theme does not support the "wp_body_open" hook.', 'wordpress' );
-                break;
         }
 
     }
