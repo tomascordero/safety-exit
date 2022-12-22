@@ -31,6 +31,7 @@
 			$displayButton = false;
 		}
 	}
+	$hideOnMobile = false;
 	if($sftExtSettings['sftExt_hide_mobile'] == 'yes') {
 		$hideOnMobile = true;
 	}

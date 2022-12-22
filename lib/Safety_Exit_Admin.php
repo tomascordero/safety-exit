@@ -52,6 +52,7 @@ class Safety_Exit_Admin {
         ));
         // update_option('sftExt_css', $cssString);
     }
+
     public function safety_exit_add_options_page() {
         // echo $this->root;die;
         add_menu_page(
@@ -290,7 +291,6 @@ class Safety_Exit_Admin {
                 'sftExt_pluginPage_btn_display_options',
                 array ( 'class' => 'option-wrapper sftExt_pages', 'label_for' => 'sftExt_pages' )
             );
-
 
             // End Button Display Options
         }
