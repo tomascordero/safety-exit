@@ -21,8 +21,9 @@ class Safety_Exit_Frontend {
 	}
 	public function init() {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
+		do_action( 'qm/debug', 'wp_enqueue_scripts fired' );
 		add_action( 'wp_body_open', array($this, 'safety_exit_inject'), 100 );
-		do_action( 'wp_body_open' );
+		do_action( 'qm/debug', 'wp_body_open fired' );
     }
 	public function sftExt_enqueue() {
 		wp_enqueue_style('frontendCSS', plugins_url() . '/safety-exit/assets/css/frontend.css');
@@ -37,7 +38,9 @@ class Safety_Exit_Frontend {
 		}
 	}
 	public function safety_exit_inject() {
-		include_once( 'views/frontend-button.php' );
+		do_action( 'qm/debug', 'frontend-button.php before include' );
+		include( 'views/frontend-button.php' );
+		do_action( 'qm/debug', 'frontend-button.php included' );
 	}
 
 }

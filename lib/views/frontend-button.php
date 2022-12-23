@@ -40,6 +40,7 @@
 	if($sftExtSettings['sftExt_front_page'] == 'yes' && is_front_page()){
 		$displayButton = true;
 	}
+	do_action( 'qm/debug', 'Rendering HTML' );
 	if($displayButton == true) :
 ?>
 <style>
