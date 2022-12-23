@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 5.2.0
 Tested up to: 6.1.1
 Requires PHP: 5.2.4
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.6.3:
+	- Fix: Fixed bug with login
 1.6.2:
 	- Fix: Instead of depending on the theme to run fire the `wp_body_open` hook, we now run it in the plugin's init method.
 1.6.1:
