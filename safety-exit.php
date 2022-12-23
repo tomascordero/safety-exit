@@ -53,12 +53,18 @@ foreach ( glob( plugin_dir_path( __FILE__ ) . 'lib/*.php' ) as $file ) {
     include_once $file;
 }
 if( !$errors ) {
+    $url_path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
 	if ( is_admin() ){
 		if(current_user_can('administrator')){
 			$admin = new Safety_Exit_Admin(__FILE__);
 			$admin->init();
 		}
-	} else {
+	} else if (
+        $url_path !== '/wp-login.php'
+        && $url_path !== '/admin'
+        && $url_path !== '/wp-admin'
+        && $url_path !== '/login'
+    ){
 		$frontend = new Safety_Exit_Frontend(__FILE__);
 		$frontend->init();
 	}
