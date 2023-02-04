@@ -5,6 +5,7 @@
 /package.json
 /package-lock.json
 /gulpfile.js
+/readme.md
 
 .distignore
 .gitignore
