@@ -1,23 +1,20 @@
 {
-	"name": "lib-components",
+	"name": "safety-exit",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "vite",
+		"build:frontend": "postcss ./src/css/frontend.css -o assets/css/frontend.css",
+		"build:admin": "postcss ./src/css/admin.css -o assets/css/admin.css"
 	},
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
-		"browser-sync": "^2.18.13",
-		"gulp": "^3.9.1",
-		"gulp-autoprefixer": "^4.0.0",
-		"gulp-notify": "^3.0.0",
-		"gulp-postcss": "^7.0.0",
-		"gulp-sass": "^3.1.0",
-		"gulp-sourcemaps": "^2.6.1"
-	},
-	"dependencies": {
-		"foundation-sites": "^6.4.4-rc1"
+		"autoprefixer": "^10.4.14",
+		"postcss": "^8.4.24",
+		"postcss-minify": "^1.1.0",
+		"postcss-preset-env": "^9.0.0",
+		"vite": "^4.3.9"
 	}
 }
