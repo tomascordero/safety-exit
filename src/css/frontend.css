@@ -1,26 +1,9 @@
-@mixin aspect-ratio($width, $height) {
-	// position: relative;
-	&:before {
-		display: block;
-		content: "";
-		width: 100%;
-		padding-top: ($height / $width) * 100%;
-	}
-	>.content {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-	}
-}
-
 #sftExt-frontend-button {
 	position: fixed;
+    border: none;
 	display: inline-block;
 	cursor: pointer;
-	z-index: 999999999999999999;
-	// defaults
+	z-index: 9999;
 	left: 20px;
 	top: 20px;
 	padding: 10px 20px;
@@ -61,7 +44,6 @@
 		}
 	}
 	&.rectangle {
-		// border-radius: 100px;
 		padding: 10px 20px;
 		height: auto;
 		width: auto;
@@ -72,8 +54,6 @@
 			flex: 1;
 		}
 		.sftExt-inner {
-			// color: white;
-			// padding-left: 25px;
 			position: relative;
 			text-align: center;
 			> i {
@@ -81,31 +61,26 @@
 			}
 			&:before {
 				position: absolute;
-				// content: '';
 				left: 0;
 				top: 0;
 				height: 20px;
 				width: 20px;
-				// background-image: url(../images/close-icon.svg);
-				// background-position: center;
-				// background-size: contain;
-				// background-repeat: no-repeat;
 			}
 		}
 	}
 	&.bottom {
 		top: auto;
-		bottom: 20px; // make an option
+		bottom: 20px;
 	}
 	&.top {
-		top: 20px; // make an option
+		top: 20px;
 	}
 	&.right {
 		left: auto;
-		right: 20px; // make an option
+		right: 20px;
 	}
 	&.left {
-		left: 20px; // make an option
+		left: 20px;
 	}
 
 }
