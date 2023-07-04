@@ -1,4 +1,13 @@
 #sftExt-frontend-button {
+    @media screen, speech {
+        .sr-only {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+    }
 	position: fixed;
     border: none;
 	display: inline-block;
