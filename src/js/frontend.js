@@ -1,13 +1,14 @@
 import '../css/frontend.css';
 
-jQuery(function($){
-	$('#sftExt-frontend-button').on('click', function(e){
-		var newTabUrl = $(this).data('new-tab');
-		var thisTabUrl = $(this).data('url');
+document.addEventListener('DOMContentLoaded', function() {
+    var button = document.getElementById('sftExt-frontend-button');
 
-		var win = window.open(newTabUrl, '_blank');
-		win.focus();
-		window.location.replace(thisTabUrl);
+    button.addEventListener('click', function(e) {
+        var newTabUrl = button.dataset.newTab;
+        var thisTabUrl = button.dataset.url;
 
-	})
-})
+        var win = window.open(newTabUrl, '_blank');
+        win.focus();
+        window.location.replace(thisTabUrl);
+    });
+});
