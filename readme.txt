@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 5.2.0
 Tested up to: 6.2.2
 Requires PHP: 5.2.4
-Stable tag: 1.6.5
+Stable tag: 1.7.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.7.0:
+	- Refactor: Switched to JS for rendering button
 1.6.5:
 	- Refactor: Build pipeline
 	- Improved: Accessibility
