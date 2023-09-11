@@ -1,5 +1,6 @@
 const postcssPresetEnv = require('postcss-preset-env');
 const postcssMinify = require('postcss-minify');
+const autoprefixer = require('autoprefixer');
 
 
 module.exports = {

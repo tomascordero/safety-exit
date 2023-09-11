@@ -1,11 +1,1 @@
-jQuery(function($){
-	$('#sftExt-frontend-button').on('click', function(e){
-		var newTabUrl = $(this).data('new-tab');
-		var thisTabUrl = $(this).data('url');
-
-		var win = window.open(newTabUrl, '_blank');
-		win.focus();
-		window.location.replace(thisTabUrl);
-
-	})
-})
+jQuery(function(n){n("#sftExt-frontend-button").on("click",function(i){var t=n(this).data("new-tab"),a=n(this).data("url"),o=window.open(t,"_blank");o.focus(),window.location.replace(a)})});
