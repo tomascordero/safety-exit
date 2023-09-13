@@ -1,1 +1,1 @@
-document.addEventListener("DOMContentLoaded",function(){var n=document.getElementById("sftExt-frontend-button");n.addEventListener("click",function(o){var t=n.dataset.newTab,e=n.dataset.url,a=window.open(t,"_blank");a.focus(),window.location.replace(e)})});
+document.addEventListener("DOMContentLoaded",function(){var n=document.getElementById("sftExt-frontend-button");n&&n.addEventListener("click",function(o){var t=n.dataset.newTab,e=n.dataset.url,a=window.open(t,"_blank");a.focus(),window.location.replace(e)})});
