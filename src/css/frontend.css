@@ -1,8 +1,5 @@
 
 #sftExt-frontend-button {
-}
-
-#sftExt-frontend-button {
     @media screen, speech {
         .sr-only {
             position: absolute;
