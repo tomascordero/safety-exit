@@ -1,3 +1,7 @@
+
+#sftExt-frontend-button {
+}
+
 #sftExt-frontend-button {
     @media screen, speech {
         .sr-only {
@@ -8,9 +12,11 @@
             overflow: hidden;
         }
     }
+	background-color: var(--sftExt_bgColor);
+	color: var(--sftExt_textColor);
+	display: var(--sftExt_active);
 	position: fixed;
     border: none;
-	display: inline-block;
 	cursor: pointer;
 	z-index: 9999;
 	left: 20px;
@@ -19,6 +25,10 @@
 	font-family: inherit;
 	width: 25px;
 	height: 25px;
+
+	@media (max-width: 600px) {
+		display: var(--sftExt_activeMobile);
+	}
 
 	&.round {
 		border-radius: 50%;
@@ -53,6 +63,9 @@
 		}
 	}
 	&.rectangle {
+		font-size: var(--sftExt_rectangle_fontSize);
+		letter-spacing: var(--sftExt_rectangle_letterSpacing);
+		border-radius: var(--sftExt_rectangle_borderRadius);
 		padding: 10px 20px;
 		height: auto;
 		width: auto;
