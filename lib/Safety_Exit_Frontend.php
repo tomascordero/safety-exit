@@ -83,6 +83,8 @@ class Safety_Exit_Frontend {
 		// if is_front_page() and "show on front page option is selected"
 		if($this->defaultSettings['sftExt_front_page'] == 'yes' && is_front_page()){
 			$displayButton = true;
+		} elseif ($this->defaultSettings['sftExt_front_page'] == 'no' && is_front_page()) {
+			$displayButton = false;
 		}
 		?>
 		<script>
@@ -93,6 +95,7 @@ class Safety_Exit_Frontend {
 			window.sftExtBtn.currentTabUrl = "<?= $this->defaultSettings['sftExt_current_tab_url']?>";
 			window.sftExtBtn.btnType = "<?= $this->defaultSettings['sftExt_type'] ?>";
 			window.sftExtBtn.text = "<?= $this->defaultSettings['sftExt_rectangle_text'] ?>";
+			window.sftExtBtn.shouldShow = <?= $displayButton ?>;
 		</script>
 		<style>
 			:root {
