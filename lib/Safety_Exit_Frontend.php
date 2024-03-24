@@ -51,6 +51,7 @@ class Safety_Exit_Frontend {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
 		do_action( 'qm/debug', 'wp_enqueue_scripts fired' );
 		add_action('wp_head', array($this, 'echo_safety_exit_custom_styling'));
+		add_action( 'wp_body_open', array($this, 'echo_safety_exit_html'), 100 );
 		do_action( 'qm/debug', 'wp_body_open fired' );
     }
 	public function run_setup() {
@@ -98,6 +99,12 @@ class Safety_Exit_Frontend {
 		$this->run_setup();
 		echo $this->generate_js();
 		echo $this->generate_css();
+	}
+	public function echo_safety_exit_html() {
+		$this->run_setup();
+		if ($this->displayButton) {
+			echo $this->generate_html();
+		}
 	}
 	public function generate_js() {
 		do_action( 'qm/debug', 'generating JS' );
