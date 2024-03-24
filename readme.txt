@@ -51,6 +51,7 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 	- Refactor: Completely reworked how the button is rendered. It will try to render via HTML first. If it cant it will render with JS. This should finally fix all theme related problems.
 	- Improved: Got some unit testing in place. When the plugin's admin UI gets refactored this will help ensuring nothing breaks on the front end.
 	- Removed: I removed the contrast checker. It was large, annoying and didn't work very well. I will be replacing it with something better in V2.
+	- Fix: Button will no longer appear on the print view.
 1.6.5:
 	- Refactor: Build pipeline
 	- Improved: Accessibility
