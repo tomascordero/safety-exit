@@ -1,9 +1,5 @@
 <?php
-/**
- * Creates the submenu item for the plugin.
- *
- * @package Custom_Admin_Settings
- */
+namespace SafetyExit;
 
 /**
  * Creates the submenu item for the plugin.

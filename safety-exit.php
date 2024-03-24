@@ -21,6 +21,7 @@
 require plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
 
 use SafetyExit\Safety_Exit_Frontend;
+use SafetyExit\Safety_Exit_Admin;
 
 $path = realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php";
 
@@ -52,9 +53,7 @@ try {
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
-foreach ( glob( plugin_dir_path( __FILE__ ) . 'lib/*.php' ) as $file ) {
-    include_once $file;
-}
+
 if( !$errors ) {
     $url_path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
 	if ( is_admin() ){
