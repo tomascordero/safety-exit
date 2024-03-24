@@ -1,6 +1,6 @@
 === Safety Exit ===
 Contributors: tcordero
-Tags: quick exit, safety exit, stop abuse, no domestic violence, safe browsing, exit, fast exit, domestic violence, panic button
+Tags: quick exit, safety exit, exit, fast exit, panic button
 Donate link: https://tomascordero.com
 Requires at least: 5.2.0
 Tested up to: 6.4.3
