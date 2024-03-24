@@ -19,6 +19,8 @@
  * Text Domain: safety-exit
  */
 
+use SafetyExit\Safety_Exit_Frontend;
+
 $path = realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php";
 
 // This adds support for bedrock, ABSPATH is set by bedrock as part of the config.

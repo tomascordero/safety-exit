@@ -1,0 +1,20 @@
+{
+    "require-dev": {
+        "pestphp/pest": "^2.34",
+        "mockery/mockery": "^1.6",
+        "brain/monkey": "^2.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/pest"
+    },
+    "autoload": {
+        "psr-4": {
+            "SafetyExit\\": "lib/"
+        }
+    }
+}

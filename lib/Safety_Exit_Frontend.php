@@ -1,4 +1,6 @@
 <?php
+
+namespace SafetyExit;
 /**
  * Handle all frontend stuff
  *
@@ -12,14 +14,11 @@
  */
 class Safety_Exit_Frontend {
 
-	private $pluginRoot;
-
 	private $buttonInitialized = false;
 
 	private $defaultSettings;
+	public function __construct() {
 
-	public function __construct($file) {
-		$this->pluginRoot = $file;
 		$this->defaultSettings = wp_parse_args(get_option('sftExt_settings'), array(
 			'sftExt_position' => 'bottom right',
 			'sftExt_fontawesome_icon_classes' => 'fas fa-times',
@@ -43,7 +42,7 @@ class Safety_Exit_Frontend {
 	public function init() {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
 		do_action( 'qm/debug', 'wp_enqueue_scripts fired' );
-		add_action('wp_head', array($this, 'safety_exit_custom_styling'));
+		add_action('wp_head', array($this, 'echo_safety_exit_custom_styling'));
 		do_action( 'qm/debug', 'wp_body_open fired' );
     }
 	public function sftExt_enqueue() {
@@ -57,6 +56,9 @@ class Safety_Exit_Frontend {
 		if(isset($args['sftExt_rectangle_icon_onOff']) && $args['sftExt_rectangle_icon_onOff'] !== 'no') {
 			wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
 		}
+	}
+	public function echo_safety_exit_custom_styling() {
+		echo $this->safety_exit_custom_styling();
 	}
 	public function safety_exit_custom_styling() {
 		do_action( 'qm/debug', 'generating custom CSS' );
@@ -85,31 +87,7 @@ class Safety_Exit_Frontend {
 		} elseif ($this->defaultSettings['sftExt_front_page'] == 'no' && is_front_page()) {
 			$displayButton = false;
 		}
-		?>
-		<script>
-			window.sftExtBtn =  {};
-			window.sftExtBtn.classes = '<?= $classes ?>';
-			window.sftExtBtn.icon = '<?= $icon ?>';
-			window.sftExtBtn.newTabUrl = "<?= $this->defaultSettings['sftExt_new_tab_url'] ?>";
-			window.sftExtBtn.currentTabUrl = "<?= $this->defaultSettings['sftExt_current_tab_url']?>";
-			window.sftExtBtn.btnType = "<?= $this->defaultSettings['sftExt_type'] ?>";
-			window.sftExtBtn.text = "<?= $this->defaultSettings['sftExt_rectangle_text'] ?>";
-			window.sftExtBtn.shouldShow = <?= $displayButton ?>;
-		</script>
-		<style>
-			:root {
-				--sftExt_bgColor: <?= $this->defaultSettings['sftExt_bg_color'] ?>;
-				--sftExt_textColor: <?= $this->defaultSettings['sftExt_font_color'] ?>;
-				--sftExt_active: <?= !$displayButton ? 'none !important' : 'inline-block' ?>;
-				--sftExt_activeMobile: <?= $hideOnMobile ? 'none !important' : 'inline-block' ?>;
-				--sftExt_mobileBreakPoint: 600px;
-				--sftExt_rectangle_fontSize: <?= $this->defaultSettings['sftExt_rectangle_font_size'] . $this->defaultSettings['sftExt_rectangle_font_size_units'] ?>;
-				--sftExt_rectangle_letterSpacing: <?= $this->defaultSettings['sftExt_letter_spacing'] ?>;
-				--sftExt_rectangle_borderRadius: <?= $this->defaultSettings['sftExt_border_radius']; ?>px;
-			}
-		</style>
-		<?php
-		do_action( 'qm/debug', 'custom CSS generated' );
+		return "<script>window.sftExtBtn =  {};window.sftExtBtn.classes = '$classes';window.sftExtBtn.icon = '$icon';window.sftExtBtn.newTabUrl = '" . $this->defaultSettings['sftExt_new_tab_url'] . "';window.sftExtBtn.currentTabUrl = '" . $this->defaultSettings['sftExt_current_tab_url'] . "';window.sftExtBtn.btnType = '" . $this->defaultSettings['sftExt_type'] . "';window.sftExtBtn.text = '" . $this->defaultSettings['sftExt_rectangle_text'] . "';window.sftExtBtn.shouldShow = " . ($displayButton ? 'true' : 'false') . ";</script><style>:root {--sftExt_bgColor: " . $this->defaultSettings['sftExt_bg_color'] . ";--sftExt_textColor: " . $this->defaultSettings['sftExt_font_color'] . ";--sftExt_active: " . (!$displayButton ? 'none !important' : 'inline-block') . ";--sftExt_activeMobile: " . ($hideOnMobile ? 'none !important' : 'inline-block') . ";--sftExt_mobileBreakPoint: 600px;--sftExt_rectangle_fontSize: " . $this->defaultSettings['sftExt_rectangle_font_size'] . $this->defaultSettings['sftExt_rectangle_font_size_units'] .";--sftExt_rectangle_letterSpacing: " . $this->defaultSettings['sftExt_letter_spacing'] . ";--sftExt_rectangle_borderRadius: " . $this->defaultSettings['sftExt_border_radius'] . "px;}</style>";
 	}
 
 }
