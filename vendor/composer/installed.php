@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'c5e3f3bc90b70e3f32b3fb74046faeae32143bc1',
+        'reference' => '1cb3eaf2f8ba41f1af15db2e377ade91e50b9c9c',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'c5e3f3bc90b70e3f32b3fb74046faeae32143bc1',
+            'reference' => '1cb3eaf2f8ba41f1af15db2e377ade91e50b9c9c',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

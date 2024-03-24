@@ -58,6 +58,9 @@ it('calls wp_enqueue_scripts and wp_head actions on init', function () {
         ->with('wp_enqueue_scripts', [$safetyExitFrontend, 'sftExt_enqueue']);
     Functions\expect('add_action')
         ->once()
+        ->with('wp_body_open', [$safetyExitFrontend, 'echo_safety_exit_html'], 100);
+    Functions\expect('add_action')
+        ->once()
         ->with('wp_head', [$safetyExitFrontend, 'echo_safety_exit_custom_styling']);
 
     // Call the init method
