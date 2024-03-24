@@ -60,6 +60,11 @@ class Safety_Exit_Frontend {
 	public function echo_safety_exit_custom_styling() {
 		echo $this->safety_exit_custom_styling();
 	}
+	public function generate_js() {
+		do_action( 'qm/debug', 'generating JS' );
+
+
+	}
 	public function safety_exit_custom_styling() {
 		do_action( 'qm/debug', 'generating custom CSS' );
 
@@ -87,7 +92,7 @@ class Safety_Exit_Frontend {
 		} elseif ($this->defaultSettings['sftExt_front_page'] == 'no' && is_front_page()) {
 			$displayButton = false;
 		}
-		return "<script>window.sftExtBtn =  {};window.sftExtBtn.classes = '$classes';window.sftExtBtn.icon = '$icon';window.sftExtBtn.newTabUrl = '" . $this->defaultSettings['sftExt_new_tab_url'] . "';window.sftExtBtn.currentTabUrl = '" . $this->defaultSettings['sftExt_current_tab_url'] . "';window.sftExtBtn.btnType = '" . $this->defaultSettings['sftExt_type'] . "';window.sftExtBtn.text = '" . $this->defaultSettings['sftExt_rectangle_text'] . "';window.sftExtBtn.shouldShow = " . ($displayButton ? 'true' : 'false') . ";</script><style>:root {--sftExt_bgColor: " . $this->defaultSettings['sftExt_bg_color'] . ";--sftExt_textColor: " . $this->defaultSettings['sftExt_font_color'] . ";--sftExt_active: " . (!$displayButton ? 'none !important' : 'inline-block') . ";--sftExt_activeMobile: " . ($hideOnMobile ? 'none !important' : 'inline-block') . ";--sftExt_mobileBreakPoint: 600px;--sftExt_rectangle_fontSize: " . $this->defaultSettings['sftExt_rectangle_font_size'] . $this->defaultSettings['sftExt_rectangle_font_size_units'] .";--sftExt_rectangle_letterSpacing: " . $this->defaultSettings['sftExt_letter_spacing'] . ";--sftExt_rectangle_borderRadius: " . $this->defaultSettings['sftExt_border_radius'] . "px;}</style>";
+		return "<style>:root {--sftExt_bgColor: " . $this->defaultSettings['sftExt_bg_color'] . ";--sftExt_textColor: " . $this->defaultSettings['sftExt_font_color'] . ";--sftExt_active: " . (!$displayButton ? 'none !important' : 'inline-block') . ";--sftExt_activeMobile: " . ($hideOnMobile ? 'none !important' : 'inline-block') . ";--sftExt_mobileBreakPoint: 600px;--sftExt_rectangle_fontSize: " . $this->defaultSettings['sftExt_rectangle_font_size'] . $this->defaultSettings['sftExt_rectangle_font_size_units'] .";--sftExt_rectangle_letterSpacing: " . $this->defaultSettings['sftExt_letter_spacing'] . ";--sftExt_rectangle_borderRadius: " . $this->defaultSettings['sftExt_border_radius'] . "px;}</style>";
 	}
 
 }
