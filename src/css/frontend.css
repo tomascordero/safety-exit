@@ -1,5 +1,8 @@
 
 #sftExt-frontend-button {
+	@media print {
+		display: none !important;
+	}
     @media screen, speech {
         .sr-only {
             position: absolute;
