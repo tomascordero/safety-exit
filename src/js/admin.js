@@ -37,29 +37,6 @@ function calculateContrastRatio(color1, color2) {
 }
 
 
-function calcContrastError(color1, color2) {
-	const targetElement = document.querySelector('.sftExt_type');
-
-	// Insert the new row before the target element
-	let accessibilityResults = calculateContrastRatio(color1, color2);
-	if (accessibilityResults.passesAA && accessibilityResults.passesAAA) {
-		if (document.querySelector('.sftExt_alert')) document.querySelector('.sftExt_alert').remove();
-		return;
-	}
-
-	// Create a new table row element
-	const newRow = document.createElement('tr');
-	newRow.classList.add('sftExt_alert');
-	newRow.innerHTML = `<th>Warning:</th><td>The contrast ratio between the background color and text color does not meet the accessibility standards.<br/>AA: ${accessibilityResults.passesAA ? 'Passing' : 'Failing'}<br/>AAA: ${accessibilityResults.passesAAA ? 'Passing' : 'Failing'}`;
-
-
-	if (targetElement && targetElement.parentNode) {
-		if (document.querySelector('.sftExt_alert')) document.querySelector('.sftExt_alert').remove();
-		targetElement.parentNode.insertBefore(newRow, targetElement);
-	}
-}
-
-
 jQuery(function($){
 
 	$('#sftExt_type').on('change', function(e){
@@ -115,19 +92,19 @@ jQuery(function($){
 	});
 	bg_color_picker.onChange = function(color) {
 		$('#sftExt_bg_color').val(color.rgbaString);
-		calcContrastError(color.rgbaString, font_color_picker.color.rgbaString);
+
 		$('#sftExt_color_picker_btn_bg_color').css({
 			'background-color': color.rgbaString
 		});
     };
 	font_color_picker.onChange = function(color) {
 		$('#sftExt_font_color').val(color.rgbaString);
-		calcContrastError(bg_color_picker.color.rgbaString, color.rgbaString);
+
 		$('#sftExt_color_picker_btn_font_color').css({
 			'background-color': color.rgbaString
 		});
     };
-	calcContrastError(bg_color_picker.color.rgbaString, font_color_picker.color.rgbaString);
+
 })
 // sftExt_icon_display
 
