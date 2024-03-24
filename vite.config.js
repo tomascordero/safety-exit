@@ -19,8 +19,8 @@ export default defineConfig({
                 frontend: 'src/js/frontend.js',
                 // TODO: Refactor the admin scripts to not need external libraries.
                 admin: 'src/js/admin.js',
-                'fontawesome-iconpicker.min': 'src/js/fontawesome-iconpicker.min.js',
-                'vanilla-picker.min': 'src/js/vanilla-picker.min.js',
+                // 'fontawesome-iconpicker.min': 'src/js/fontawesome-iconpicker.min.js',
+                // 'vanilla-picker.min': 'src/js/vanilla-picker.min.js',
             },
             output: {
                 dir: 'assets',

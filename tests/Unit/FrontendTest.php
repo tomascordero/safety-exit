@@ -104,19 +104,41 @@ it('does not enqueue font-awesome-free style if sftExt_rectangle_icon_onOff is n
     $safetyExitFrontend->sftExt_enqueue();
 });
 
-it('generates the correct custom CSS and JS', function () {
+it('generates the correct custom JS', function () {
     Functions\when('do_action')->justReturn(null);
     Functions\when('get_the_ID')->justReturn(1);
     Functions\when('is_front_page')->justReturn(false);
     $safetyExitFrontend = new Safety_Exit_Frontend();
+    $safetyExitFrontend->run_setup();
+    $js = $safetyExitFrontend->generate_js();
+    $this->assertIsString($js);
 
+    $this->assertEquals($js, "<script>window.sftExtBtn={};window.sftExtBtn.classes='bottom right rectangle';window.sftExtBtn.icon='<i class=\"fas fa-times\"></i>';window.sftExtBtn.newTabUrl='https://google.com';window.sftExtBtn.currentTabUrl='https://google.com';window.sftExtBtn.btnType='rectangle';window.sftExtBtn.text='Safety Exit';window.sftExtBtn.shouldShow=true;</script>");
 
-    // Call the safety_exit_custom_styling method
-    $output = $safetyExitFrontend->safety_exit_custom_styling();
-    // Log a message to the console
-    $this->assertIsString($output);
+});
 
-    // Assert that the output contains the expected CSS
-    $this->assertEquals($output, "<script>window.sftExtBtn =  {};window.sftExtBtn.classes = 'bottom right rectangle';window.sftExtBtn.icon = '<i class=\"fas fa-times\"></i>';window.sftExtBtn.newTabUrl = 'https://google.com';window.sftExtBtn.currentTabUrl = 'https://google.com';window.sftExtBtn.btnType = 'rectangle';window.sftExtBtn.text = 'Safety Exit';window.sftExtBtn.shouldShow = true;</script><style>:root {--sftExt_bgColor: rgba(58, 194, 208, 1);--sftExt_textColor: rgba(255, 255, 255, 1);--sftExt_active: inline-block;--sftExt_activeMobile: inline-block;--sftExt_mobileBreakPoint: 600px;--sftExt_rectangle_fontSize: 1rem;--sftExt_rectangle_letterSpacing: inherit;--sftExt_rectangle_borderRadius: 100px;}</style>");
+it('generates the correct custom CSS', function () {
+    Functions\when('do_action')->justReturn(null);
+    Functions\when('get_the_ID')->justReturn(1);
+    Functions\when('is_front_page')->justReturn(false);
+    $safetyExitFrontend = new Safety_Exit_Frontend();
+    $safetyExitFrontend->run_setup();
+    $css = $safetyExitFrontend->generate_css();
+    $this->assertIsString($css);
+
+    $this->assertEquals($css, "<style>:root{--sftExt_bgColor:rgba(58, 194, 208, 1);--sftExt_textColor:rgba(255, 255, 255, 1);--sftExt_active:inline-block;--sftExt_activeMobile:inline-block;--sftExt_mobileBreakPoint:600px;--sftExt_rectangle_fontSize:1rem;--sftExt_rectangle_letterSpacing:inherit;--sftExt_rectangle_borderRadius:100px;}</style>");
+
+});
+
+it('generates the correct custom HTML', function () {
+    Functions\when('do_action')->justReturn(null);
+    Functions\when('get_the_ID')->justReturn(1);
+    Functions\when('is_front_page')->justReturn(false);
+    $safetyExitFrontend = new Safety_Exit_Frontend();
+    $safetyExitFrontend->run_setup();
+    $html = $safetyExitFrontend->generate_html();
+    $this->assertIsString($html);
+
+    $this->assertEquals($html, "<button id=\"sftExt-frontend-button\" class=\"bottom right rectangle\" data-new-tab=\"https://google.com\" data-url=\"https://google.com\"><div class=\"sftExt-inner\"><i class=\"fas fa-times\"></i><span>Safety Exit</span></div></button>");
 
 });
