@@ -1,9 +1,5 @@
 <?php
-/**
- * Creates the submenu item for the plugin.
- *
- * @package Custom_Admin_Settings
- */
+namespace SafetyExit;
 
 /**
  * Creates the submenu item for the plugin.
@@ -72,8 +68,8 @@ class Safety_Exit_Admin {
 
             wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
             wp_enqueue_style('sftExt-admin-admin', $this->root . 'assets/css/admin.css');
-            wp_enqueue_script('sftExt-admin-color-picker', $this->root . 'assets/js/vanilla-picker.min.js');
-            wp_enqueue_script('sftExt-admin-icon-picker-js', $this->root . 'assets/js/fontawesome-iconpicker.min.js');
+            wp_enqueue_script('sftExt-admin-color-picker', $this->root . 'assets/vendor/vanilla-picker.min.js');
+            wp_enqueue_script('sftExt-admin-icon-picker-js', $this->root . 'assets/vendor/fontawesome-iconpicker.min.js');
             wp_register_script('sftExt-admin-js', $this->root . 'assets/js/admin.js', array('jquery', 'sftExt-admin-icon-picker-js', 'sftExt-admin-color-picker'));
             wp_enqueue_script( 'sftExt-admin-js');
 

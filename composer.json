@@ -1,0 +1,25 @@
+{
+    "require": {
+        "php": "^7.1 || ^8.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.34",
+        "brain/monkey": "^2.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "type": "wordpress-plugin",
+    "scripts": {
+        "test": "./vendor/bin/pest",
+        "dev": "rm -rf vendor/ && composer install",
+        "prod": "rm -rf vendor/ && composer install --no-dev --optimize-autoloader"
+    },
+    "autoload": {
+        "psr-4": {
+            "SafetyExit\\": "lib/"
+        }
+    }
+}

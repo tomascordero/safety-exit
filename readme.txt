@@ -3,9 +3,9 @@ Contributors: tcordero
 Tags: quick exit, safety exit, stop abuse, no domestic violence, safe browsing, exit, fast exit, domestic violence, panic button
 Donate link: https://tomascordero.com
 Requires at least: 5.2.0
-Tested up to: 6.2.2
-Requires PHP: 5.2.4
-Stable tag: 1.6.5
+Tested up to: 6.4.3
+Requires PHP: 5.6.0
+Stable tag: 1.7.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,12 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.7.0:
+	- Refactor: Completely reworked how the button is rendered. It will try to render via HTML first. If it cant it will render with JS. This should finally fix all theme related problems.
+	- Improved: Got some unit testing in place. When the plugin's admin UI gets refactored this will help ensuring nothing breaks on the front end.
+	- Removed: I removed the contrast checker. It was large, annoying and didn't work very well. I will be replacing it with something better in V2.
+	- Fix: Button will no longer appear on the print view.
+	- Tweak: Bumped up the minimum PHP version required from 5.2 to 5.6. Really you shouldn't be on anything less than 7.4.
 1.6.5:
 	- Refactor: Build pipeline
 	- Improved: Accessibility
@@ -71,7 +77,7 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 1.4.2:
 	- Fixed: Updated CSS for round and square buttons to center icon.
 	- Fixed: Removed random options file that was hanging up server cron jobs.
-	- Improved: Added some needed security to protect agains attacks.
+	- Improved: Added some needed security to protect against attacks.
 1.4.1:
 	- Fixed: Hot fix for the page selection tool
 1.4.0:
@@ -84,9 +90,9 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 	- New: Added option to change border radius on the rectangle.
 	- New: Added option for square button
 	- Tweak: Moved the settings link to the main menu and out from under the settings tab. This should make it easier to find.
-	- Fixed: The round button had a bug where it wouldnt display the icon correctly. That is fixed and should display correctly
+	- Fixed: The round button had a bug where it wouldn't display the icon correctly. That is fixed and should display correctly
 1.1.3:
-	- Tweak: Made it so you arent forced to have all uppercase text. Now to control the font capitalization you just type the word with the capitalization you want to be displayed
+	- Tweak: Made it so you aren't forced to have all uppercase text. Now to control the font capitalization you just type the word with the capitalization you want to be displayed
 1.0.3:
 	- Fixed: 404s on frontend
 1.0.2:
