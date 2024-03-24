@@ -18,6 +18,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: safety-exit
  */
+require plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
 
 use SafetyExit\Safety_Exit_Frontend;
 

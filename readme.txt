@@ -4,7 +4,7 @@ Tags: quick exit, safety exit, stop abuse, no domestic violence, safe browsing, 
 Donate link: https://tomascordero.com
 Requires at least: 5.2.0
 Tested up to: 6.4.3
-Requires PHP: 5.2.4
+Requires PHP: 5.4.0
 Stable tag: 1.7.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -52,6 +52,7 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 	- Improved: Got some unit testing in place. When the plugin's admin UI gets refactored this will help ensuring nothing breaks on the front end.
 	- Removed: I removed the contrast checker. It was large, annoying and didn't work very well. I will be replacing it with something better in V2.
 	- Fix: Button will no longer appear on the print view.
+	- Tweak: Bumped up the minimum PHP version required from 5.2 to 5.4. Really you shouldn't be on anything less than 7.4.
 1.6.5:
 	- Refactor: Build pipeline
 	- Improved: Accessibility
