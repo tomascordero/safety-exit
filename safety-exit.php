@@ -26,6 +26,7 @@ require plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
 
 use SafetyExit\Safety_Exit_Frontend;
 use SafetyExit\Safety_Exit_Admin;
+use SafetyExit\Controllers\AdminController;
 
 $path = realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php";
 
@@ -57,7 +58,10 @@ if( !$errors ) {
     $url_path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
 	if ( is_admin() ){
 		if(current_user_can('administrator')){
-			(new Safety_Exit_Admin(__FILE__))->init();
+            $admin = new AdminController();
+            $admin->fetchManifest();
+            exit();
+			// (new Safety_Exit_Admin(__FILE__))->init();
 		}
 	} else if (in_array($url_path, array('/wp-login.php', '/admin', '/wp-admin', '/login'))){
 		(new Safety_Exit_Frontend(__FILE__))->init();

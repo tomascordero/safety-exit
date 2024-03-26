@@ -1,36 +1,29 @@
-// vite.config.js
+import vue from '@vitejs/plugin-vue';
+import svgLoader from 'vite-svg-loader';
+import path from 'path';
 import {
     defineConfig
 } from 'vite';
 
 export default defineConfig({
-    root: 'src',
-    server: {
-        watch: {
-            include: ['src/**/**'],
-            exclude: ['node_modules']
-        },
-    },
+    plugins: [
+        vue(),
+        svgLoader(),
+    ],
     build: {
-        outDir: 'assets',
-        emptyOutDir: false,
+        manifest: true,
+        outDir: 'dist',
         rollupOptions: {
             input: {
-                frontend: 'src/js/frontend.js',
-                // TODO: Refactor the admin scripts to not need external libraries.
-                admin: 'src/js/admin.js',
-            },
-            output: {
-                dir: 'assets',
-                entryFileNames: 'js/[name].js',
-                chunkFileNames: 'js/[name].js',
-                assetFileNames: 'css/[name].[ext]',
+                frontend: './src/js/frontend.js',
+                admin: './src/js/admin.js',
             },
         },
     },
     resolve: {
         alias: {
-            '@': '/src'
+            '@': path.resolve(__dirname, './src/js'),
+            '@styles': path.resolve(__dirname, './src/css')
         }
     },
     // CSS options

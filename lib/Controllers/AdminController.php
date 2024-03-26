@@ -2,15 +2,20 @@
 
 namespace SafetyExit\Controllers;
 
+use Symfony\Component\VarDumper\VarDumper as DD;
+
 class AdminController
 {
     private $btnDefaults = [];
 
+    private $root;
+
     public function __construct()
     {
+        $this->root = plugins_url() . '/safety-exit/';
         add_action( 'admin_menu', array( $this, 'addMenuPages' ) );
-        add_action( 'admin_init', array( $this, 'plugin_admin_init') );
-        add_action( 'admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts') );
+        add_action( 'admin_init', array( $this, 'init') );
+        add_action( 'admin_enqueue_scripts',  array( $this, 'enqueueScripts') );
 
         $this->btnDefaults = [
             'sftExt_position' => 'bottom right',
@@ -30,7 +35,7 @@ class AdminController
             'sftExt_show_all' => 'yes',
             'sftExt_front_page' => 'yes',
             'sftExt_pages' => array()
-        ]
+        ];
 
     }
 
@@ -47,10 +52,36 @@ class AdminController
         );
     }
 
-    public function plugin_admin_init(){
-
+    public function init(){
         if(current_user_can('administrator')){
             register_setting( 'pluginPage', 'sftExt_settings' );
         }
 	}
+
+    public function fetchManifest() {
+        // DD::dump(plugin_dir_path(__FILE__) . '../../dist/.vite/manifest.json');
+        // exit();
+        $manifest = json_decode(file_get_contents(plugin_dir_path(__FILE__) . '../../dist/.vite/manifest.json'), true);
+        DD::dump($manifest);
+        exit();
+        // return $manifest;
+    }
+
+    public function enqueueScripts($hook){
+        // echo $hook;die;
+        $this->fetchManifest();
+        if( $hook == 'toplevel_page_safety_exit' ) {
+
+            // wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
+            // wp_enqueue_style('sftExt-admin-admin', $this->root . 'assets/css/admin.css');
+            // wp_enqueue_script('sftExt-admin-color-picker', $this->root . 'assets/vendor/vanilla-picker.min.js');
+            // wp_enqueue_script('sftExt-admin-icon-picker-js', $this->root . 'assets/vendor/fontawesome-iconpicker.min.js');
+            wp_register_script('sftExt-admin-js', $this->root . 'assets/js/admin.js', array('jquery', 'sftExt-admin-icon-picker-js', 'sftExt-admin-color-picker'));
+            wp_enqueue_script( 'sftExt-admin-js');
+
+            // wp_register_script( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/js/all.js' );
+            wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
+
+        }
+    }
 }

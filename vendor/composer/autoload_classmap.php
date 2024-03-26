@@ -7,6 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'SafetyExit\\Controllers\\AdminController' => $baseDir . '/lib/Controllers/AdminController.php',
+    'SafetyExit\\Controllers\\ApiController' => $baseDir . '/lib/Controllers/ApiController.php',
+    'SafetyExit\\Controllers\\FrontendController' => $baseDir . '/lib/Controllers/FrontendController.php',
     'SafetyExit\\Safety_Exit_Admin' => $baseDir . '/lib/Safety_Exit_Admin.php',
     'SafetyExit\\Safety_Exit_Frontend' => $baseDir . '/lib/Safety_Exit_Frontend.php',
 );

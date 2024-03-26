@@ -8,4 +8,13 @@ class ApiController
     {
 
     }
+
+    public function registerRoutes()
+    {
+
+    }
+
+    // get settings
+
+    // update settings
 }
