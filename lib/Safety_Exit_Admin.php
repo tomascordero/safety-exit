@@ -307,23 +307,23 @@ class Safety_Exit_Admin {
                 break;
             case 'sftExt_fontawesome_icon_classes':
                 ?>
-                    <div id="sftExt_icon_display" style="height: 75px;"><i class="fa-3x <?= $options['sftExt_fontawesome_icon_classes']; ?>"></i></div>
+                    <div id="sftExt_icon_display" style="height: 75px;"><i class="fa-3x <?= esc_attr($options['sftExt_fontawesome_icon_classes']); ?>"></i></div>
                     <!-- <button id="sftExt_fontawesome_icon_classes_btn" >Change Icon</button> -->
-                    <input type="hidden" id="sftExt_fontawesome_icon_classes" name="sftExt_settings[sftExt_fontawesome_icon_classes]" value="<?= $options['sftExt_fontawesome_icon_classes']; ?>">
+                    <input type="hidden" id="sftExt_fontawesome_icon_classes" name="sftExt_settings[sftExt_fontawesome_icon_classes]" value="<?= esc_attr( $options['sftExt_fontawesome_icon_classes'] ); ?>">
 
                 <?php
                 break;
             case 'sftExt_bg_color':
                 ?>
-                    <div id="sftExt_color_picker_btn_bg_color" style="background-color: <?= $options['sftExt_bg_color']?>">Choose Color</div>
-                    <input type="hidden" id="sftExt_bg_color" name="sftExt_settings[sftExt_bg_color]" value="<?= $options['sftExt_bg_color']; ?>">
+                    <div id="sftExt_color_picker_btn_bg_color" style="background-color: <?= esc_attr( $options['sftExt_bg_color'] )?>">Choose Color</div>
+                    <input type="hidden" id="sftExt_bg_color" name="sftExt_settings[sftExt_bg_color]" value="<?= esc_attr( $options['sftExt_bg_color'] ); ?>">
 
                 <?php
                 break;
             case 'sftExt_font_color':
                 ?>
-                    <div id="sftExt_color_picker_btn_font_color" style="background-color: <?= $options['sftExt_font_color']?>">Choose Color</div>
-                    <input type="hidden" id="sftExt_font_color" name="sftExt_settings[sftExt_font_color]" value="<?= $options['sftExt_font_color']; ?>">
+                    <div id="sftExt_color_picker_btn_font_color" style="background-color: <?= esc_attr( $options['sftExt_font_color'] ); ?>">Choose Color</div>
+                    <input type="hidden" id="sftExt_font_color" name="sftExt_settings[sftExt_font_color]" value="<?= esc_attr( $options['sftExt_font_color'] ); ?>">
 
                 <?php
                 break;
@@ -338,12 +338,12 @@ class Safety_Exit_Admin {
                 break;
             case 'sftExt_border_radius':
                 ?>
-                    <input type="number" id="sftExt_border_radius" name="sftExt_settings[sftExt_border_radius]" value="<?= $options['sftExt_border_radius']; ?>"> px
+                    <input type="number" id="sftExt_border_radius" name="sftExt_settings[sftExt_border_radius]" value="<?= esc_attr( $options['sftExt_border_radius'] ); ?>"> px
                 <?php
                 break;
             case 'sftExt_rectangle_font_size':
                 ?>
-                    <input type="number" id="sftExt_rectangle_font_size" name="sftExt_settings[sftExt_rectangle_font_size]" value="<?= $options['sftExt_rectangle_font_size']; ?>"> <span class="sftExt_units"><?= $options['sftExt_rectangle_font_size_units']; ?></span>
+                    <input type="number" id="sftExt_rectangle_font_size" name="sftExt_settings[sftExt_rectangle_font_size]" value="<?= esc_attr( $options['sftExt_rectangle_font_size'] ); ?>"> <span class="sftExt_units"><?= esc_attr( $options['sftExt_rectangle_font_size_units'] ); ?></span>
                 <?php
                 break;
             case 'sftExt_rectangle_font_size_units':
@@ -357,17 +357,17 @@ class Safety_Exit_Admin {
                 break;
             case 'sftExt_current_tab_url':
                 ?>
-                    <input type="text" id="sftExt_current_tab_url" name="sftExt_settings[sftExt_current_tab_url]" value="<?= $options['sftExt_current_tab_url']; ?>">
+                    <input type="text" id="sftExt_current_tab_url" name="sftExt_settings[sftExt_current_tab_url]" value="<?= esc_attr( $options['sftExt_current_tab_url'] ); ?>">
                 <?php
                 break;
             case 'sftExt_new_tab_url':
                 ?>
-                    <input type="text" id="sftExt_new_tab_url" name="sftExt_settings[sftExt_new_tab_url]" value="<?= $options['sftExt_new_tab_url']; ?>">
+                    <input type="text" id="sftExt_new_tab_url" name="sftExt_settings[sftExt_new_tab_url]" value="<?= esc_attr( $options['sftExt_new_tab_url'] ); ?>">
                 <?php
                 break;
             case 'sftExt_rectangle_text':
                 ?>
-                    <input type="text" id="sftExt_rectangle_text" name="sftExt_settings[sftExt_rectangle_text]" value="<?= $options['sftExt_rectangle_text']; ?>">
+                    <input type="text" id="sftExt_rectangle_text" name="sftExt_settings[sftExt_rectangle_text]" value="<?= esc_attr( $options['sftExt_rectangle_text'] ); ?>">
                 <?php
                 break;
             case 'sftExt_rectangle_icon_onOff':
@@ -387,7 +387,7 @@ class Safety_Exit_Admin {
 
                 ?>
                 <?php foreach($postIDs as $key => $postID) : ?>
-                    <input type="checkbox" name="sftExt_settings[sftExt_pages][]" id="sftExt_pages" value="<?= $postID; ?>" <?= in_array($postID, $options['sftExt_pages']) ? 'checked="checked"': ''?>> <?= get_the_title($postID); ?><br/>
+                    <input type="checkbox" name="sftExt_settings[sftExt_pages][]" id="sftExt_pages" value="<?= $postID; ?>" <?= in_array( $postID, $options['sftExt_pages'] ) ? 'checked="checked"': ''?>> <?= get_the_title( $postID ); ?><br/>
                 <?php endforeach; ?>
                 <?php
                 break;
