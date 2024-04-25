@@ -47,6 +47,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.7.1:
+	- Fix: Security fix
 1.7.0:
 	- Refactor: Completely reworked how the button is rendered. It will try to render via HTML first. If it cant it will render with JS. This should finally fix all theme related problems.
 	- Improved: Got some unit testing in place. When the plugin's admin UI gets refactored this will help ensuring nothing breaks on the front end.
