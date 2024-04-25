@@ -111,6 +111,9 @@ it('generates the correct custom JS', function () {
     Functions\when('do_action')->justReturn(null);
     Functions\when('get_the_ID')->justReturn(1);
     Functions\when('is_front_page')->justReturn(false);
+    Functions\when('esc_attr')->alias(function($text) {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    });
     $safetyExitFrontend = new Safety_Exit_Frontend();
     $safetyExitFrontend->run_setup();
     $js = $safetyExitFrontend->generate_js();
@@ -124,6 +127,9 @@ it('generates the correct custom CSS', function () {
     Functions\when('do_action')->justReturn(null);
     Functions\when('get_the_ID')->justReturn(1);
     Functions\when('is_front_page')->justReturn(false);
+    Functions\when('esc_attr')->alias(function($text) {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    });
     $safetyExitFrontend = new Safety_Exit_Frontend();
     $safetyExitFrontend->run_setup();
     $css = $safetyExitFrontend->generate_css();
@@ -137,6 +143,9 @@ it('generates the correct custom HTML', function () {
     Functions\when('do_action')->justReturn(null);
     Functions\when('get_the_ID')->justReturn(1);
     Functions\when('is_front_page')->justReturn(false);
+    Functions\when('esc_attr')->alias(function($text) {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    });
     $safetyExitFrontend = new Safety_Exit_Frontend();
     $safetyExitFrontend->run_setup();
     $html = $safetyExitFrontend->generate_html();
