@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 5.2.0
 Tested up to: 6.4.3
 Requires PHP: 5.6.0
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
