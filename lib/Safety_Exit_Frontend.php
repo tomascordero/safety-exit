@@ -73,12 +73,12 @@ class Safety_Exit_Frontend {
 		if($this->defaultSettings['sftExt_hide_mobile'] == 'yes') {
 			$this->hideOnMobile = true;
 		}
-		$this->classes = $this->defaultSettings['sftExt_position'] . ' ' . $this->defaultSettings['sftExt_type'];
+		$this->classes = esc_attr( $this->defaultSettings['sftExt_position'] ) . ' ' . esc_attr( $this->defaultSettings['sftExt_type'] );
 
 		if($this->defaultSettings['sftExt_rectangle_icon_onOff'] == 'yes' && $this->defaultSettings['sftExt_type'] == 'rectangle') {
-			$this->icon = '<i class="' . $this->defaultSettings['sftExt_fontawesome_icon_classes'] . '"></i>';
+			$this->icon = '<i class="' . esc_attr( $this->defaultSettings['sftExt_fontawesome_icon_classes'] ) . '"></i>';
 		}else if($this->defaultSettings['sftExt_type'] == 'round' || $this->defaultSettings['sftExt_type'] == 'square'){
-			$this->icon = '<i class="' . $this->defaultSettings['sftExt_fontawesome_icon_classes'] . '"></i>';
+			$this->icon = '<i class="' . esc_attr( $this->defaultSettings['sftExt_fontawesome_icon_classes'] ) . '"></i>';
 		}
 	}
 	public function sftExt_enqueue() {
@@ -112,10 +112,10 @@ class Safety_Exit_Frontend {
 		$js .= 'window.sftExtBtn={};';
 		$js .= 'window.sftExtBtn.classes=\'' . $this->classes . '\';';
 		$js .= 'window.sftExtBtn.icon=\'' . $this->icon . '\';';
-		$js .= 'window.sftExtBtn.newTabUrl=\'' . $this->defaultSettings['sftExt_new_tab_url'] . '\';';
-		$js .= 'window.sftExtBtn.currentTabUrl=\'' . $this->defaultSettings['sftExt_current_tab_url'] . '\';';
-		$js .= 'window.sftExtBtn.btnType=\'' . $this->defaultSettings['sftExt_type'] . '\';';
-		$js .= 'window.sftExtBtn.text=\'' . $this->defaultSettings['sftExt_rectangle_text'] . '\';';
+		$js .= 'window.sftExtBtn.newTabUrl=\'' . esc_attr( $this->defaultSettings['sftExt_new_tab_url'] ) . '\';';
+		$js .= 'window.sftExtBtn.currentTabUrl=\'' . esc_attr( $this->defaultSettings['sftExt_current_tab_url'] ) . '\';';
+		$js .= 'window.sftExtBtn.btnType=\'' . esc_attr( $this->defaultSettings['sftExt_type'] ) . '\';';
+		$js .= 'window.sftExtBtn.text=\'' . esc_attr( $this->defaultSettings['sftExt_rectangle_text'] ) . '\';';
 		$js .= 'window.sftExtBtn.shouldShow=' . ($this->displayButton ? 'true' : 'false') . ';';
 		$js .= '</script>';
 		return $js;
@@ -126,27 +126,27 @@ class Safety_Exit_Frontend {
 	public function generate_css() {
 		do_action( 'qm/debug', 'generating custom CSS' );
 		$css = '<style>:root{';
-		$css .= '--sftExt_bgColor:' . $this->defaultSettings['sftExt_bg_color'] . ';';
-		$css .= '--sftExt_textColor:' . $this->defaultSettings['sftExt_font_color'] . ';';
+		$css .= '--sftExt_bgColor:' . esc_attr( $this->defaultSettings['sftExt_bg_color'] ) . ';';
+		$css .= '--sftExt_textColor:' . esc_attr( $this->defaultSettings['sftExt_font_color'] ) . ';';
 		$css .= '--sftExt_active:' . (!$this->displayButton ? 'none !important' : 'inline-block') . ';';
 		$css .= '--sftExt_activeMobile:' . ($this->hideOnMobile ? 'none !important' : 'inline-block') . ';';
 		$css .= '--sftExt_mobileBreakPoint:600px;';
-		$css .= '--sftExt_rectangle_fontSize:' . $this->defaultSettings['sftExt_rectangle_font_size'] . $this->defaultSettings['sftExt_rectangle_font_size_units'] .';';
-		$css .= '--sftExt_rectangle_letterSpacing:' . $this->defaultSettings['sftExt_letter_spacing'] . ';';
-		$css .= '--sftExt_rectangle_borderRadius:' . $this->defaultSettings['sftExt_border_radius'] . 'px;';
+		$css .= '--sftExt_rectangle_fontSize:' . esc_attr( $this->defaultSettings['sftExt_rectangle_font_size'] ) . esc_attr( $this->defaultSettings['sftExt_rectangle_font_size_units'] ) .';';
+		$css .= '--sftExt_rectangle_letterSpacing:' . esc_attr( $this->defaultSettings['sftExt_letter_spacing'] ) . ';';
+		$css .= '--sftExt_rectangle_borderRadius:' . esc_attr( $this->defaultSettings['sftExt_border_radius'] ) . 'px;';
 		$css .= '}</style>';
 		return $css;
 	}
 
 	public function generate_html() {
-		$html = '<button id="sftExt-frontend-button" class="' . $this->classes . '" data-new-tab="' . $this->defaultSettings['sftExt_new_tab_url'] . '" data-url="' . $this->defaultSettings['sftExt_current_tab_url'] . '">';
+		$html = '<button id="sftExt-frontend-button" class="' . $this->classes . '" data-new-tab="' . esc_attr( $this->defaultSettings['sftExt_new_tab_url'] ) . '" data-url="' . esc_attr( $this->defaultSettings['sftExt_current_tab_url'] ) . '">';
 		$html .= '<div class="sftExt-inner">';
 		$html .= $this->icon ?? '';
 		$html .= '<span';
 		if ($this->defaultSettings['sftExt_type'] !== 'rectangle') {
 			$html .= ' class="sr-only"';
 		}
-		$html .= '>'. $this->defaultSettings['sftExt_rectangle_text'] .'</span>';
+		$html .= '>'. esc_attr( $this->defaultSettings['sftExt_rectangle_text'] ) .'</span>';
 		$html .= '</div>';
 		$html .= '</button>';
 		return $html;
