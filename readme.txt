@@ -1,7 +1,7 @@
 === Safety Exit ===
 Contributors: tcordero
 Tags: quick exit, safety exit, exit, fast exit, panic button
-Donate link: https://tomascordero.com
+Donate link: https://donate.stripe.com/9AQ8xr1mudzVbSw6oo
 Requires at least: 5.2.0
 Tested up to: 6.4.3
 Requires PHP: 5.6.0
