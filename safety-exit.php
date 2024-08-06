@@ -20,54 +20,30 @@
  */
 require plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
 
-use SafetyExit\Safety_Exit_Frontend;
-use SafetyExit\Safety_Exit_Admin;
-
-$path = realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php";
-
-// This adds support for bedrock, ABSPATH is set by bedrock as part of the config.
-if(defined('ABSPATH')){
-    $path = ABSPATH . '/wp-includes/pluggable.php';
-}
-
-$errors = false;
-// Check to see if required file exists. If not do not initialize plugin
-try {
-    if( !file_exists( $path ) ) {
-        throw new Exception ('Unable to load pluggable.php in: ' . $path . ' Safety Exit is disabled until this error is fixed.');
-    }else{
-        require_once($path);
-    }
-}catch(Exception $e){
-    if ( is_admin() ){
-        ?>
-        <div class="error notice">
-            <p><?= $e->getMessage(); ?></p>
-        </div>
-        <?php
-    }
-    $errors = true;
-}
+use SafetyExit\Frontend;
+use SafetyExit\Admin;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( !defined('WPINC') ) {
 	die;
 }
 
-if( !$errors ) {
+add_action('plugins_loaded', 'initSafetyExit');
+
+function initSafetyExit() {
     $url_path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
-	if ( is_admin() ){
-		if(current_user_can('administrator')){
-			$admin = new Safety_Exit_Admin(__FILE__);
-			$admin->init();
-		}
-	} else if (
+    if ( is_admin() ){
+        if(current_user_can('administrator')){
+            $admin = new Admin(__FILE__);
+            $admin->init();
+        }
+    } else if (
         $url_path !== '/wp-login.php'
         && $url_path !== '/admin'
         && $url_path !== '/wp-admin'
         && $url_path !== '/login'
     ){
-		$frontend = new Safety_Exit_Frontend(__FILE__);
-		$frontend->init();
-	}
+        $frontend = new Frontend(__FILE__);
+        $frontend->init();
+    }
 }

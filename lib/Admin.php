@@ -9,7 +9,7 @@ namespace SafetyExit;
  *
  * @package Custom_Admin_Settings
  */
-class Safety_Exit_Admin {
+class Admin {
 
     private $root = '';
     private $rootFile = '';

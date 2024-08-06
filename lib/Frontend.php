@@ -12,7 +12,7 @@ namespace SafetyExit;
  *
  * @package Frontend_stuff
  */
-class Safety_Exit_Frontend {
+class Frontend {
 
 	private $buttonInitialized = false;
 
