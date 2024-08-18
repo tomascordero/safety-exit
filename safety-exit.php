@@ -43,7 +43,6 @@ function initSafetyExit() {
         && $url_path !== '/wp-admin'
         && $url_path !== '/login'
     ){
-        $frontend = new Frontend(__FILE__);
-        $frontend->init();
+        $frontend = new Frontend();
     }
 }

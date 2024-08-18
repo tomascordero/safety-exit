@@ -1,30 +1,16 @@
 <?php
 
 namespace SafetyExit;
-/**
- * Handle all frontend stuff
- *
- * @package Frontend_stuff
- */
 
-/**
- * Creates the submenu item for the plugin.
- *
- * @package Frontend_stuff
- */
 class Frontend {
-
-	private $buttonInitialized = false;
-
 	private $defaultSettings;
-
 	private $classes = '';
 	private $displayButton = true;
 	private $icon = '';
 	private $hideOnMobile = false;
 
-	public function __construct() {
-
+	public function __construct()
+	{
 		$this->defaultSettings = wp_parse_args(get_option('sftExt_settings'), array(
 			'sftExt_position' => 'bottom right',
 			'sftExt_fontawesome_icon_classes' => 'fas fa-times',
@@ -45,17 +31,50 @@ class Frontend {
 			'sftExt_pages' => array()
 		));
 
-
-	}
-	public function init() {
-		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
+		add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 		do_action( 'qm/debug', 'wp_enqueue_scripts fired' );
-		add_action('wp_head', array($this, 'echo_safety_exit_custom_styling'));
-		add_action( 'wp_body_open', array($this, 'echo_safety_exit_html'), 100 );
+		add_action('wp_head', array($this, 'runSetup'));
+		add_action('wp_head', array($this, 'outputStyles'));
+		add_action( 'wp_body_open', array($this, 'outputHtml'), 100 );
 		do_action( 'qm/debug', 'wp_body_open fired' );
-    }
-	public function run_setup() {
+	}
 
+	public function enqueueScripts()
+	{
+		if ($this->displayButton) {
+			wp_enqueue_style('frontendCSS', plugins_url() . '/safety-exit/assets/css/frontend.css');
+			wp_enqueue_script( 'frontendJs', plugins_url() . '/safety-exit/assets/js/frontend.js', array('jquery') );
+		}
+
+		$args = wp_parse_args(get_option('sftExt_settings'), array(
+        	'sftExt_rectangle_icon_onOff' => 'yes'
+		));
+
+		if(isset($args['sftExt_rectangle_icon_onOff']) && $args['sftExt_rectangle_icon_onOff'] !== 'no') {
+			wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
+		}
+	}
+	public function outputStyles()
+	{
+		if ($this->displayButton) {
+			echo $this->generateJs();
+			echo $this->generateCss();
+		}
+	}
+	public function outputHtml()
+	{
+		if ($this->displayButton) {
+			echo $this->generateHtml();
+		}
+	}
+
+	/**
+	 * Method runSetup
+	 *
+	 * @return void
+	 */
+	public function runSetup()
+	{
 		if($this->defaultSettings['sftExt_show_all'] == 'no'){
 			if( !in_array(get_the_ID(), $this->defaultSettings['sftExt_pages'])){
 				$this->displayButton = false;
@@ -81,64 +100,56 @@ class Frontend {
 			$this->icon = '<i class="' . esc_attr( $this->defaultSettings['sftExt_fontawesome_icon_classes'] ) . '"></i>';
 		}
 	}
-	public function sftExt_enqueue() {
-		if ($this->displayButton) {
-			wp_enqueue_style('frontendCSS', plugins_url() . '/safety-exit/assets/css/frontend.css');
-			wp_enqueue_script( 'frontendJs', plugins_url() . '/safety-exit/assets/js/frontend.js', array('jquery') );
-		}
 
-		$args = wp_parse_args(get_option('sftExt_settings'), array(
-        	'sftExt_rectangle_icon_onOff' => 'yes'
-		));
-
-		if(isset($args['sftExt_rectangle_icon_onOff']) && $args['sftExt_rectangle_icon_onOff'] !== 'no') {
-			wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
-		}
-	}
-	public function echo_safety_exit_custom_styling() {
-		$this->run_setup();
-		echo $this->generate_js();
-		echo $this->generate_css();
-	}
-	public function echo_safety_exit_html() {
-		$this->run_setup();
-		if ($this->displayButton) {
-			echo $this->generate_html();
-		}
-	}
-	public function generate_js() {
+	/**
+	 * Method generateJs
+	 *
+	 * Creates the JS object that will be used to configure the frontend button
+	 *
+	 * @return string
+	 */
+	private function generateJs()
+	{
 		do_action( 'qm/debug', 'generating JS' );
-		$js = '<script>';
-		$js .= 'window.sftExtBtn={};';
-		$js .= 'window.sftExtBtn.classes=\'' . $this->classes . '\';';
-		$js .= 'window.sftExtBtn.icon=\'' . $this->icon . '\';';
-		$js .= 'window.sftExtBtn.newTabUrl=\'' . esc_attr( $this->defaultSettings['sftExt_new_tab_url'] ) . '\';';
-		$js .= 'window.sftExtBtn.currentTabUrl=\'' . esc_attr( $this->defaultSettings['sftExt_current_tab_url'] ) . '\';';
-		$js .= 'window.sftExtBtn.btnType=\'' . esc_attr( $this->defaultSettings['sftExt_type'] ) . '\';';
-		$js .= 'window.sftExtBtn.text=\'' . esc_attr( $this->defaultSettings['sftExt_rectangle_text'] ) . '\';';
-		$js .= 'window.sftExtBtn.shouldShow=' . ($this->displayButton ? 'true' : 'false') . ';';
-		$js .= '</script>';
+		$jsSettings = [
+			'classes' => $this->classes,
+			'icon' => $this->icon,
+			'newTabUrl' => esc_attr( $this->defaultSettings['sftExt_new_tab_url'] ),
+			'currentTabUrl' => esc_attr( $this->defaultSettings['sftExt_current_tab_url'] ),
+			'btnType' => esc_attr( $this->defaultSettings['sftExt_type'] ),
+			'text' => esc_attr( $this->defaultSettings['sftExt_rectangle_text'] ),
+			'shouldShow' => $this->displayButton
+		];
+		$js = '<script>window.sftExtBtn=' . json_encode($jsSettings) . ';</script>';
 		return $js;
 	}
 
-
-
-	public function generate_css() {
+	/**
+	 * Method generateCss
+	 *
+	 * Creates the CSS variables that will be used to style the frontend button
+	 *
+	 * @return string
+	 */
+	private function generateCss()
+	{
 		do_action( 'qm/debug', 'generating custom CSS' );
-		$css = '<style>:root{';
-		$css .= '--sftExt_bgColor:' . esc_attr( $this->defaultSettings['sftExt_bg_color'] ) . ';';
-		$css .= '--sftExt_textColor:' . esc_attr( $this->defaultSettings['sftExt_font_color'] ) . ';';
-		$css .= '--sftExt_active:' . (!$this->displayButton ? 'none !important' : 'inline-block') . ';';
-		$css .= '--sftExt_activeMobile:' . ($this->hideOnMobile ? 'none !important' : 'inline-block') . ';';
-		$css .= '--sftExt_mobileBreakPoint:600px;';
-		$css .= '--sftExt_rectangle_fontSize:' . esc_attr( $this->defaultSettings['sftExt_rectangle_font_size'] ) . esc_attr( $this->defaultSettings['sftExt_rectangle_font_size_units'] ) .';';
-		$css .= '--sftExt_rectangle_letterSpacing:' . esc_attr( $this->defaultSettings['sftExt_letter_spacing'] ) . ';';
-		$css .= '--sftExt_rectangle_borderRadius:' . esc_attr( $this->defaultSettings['sftExt_border_radius'] ) . 'px;';
-		$css .= '}</style>';
+		$cssVariables = [
+			'bgColor' => $this->defaultSettings['sftExt_bg_color'],
+			'textColor' => $this->defaultSettings['sftExt_font_color'],
+			'active' => $this->displayButton ? 'inline-block' : 'none !important',
+			'activeMobile' => $this->hideOnMobile ? 'none !important' : 'inline-block',
+			'mobileBreakPoint' => '600px',
+			'rectangle_fontSize' => $this->defaultSettings['sftExt_rectangle_font_size'] . $this->defaultSettings['sftExt_rectangle_font_size_units'],
+			'rectangle_letterSpacing' => $this->defaultSettings['sftExt_letter_spacing'],
+			'rectangle_borderRadius' => $this->defaultSettings['sftExt_border_radius'] . 'px'
+		];
+		$css = '<style>:root{' . $this->arrayToCss($cssVariables, '--sftExt_') . '}</style>';
 		return $css;
 	}
 
-	public function generate_html() {
+	private function generateHtml()
+	{
 		$html = '<button id="sftExt-frontend-button" class="' . $this->classes . '" data-new-tab="' . esc_attr( $this->defaultSettings['sftExt_new_tab_url'] ) . '" data-url="' . esc_attr( $this->defaultSettings['sftExt_current_tab_url'] ) . '">';
 		$html .= '<div class="sftExt-inner">';
 		$html .= $this->icon ?? '';
@@ -152,4 +163,12 @@ class Frontend {
 		return $html;
 	}
 
+	private function arrayToCss($array, $prefix = '')
+	{
+		$css = '';
+		foreach ($array as $key => $value) {
+			$css .= $prefix . $key . ':' . esc_attr($value) . ';';
+		}
+		return $css;
+	}
 }
