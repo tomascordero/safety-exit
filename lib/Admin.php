@@ -1,56 +1,30 @@
 <?php
 namespace SafetyExit;
 
-/**
- * Creates the submenu item for the plugin.
- *
- * Registers a new menu item under 'Tools' and uses the dependency passed into
- * the constructor in order to display the page corresponding to this menu item.
- *
- * @package Custom_Admin_Settings
- */
 class Admin {
 
     private $root = '';
-    private $rootFile = '';
-    public function __construct( $file ) {
-        $this->root = plugins_url() . '/safety-exit/';
-        $this->rootFile = $file;
-    }
 
-    public function init() {
+    public function __construct()
+    {
+        $this->root = plugins_url() . '/safety-exit/';
 
         add_action( 'admin_menu', array( $this, 'safety_exit_add_options_page' ) );
         add_action( 'admin_init', array( $this, 'plugin_admin_init') );
         add_action( 'admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts') );
-        // add_action( 'admin_head-nav-menus.php', array( $this, 'my_register_menu_metabox'), 10, 1  );
-        // add_action( 'update_option_sftExt_settings', array($this, 'sftExt_generateCSS') );
     }
-    // public function my_register_menu_metabox(  ) {
-    //     $custom_param = array( 0 => 'This param will be passed to my_render_menu_metabox' );
 
-	//     add_meta_box(
-    //         'my-menu-test-metabox',
-    //         'Safety Exit Button',
-    //         array( $this, 'my_render_menu_metabox'),
-    //         'nav-menus',
-    //         'side',
-    //         'default',
-    //         $custom_param );
-    // }
-
-    public function sftExt_generateCSS() {
-        // die;
+    public function sftExt_generateCSS()
+    {
         $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
         $cssString = '#sftExt-frontend-button.rectangle{font-size: '. $options['sftExt_rectangle_font_size'] . $options['sftExt_rectangle_font_size_units'] . ';}' ;
         wp_parse_args(update_option('sftExt_settings'), array(
             'sftExt_css' => $cssString
         ));
-        // update_option('sftExt_css', $cssString);
     }
 
-    public function safety_exit_add_options_page() {
-        // echo $this->root;die;
+    public function safety_exit_add_options_page()
+    {
         add_menu_page(
             'Safety Exit Options',
             'Safety Exit',
@@ -62,10 +36,9 @@ class Admin {
             'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNmZmY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5Bc3NldCAxPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxnIGlkPSJtaXUiPjxnIGlkPSJBcnRib2FyZC0xIj48cGF0aCBpZD0iY29tbW9uLWxvZ291dC1zaWdub3V0LWV4aXQtZ2x5cGgiIGNsYXNzPSJjbHMtMSIgZD0iTTAsMFYyMkgxNVYxNkgxM3Y0SDJWMkgxM1Y2aDJWMFpNMTUuNjQsNy40NmwxLjQxLTEuNDFMMjIsMTFsLTQuOTUsNC45NS0xLjQxLTEuNDFMMTguMTcsMTJIN1YxMEgxOC4xN1oiLz48L2c+PC9nPjwvZz48L2c+PC9zdmc+'
         );
     }
-    public function plugin_admin_enqueue_scripts($hook){
-        // echo $hook;die;
+    public function plugin_admin_enqueue_scripts($hook)
+    {
         if( $hook == 'toplevel_page_safety_exit' ) {
-
             wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
             wp_enqueue_style('sftExt-admin-admin', $this->root . 'assets/css/admin.css');
             wp_enqueue_script('sftExt-admin-color-picker', $this->root . 'assets/vendor/vanilla-picker.min.js');
@@ -98,7 +71,8 @@ class Admin {
         'sftExt_pages' => array()
     );
 
-    public function plugin_admin_init(){
+    public function plugin_admin_init()
+    {
 
         if(current_user_can('administrator')){
 
@@ -292,7 +266,8 @@ class Admin {
         }
 	}
 
-    function sftExt_options_render( $args ) {
+    function sftExt_options_render( $args )
+    {
         $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
 
         switch($args['label_for']) {
@@ -413,11 +388,9 @@ class Admin {
     }
 
 
-    function sftExt_settings_section_callback( $args ) {
+    function sftExt_settings_section_callback( $args )
+    {
         switch($args['id']){
-            // case 'sftExt_pluginPage_section':
-            //     echo __( 'This section description', 'wordpress' );
-            //     break;
             case 'sftExt_pluginPage_redirection_options':
                 echo __( 'Enter the URLs you want the button to redirect to', 'wordpress' );
                 break;

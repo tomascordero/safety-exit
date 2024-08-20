@@ -34,8 +34,7 @@ function initSafetyExit() {
     $url_path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
     if ( is_admin() ){
         if(current_user_can('administrator')){
-            $admin = new Admin(__FILE__);
-            $admin->init();
+            $admin = new Admin();
         }
     } else if (
         $url_path !== '/wp-login.php'

@@ -1,6 +1,6 @@
 <?php
 
-use SafetyExit\Safety_Exit_Frontend;
+use SafetyExit\Frontend;
 use Brain\Monkey\Functions;
 
 
@@ -37,6 +37,9 @@ beforeEach(function () {
             return true;
         },
         'do_action' => true,
+        'add_action' => function () {
+            // Do nothing
+        },
     ]);
 });
 
@@ -45,30 +48,30 @@ afterEach(function () {
     Brain\Monkey\tearDown();
 });
 
-it('calls wp_enqueue_scripts and wp_head actions on init', function () {
+it('calls wp_enqueue_scripts and wp_head actions on construct', function () {
 
-    $safetyExitFrontend = new Safety_Exit_Frontend();
+    $safetyExitFrontend = new Frontend();
 
 
-    $this->assertInstanceOf(Safety_Exit_Frontend::class, $safetyExitFrontend);
+    $this->assertInstanceOf(Frontend::class, $safetyExitFrontend);
 
     // Assert that add_action was called with the expected parameters
     Functions\expect('add_action')
         ->once()
-        ->with('wp_enqueue_scripts', [$safetyExitFrontend, 'sftExt_enqueue']);
+        ->with('wp_enqueue_scripts', [$safetyExitFrontend, 'enqueueScripts']);
     Functions\expect('add_action')
         ->once()
-        ->with('wp_body_open', [$safetyExitFrontend, 'echo_safety_exit_html'], 100);
+        ->with('wp_head', [$safetyExitFrontend, 'runSetup']);
     Functions\expect('add_action')
         ->once()
-        ->with('wp_head', [$safetyExitFrontend, 'echo_safety_exit_custom_styling']);
-
-    // Call the init method
-    $safetyExitFrontend->init();
+        ->with('wp_head', [$safetyExitFrontend, 'outputCss']);
+    Functions\expect('add_action')
+        ->once()
+        ->with('wp_body_open', [$safetyExitFrontend, 'outputHtml'], 100);
 });
 
 it('enqueues the necessary styles and scripts', function () {
-    $safetyExitFrontend = new Safety_Exit_Frontend();
+    $safetyExitFrontend = new Frontend();
 
     // Assert that wp_enqueue_style and wp_enqueue_script were called with the expected parameters
     Functions\expect('wp_enqueue_style')
@@ -87,7 +90,7 @@ it('enqueues the necessary styles and scripts', function () {
 });
 
 it('does not enqueue font-awesome-free style if sftExt_rectangle_icon_onOff is no', function () {
-    $safetyExitFrontend = new Safety_Exit_Frontend();
+    $safetyExitFrontend = new Frontend();
 
     Functions\expect('wp_enqueue_style')
         ->once()
@@ -114,8 +117,8 @@ it('generates the correct custom JS', function () {
     Functions\when('esc_attr')->alias(function($text) {
         return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
     });
-    $safetyExitFrontend = new Safety_Exit_Frontend();
-    $safetyExitFrontend->run_setup();
+    $safetyExitFrontend = new Frontend();
+    $safetyExitFrontend->runSetup();
     $js = $safetyExitFrontend->generate_js();
     $this->assertIsString($js);
 
@@ -130,8 +133,8 @@ it('generates the correct custom CSS', function () {
     Functions\when('esc_attr')->alias(function($text) {
         return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
     });
-    $safetyExitFrontend = new Safety_Exit_Frontend();
-    $safetyExitFrontend->run_setup();
+    $safetyExitFrontend = new Frontend();
+    $safetyExitFrontend->runSetup();
     $css = $safetyExitFrontend->generate_css();
     $this->assertIsString($css);
 
@@ -146,8 +149,8 @@ it('generates the correct custom HTML', function () {
     Functions\when('esc_attr')->alias(function($text) {
         return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
     });
-    $safetyExitFrontend = new Safety_Exit_Frontend();
-    $safetyExitFrontend->run_setup();
+    $safetyExitFrontend = new Frontend();
+    $safetyExitFrontend->runSetup();
     $html = $safetyExitFrontend->generate_html();
     $this->assertIsString($html);
 
