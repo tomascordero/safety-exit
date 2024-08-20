@@ -1,29 +1,42 @@
 <?php
 namespace SafetyExit;
 
+use SafetyExit\Util\Config;
+
 class Admin {
 
     private $root = '';
 
+    private $defaults = [];
+
     public function __construct()
     {
         $this->root = plugins_url() . '/safety-exit/';
+        $this->defaults = Config::get('defaults');
 
-        add_action( 'admin_menu', array( $this, 'safety_exit_add_options_page' ) );
-        add_action( 'admin_init', array( $this, 'plugin_admin_init') );
-        add_action( 'admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts') );
+        register_activation_hook(__FILE__, array($this, 'initialize_settings'));
+
+        // Hook to check settings on plugin load
+        add_action('plugins_loaded', array($this, 'check_settings_on_load'));
+
+        add_action( 'admin_menu', array( $this, 'addOptionsPage' ) );
+        add_action( 'admin_init', array( $this, 'adminInit') );
+        add_action( 'admin_enqueue_scripts',  array( $this, 'enqueScripts') );
     }
 
-    public function sftExt_generateCSS()
-    {
-        $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
-        $cssString = '#sftExt-frontend-button.rectangle{font-size: '. $options['sftExt_rectangle_font_size'] . $options['sftExt_rectangle_font_size_units'] . ';}' ;
-        wp_parse_args(update_option('sftExt_settings'), array(
-            'sftExt_css' => $cssString
-        ));
+    public function initialize_settings() {
+        $default_settings = $this->defaults;
+
+        if (get_option('my_plugin_settings') === false) {
+            add_option('my_plugin_settings', $default_settings);
+        }
     }
 
-    public function safety_exit_add_options_page()
+    public function check_settings_on_load() {
+        $this->initialize_settings();
+    }
+
+    public function addOptionsPage()
     {
         add_menu_page(
             'Safety Exit Options',
@@ -36,7 +49,7 @@ class Admin {
             'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNmZmY7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5Bc3NldCAxPC90aXRsZT48ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIj48ZyBpZD0iTGF5ZXJfMS0yIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxnIGlkPSJtaXUiPjxnIGlkPSJBcnRib2FyZC0xIj48cGF0aCBpZD0iY29tbW9uLWxvZ291dC1zaWdub3V0LWV4aXQtZ2x5cGgiIGNsYXNzPSJjbHMtMSIgZD0iTTAsMFYyMkgxNVYxNkgxM3Y0SDJWMkgxM1Y2aDJWMFpNMTUuNjQsNy40NmwxLjQxLTEuNDFMMjIsMTFsLTQuOTUsNC45NS0xLjQxLTEuNDFMMTguMTcsMTJIN1YxMEgxOC4xN1oiLz48L2c+PC9nPjwvZz48L2c+PC9zdmc+'
         );
     }
-    public function plugin_admin_enqueue_scripts($hook)
+    public function enqueScripts($hook)
     {
         if( $hook == 'toplevel_page_safety_exit' ) {
             wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
@@ -51,33 +64,14 @@ class Admin {
 
         }
     }
-    private $btnDefaults = array(
-        'sftExt_position' => 'bottom right',
-        'sftExt_fontawesome_icon_classes' => 'fas fa-times',
-        'sftExt_type' => 'rectangle',
-        'sftExt_current_tab_url' => 'https://google.com',
-        'sftExt_new_tab_url' => 'https://google.com',
-        'sftExt_rectangle_text' => 'Safety Exit',
-        'sftExt_rectangle_icon_onOff' => 'yes',
-        'sftExt_rectangle_font_size_units' => 'rem',
-        'sftExt_rectangle_font_size' => '1',
-        'sftExt_bg_color' => 'rgba(58, 194, 208, 1)',
-        'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
-        'sftExt_letter_spacing' => 'inherit',
-        'sftExt_border_radius' => '100',
-        'sftExt_hide_mobile' => '',
-        'sftExt_show_all' => 'yes',
-        'sftExt_front_page' => 'yes',
-        'sftExt_pages' => array()
-    );
 
-    public function plugin_admin_init()
+    public function adminInit()
     {
 
         if(current_user_can('administrator')){
 
             register_setting( 'pluginPage', 'sftExt_settings' );
-            $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
+            $options = wp_parse_args(get_option('sftExt_settings'), $this->defaults);
             $recClasses = '';
             if($options['sftExt_type'] == 'rectangle') {
                 $recClasses = 'option-wrapper rectangle-only';
@@ -87,7 +81,7 @@ class Admin {
             add_settings_section(
                 'sftExt_pluginPage_section',
                 __( 'General Settings', 'wordpress' ),
-                array( $this, 'sftExt_settings_section_callback'),
+                array( $this, 'settingsSectionCB'),
                 'pluginPage',
                 array( 'section_id' => 'sftExt_pluginPage_section' )
             );
@@ -97,7 +91,7 @@ class Admin {
             add_settings_field(
                 'sftExt_position',
                 __( 'Button Position', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => 'option-wrapper sftExt_position', 'label_for' => 'sftExt_position' )
@@ -107,7 +101,7 @@ class Admin {
             add_settings_field(
                 'sftExt_fontawesome_icon_classes',
                 __( 'Button Icon', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => 'option-wrapper sftExt_fontawesome_icon_classes', 'label_for' => 'sftExt_fontawesome_icon_classes' )
@@ -119,7 +113,7 @@ class Admin {
             add_settings_field(
                 'sftExt_bg_color',
                 __( 'Button Background Color', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => 'option-wrapper sftExt_bg_color', 'label_for' => 'sftExt_bg_color' )
@@ -129,7 +123,7 @@ class Admin {
             add_settings_field(
                 'sftExt_font_color',
                 __( 'Button Font/Icon Color', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => 'option-wrapper sftExt_font_color', 'label_for' => 'sftExt_font_color' )
@@ -141,7 +135,7 @@ class Admin {
             add_settings_field(
                 'sftExt_type',
                 __( 'Button Type', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => 'option-wrapper sftExt_type', 'label_for' => 'sftExt_type' )
@@ -149,7 +143,7 @@ class Admin {
             add_settings_field(
                 'sftExt_border_radius',
                 __( 'Border Radius', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => $recClasses, 'label_for' => 'sftExt_border_radius' )
@@ -159,7 +153,7 @@ class Admin {
             add_settings_field(
                 'sftExt_rectangle_text',
                 __( 'Button Text', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_text' )
@@ -168,7 +162,7 @@ class Admin {
             add_settings_field(
                 'sftExt_rectangle_icon_onOff',
                 __( 'Include Icon?', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_icon_onOff' )
@@ -176,7 +170,7 @@ class Admin {
             add_settings_field(
                 'sftExt_rectangle_font_size',
                 __( 'Font Size', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_font_size' )
@@ -184,7 +178,7 @@ class Admin {
             add_settings_field(
                 'sftExt_rectangle_font_size_units',
                 __( 'Font Size Units', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_section',
                 array ( 'class' => $recClasses, 'label_for' => 'sftExt_rectangle_font_size_units' )
@@ -196,7 +190,7 @@ class Admin {
             add_settings_section(
                 'sftExt_pluginPage_redirection_options',
                 __( 'Redirection Options', 'wordpress' ),
-                array( $this, 'sftExt_settings_section_callback'),
+                array( $this, 'settingsSectionCB'),
                 'pluginPage',
                 array( 'section_id' => 'sftExt_pluginPage_redirection_options' )
             );
@@ -204,7 +198,7 @@ class Admin {
             add_settings_field(
                 'sftExt_current_tab_url',
                 __( 'Website URL', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_redirection_options',
                 array ( 'class' => 'option-wrapper sftExt_current_tab_url', 'label_for' => 'sftExt_current_tab_url' )
@@ -212,7 +206,7 @@ class Admin {
             add_settings_field(
                 'sftExt_new_tab_url',
                 __( 'Website URL', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_redirection_options',
                 array ( 'class' => 'option-wrapper sftExt_new_tab_url', 'label_for' => 'sftExt_new_tab_url' )
@@ -225,14 +219,14 @@ class Admin {
             add_settings_section(
                 'sftExt_pluginPage_btn_display_options',
                 __( 'Button Display Options', 'wordpress' ),
-                array( $this, 'sftExt_settings_section_callback'),
+                array( $this, 'settingsSectionCB'),
                 'pluginPage',
                 array( 'section_id' => 'sftExt_pluginPage_btn_display_options' )
             );
             add_settings_field(
                 'sftExt_hide_mobile',
                 __( 'Hide button on mobile?', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_btn_display_options',
                 array ( 'class' => 'option-wrapper sftExt_hide_mobile', 'label_for' => 'sftExt_hide_mobile' )
@@ -240,7 +234,7 @@ class Admin {
             add_settings_field(
                 'sftExt_show_all',
                 __( 'Show on all pages?', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_btn_display_options',
                 array ( 'class' => 'option-wrapper sftExt_show_all', 'label_for' => 'sftExt_show_all' )
@@ -248,7 +242,7 @@ class Admin {
             add_settings_field(
                 'sftExt_front_page',
                 __( 'Show on Front Page?', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_btn_display_options',
                 array ( 'class' => 'option-wrapper sftExt_front_page', 'label_for' => 'sftExt_front_page' )
@@ -256,7 +250,7 @@ class Admin {
             add_settings_field(
                 'sftExt_pages',
                 __( 'Select Pages', 'wordpress' ),
-                array( $this, 'sftExt_options_render'),
+                array( $this, 'optionsRenderer'),
                 'pluginPage',
                 'sftExt_pluginPage_btn_display_options',
                 array ( 'class' => 'option-wrapper sftExt_pages', 'label_for' => 'sftExt_pages' )
@@ -266,9 +260,9 @@ class Admin {
         }
 	}
 
-    function sftExt_options_render( $args )
+    function optionsRenderer( $args )
     {
-        $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
+        $options = wp_parse_args(get_option('sftExt_settings'), $this->defaults);
 
         switch($args['label_for']) {
             case 'sftExt_position':
@@ -388,7 +382,7 @@ class Admin {
     }
 
 
-    function sftExt_settings_section_callback( $args )
+    function settingsSectionCB( $args )
     {
         switch($args['id']){
             case 'sftExt_pluginPage_redirection_options':
