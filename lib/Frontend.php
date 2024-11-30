@@ -9,6 +9,10 @@ class Frontend {
 	private $icon = '';
 	private $hideOnMobile = false;
 
+	/**
+	 * Frontend constructor.
+	 */
+
 	public function __construct()
 	{
 		$this->defaultSettings = wp_parse_args(get_option('sftExt_settings'), array(

@@ -73,7 +73,7 @@ class Admin {
             register_setting( 'pluginPage', 'sftExt_settings' );
             $options = wp_parse_args(get_option('sftExt_settings'), $this->defaults);
             $recClasses = '';
-            if($options['sftExt_type'] == 'rectangle') {
+            if(!empty($options['sftExt_type']) && $options['sftExt_type'] == 'rectangle') {
                 $recClasses = 'option-wrapper rectangle-only';
             }else{
                 $recClasses = 'option-wrapper rectangle-only hidden';
