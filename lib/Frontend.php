@@ -34,7 +34,9 @@ class Frontend {
 			'sftExt_front_page' => 'yes',
 			'sftExt_pages' => array()
 		));
+	}
 
+	public function init() {
 		add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 		do_action( 'qm/debug', 'wp_enqueue_scripts fired' );
 		add_action('wp_head', array($this, 'runSetup'));
