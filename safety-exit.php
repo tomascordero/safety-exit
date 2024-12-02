@@ -43,5 +43,6 @@ function initSafetyExit() {
         && $url_path !== '/login'
     ){
         $frontend = new Frontend();
+        $frontend->init();
     }
 }

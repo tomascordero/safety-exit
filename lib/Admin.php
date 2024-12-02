@@ -27,8 +27,8 @@ class Admin {
     public function initialize_settings() {
         $default_settings = $this->defaults;
 
-        if (get_option('my_plugin_settings') === false) {
-            add_option('my_plugin_settings', $default_settings);
+        if (get_option('sftExt_settings') === false) {
+            add_option('sftExt_settings', $default_settings);
         }
     }
 
@@ -52,15 +52,24 @@ class Admin {
     public function enqueScripts($hook)
     {
         if( $hook == 'toplevel_page_safety_exit' ) {
-            wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
-            wp_enqueue_style('sftExt-admin-admin', $this->root . 'assets/css/admin.css');
-            wp_enqueue_script('sftExt-admin-color-picker', $this->root . 'assets/vendor/vanilla-picker.min.js');
-            wp_enqueue_script('sftExt-admin-icon-picker-js', $this->root . 'assets/vendor/fontawesome-iconpicker.min.js');
-            wp_register_script('sftExt-admin-js', $this->root . 'assets/js/admin.js', array('jquery', 'sftExt-admin-icon-picker-js', 'sftExt-admin-color-picker'));
-            wp_enqueue_script( 'sftExt-admin-js');
+            if (defined('IS_LOCAL') && IS_LOCAL) {
+                wp_enqueue_script(
+                    'sftExt-admin-admin',
+                    'http://localhost:8080/js/admin/master.jsx',
+                    [],
+                    null,
+                    true
+                );
+            }
+            // wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
+            // wp_enqueue_style('sftExt-admin-admin', $this->root . 'assets/css/admin.css');
+            // wp_enqueue_script('sftExt-admin-color-picker', $this->root . 'assets/vendor/vanilla-picker.min.js');
+            // wp_enqueue_script('sftExt-admin-icon-picker-js', $this->root . 'assets/vendor/fontawesome-iconpicker.min.js');
+            // wp_register_script('sftExt-admin-js', $this->root . 'assets/js/admin.js', array('jquery', 'sftExt-admin-icon-picker-js', 'sftExt-admin-color-picker'));
+            // wp_enqueue_script( 'sftExt-admin-js');
 
-            // wp_register_script( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/js/all.js' );
-            wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
+            // // wp_register_script( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/js/all.js' );
+            // wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
 
         }
     }

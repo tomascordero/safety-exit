@@ -1,0 +1,19 @@
+{
+  "js/admin/master.jsx": {
+    "file": "admin-c6ec1f6c.js",
+    "isEntry": true,
+    "src": "js/admin/master.jsx"
+  },
+  "js/frontend.css": {
+    "file": "frontend-9234a6e8.css",
+    "src": "js/frontend.css"
+  },
+  "js/frontend.js": {
+    "css": [
+      "frontend-9234a6e8.css"
+    ],
+    "file": "frontend-b8f700d5.js",
+    "isEntry": true,
+    "src": "js/frontend.js"
+  }
+}

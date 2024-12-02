@@ -1,38 +1,41 @@
-// vite.config.js
-import {
-    defineConfig
-} from 'vite';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-export default defineConfig({
-    root: 'src',
-    server: {
-        watch: {
-            include: ['src/**/**'],
-            exclude: ['node_modules']
-        },
-    },
-    build: {
-        outDir: 'assets',
-        emptyOutDir: false,
-        rollupOptions: {
-            input: {
-                frontend: 'src/js/frontend.js',
-                // TODO: Refactor the admin scripts to not need external libraries.
-                admin: 'src/js/admin.js',
-            },
-            output: {
-                dir: 'assets',
-                entryFileNames: 'js/[name].js',
-                chunkFileNames: 'js/[name].js',
-                assetFileNames: 'css/[name].[ext]',
+export default defineConfig(({ mode }) => {
+    return {
+        root: 'src',
+        base: mode === 'production' ? '/dist/' : '/',
+        build: {
+            outDir: '../build',
+            assetsDir: '', // Prevent nesting assets in a folder
+            manifest: true, // Generate manifest for enqueuing
+            emptyOutDir: true,
+            rollupOptions: {
+                input: {
+                    frontend: 'src/js/frontend.js',
+                    admin: 'src/js/admin/master.jsx',
+                },
             },
         },
-    },
-    resolve: {
-        alias: {
-            '@': '/src'
-        }
-    },
-    // CSS options
-    css: {},
+        server: {
+            hmr: true, // Hot Module Replacement
+            port: 8080,
+            watch: {
+                usePolling: true, // Useful for Docker environments
+            },
+            proxy: {
+                '/wp-admin': 'http://localhost:8080',
+                '/wp-json': 'http://localhost:8080',
+                '/wp-content': 'http://localhost:8080',
+            }
+        },
+        resolve: {
+            alias: {
+                '@': '/src'
+            }
+        },
+        plugins: [
+            react()
+        ]
+    }
 })
