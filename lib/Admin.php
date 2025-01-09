@@ -25,36 +25,19 @@ class Admin {
     }
 
     public function init() {
-
         add_action( 'admin_menu', array( $this, 'safety_exit_add_options_page' ) );
         add_action( 'admin_init', array( $this, 'plugin_admin_init') );
         add_action( 'admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts') );
-        // add_action( 'admin_head-nav-menus.php', array( $this, 'my_register_menu_metabox'), 10, 1  );
-        // add_action( 'update_option_sftExt_settings', array($this, 'sftExt_generateCSS') );
     }
-    // public function my_register_menu_metabox(  ) {
-    //     $custom_param = array( 0 => 'This param will be passed to my_render_menu_metabox' );
-
-	//     add_meta_box(
-    //         'my-menu-test-metabox',
-    //         'Safety Exit Button',
-    //         array( $this, 'my_render_menu_metabox'),
-    //         'nav-menus',
-    //         'side',
-    //         'default',
-    //         $custom_param );
-    // }
 
     public function sftExt_generateCSS() {
         $cssString = '#sftExt-frontend-button.rectangle{font-size: '. $this->options['sftExt_rectangle_font_size'] . $this->options['sftExt_rectangle_font_size_units'] . ';}' ;
         wp_parse_args(update_option('sftExt_settings'), array(
             'sftExt_css' => $cssString
         ));
-        // update_option('sftExt_css', $cssString);
     }
 
     public function safety_exit_add_options_page() {
-        // echo $this->root;die;
         add_menu_page(
             'Safety Exit Options',
             'Safety Exit',
@@ -67,7 +50,6 @@ class Admin {
         );
     }
     public function plugin_admin_enqueue_scripts($hook){
-        // echo $hook;die;
         if( $hook == 'toplevel_page_safety_exit' ) {
 
             wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');
@@ -77,7 +59,6 @@ class Admin {
             wp_register_script('sftExt-admin-js', $this->root . 'assets/js/admin.js', array('jquery', 'sftExt-admin-icon-picker-js', 'sftExt-admin-color-picker'));
             wp_enqueue_script( 'sftExt-admin-js');
 
-            // wp_register_script( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/js/all.js' );
             wp_enqueue_style( 'font-awesome-free', '//use.fontawesome.com/releases/v5.3.1/css/all.css' );
 
         }
