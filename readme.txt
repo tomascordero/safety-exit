@@ -47,6 +47,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.8.0:
+	- Refactor: Improved backend code structure for stability
 1.7.1:
 	- Fix: Security fix
 1.7.0:

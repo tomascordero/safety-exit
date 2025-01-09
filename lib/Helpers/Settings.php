@@ -5,7 +5,7 @@ use SafetyExit\Exceptions\InvalidSetting;
 
 class Settings
 {
-    private static array $defaultSettings = [
+    private static $defaultSettings = [
         'sftExt_position' => 'bottom right',
         'sftExt_fontawesome_icon_classes' => 'fas fa-times',
         'sftExt_type' => 'rectangle',
@@ -25,35 +25,36 @@ class Settings
         'sftExt_pages' => []
     ];
 
-    public static function getAll(): array
+    public static function getAll()
     {
         return wp_parse_args(get_option('sftExt_settings'), self::getDefaults());
     }
 
-    public static function getDefaults(): array
+    public static function getDefaults()
     {
         return static::$defaultSettings;
     }
 
-    public static function update($key, $value): void
+    public static function update($key, $value)
     {
         $defaultSettings = self::getDefaults();
         if (!array_key_exists($key, $defaultSettings)) {
             throw new InvalidSetting("Invalid setting key: $key");
         }
 
-        $settings = self::getAll() ?? $defaultSettings;
+        $settings = self::getAll();
+
         $updatedSettings = array_merge($settings, [$key => $value]);
         self::saveSettings($updatedSettings);
     }
 
-    public static function get(string | int $key): string | array | bool
+    public static function get($key)
     {
         $settings = self::getAll();
         return $settings[$key];
     }
 
-    private static function saveSettings(array $settings): void
+    private static function saveSettings($settings)
     {
         update_option('sftExt_settings', $settings);
     }

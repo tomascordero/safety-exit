@@ -140,7 +140,7 @@ class Frontend {
 		$button_classes = esc_attr($this->classes);
 		$data_new_tab = esc_attr(Settings::get('sftExt_new_tab_url'));
 		$data_url = esc_attr(Settings::get('sftExt_current_tab_url'));
-		$icon_html = $this->icon ?? '';
+		$icon_html = isset($this->icon) ? $this->icon : '';
 		$rectangle_text = esc_attr(Settings::get('sftExt_rectangle_text'));
 		$span_class = Settings::get('sftExt_type') !== 'rectangle' ? ' class="sr-only"' : '';
 
@@ -150,7 +150,7 @@ class Frontend {
 			$icon_html<span$span_class>$rectangle_text</span>
 		</div>
 	</button>
-	HTML;
+HTML;
 
 		return $html;
 	}
