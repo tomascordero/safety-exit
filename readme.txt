@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 5.2.0
 Tested up to: 6.4.3
 Requires PHP: 5.6.0
-Stable tag: 1.7.1
+Stable tag: 1.8.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,7 +48,8 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 
 == Changelog ==
 1.8.0:
-	- Refactor: Improved backend code structure for stability
+	- Improved backend code structure for stability
+	- Added a warning for out dated PHP versions in preparation for 2.0 release
 1.7.1:
 	- Fix: Security fix
 1.7.0:
