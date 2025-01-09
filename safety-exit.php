@@ -11,7 +11,7 @@
  * Plugin Name: Safety Exit
  * Plugin URI:
  * Description: This plugin will inject a button on your website that will allow a website user to quickly navigate away from your website.
- * Version:     1.7.1
+ * Version:     1.8.0
  * Author:      Tomas Cordero
  * Author URI:  https://tomascordero.com
  * License:     GPL-2.0+
@@ -20,8 +20,8 @@
  */
 require plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
 
-use SafetyExit\Safety_Exit_Frontend;
-use SafetyExit\Safety_Exit_Admin;
+use SafetyExit\Frontend;
+use SafetyExit\Admin;
 
 $path = realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php";
 
@@ -58,7 +58,7 @@ if( !$errors ) {
     $url_path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
 	if ( is_admin() ){
 		if(current_user_can('administrator')){
-			$admin = new Safety_Exit_Admin(__FILE__);
+			$admin = new Admin(__FILE__);
 			$admin->init();
 		}
 	} else if (
@@ -67,7 +67,7 @@ if( !$errors ) {
         && $url_path !== '/wp-admin'
         && $url_path !== '/login'
     ){
-		$frontend = new Safety_Exit_Frontend(__FILE__);
+		$frontend = new Frontend(__FILE__);
 		$frontend->init();
 	}
 }

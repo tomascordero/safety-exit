@@ -3,9 +3,9 @@ Contributors: tcordero
 Tags: quick exit, safety exit, exit, fast exit, panic button
 Donate link: https://tomascordero.com
 Requires at least: 5.2.0
-Tested up to: 6.4.3
+Tested up to: 6.7.1
 Requires PHP: 5.6.0
-Stable tag: 1.7.1
+Stable tag: 1.8.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,9 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
+1.8.0:
+	- Improved backend code structure for stability
+	- Added a warning for out dated PHP versions in preparation for 2.0 release
 1.7.1:
 	- Fix: Security fix
 1.7.0:
