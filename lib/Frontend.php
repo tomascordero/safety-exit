@@ -37,31 +37,32 @@ class Frontend {
 		add_action( 'wp_body_open', array($this, 'echo_safety_exit_html'), 100 );
 		do_action( 'qm/debug', 'wp_body_open fired' );
     }
+
 	public function run_setup() {
 
-		if($this->defaultSettings['sftExt_show_all'] == 'no'){
-			if( !in_array(get_the_ID(), $this->defaultSettings['sftExt_pages'])){
+		if(Settings::get('sftExt_show_all') == 'no'){
+			if( !in_array(get_the_ID(), Settings::get('sftExt_pages'))){
 				$this->displayButton = false;
 			} else {
 				$this->displayButton = true;
 			}
 		}
 
-		if($this->defaultSettings['sftExt_front_page'] == 'yes' && is_front_page()){
+		if(Settings::get('sftExt_front_page') == 'yes' && is_front_page()){
 			$this->displayButton = true;
-		} else if ($this->defaultSettings['sftExt_front_page'] == 'no' && is_front_page()) {
+		} else if (Settings::get('sftExt_front_page') == 'no' && is_front_page()) {
 			$this->displayButton = false;
 		}
 
-		if($this->defaultSettings['sftExt_hide_mobile'] == 'yes') {
+		if(Settings::get('sftExt_hide_mobile') == 'yes') {
 			$this->hideOnMobile = true;
 		}
-		$this->classes = esc_attr( $this->defaultSettings['sftExt_position'] ) . ' ' . esc_attr( $this->defaultSettings['sftExt_type'] );
+		$this->classes = esc_attr( Settings::get('sftExt_position') ) . ' ' . esc_attr( Settings::get('sftExt_type') );
 
-		if($this->defaultSettings['sftExt_rectangle_icon_onOff'] == 'yes' && $this->defaultSettings['sftExt_type'] == 'rectangle') {
-			$this->icon = '<i class="' . esc_attr( $this->defaultSettings['sftExt_fontawesome_icon_classes'] ) . '"></i>';
-		}else if($this->defaultSettings['sftExt_type'] == 'round' || $this->defaultSettings['sftExt_type'] == 'square'){
-			$this->icon = '<i class="' . esc_attr( $this->defaultSettings['sftExt_fontawesome_icon_classes'] ) . '"></i>';
+		if(Settings::get('sftExt_rectangle_icon_onOff') == 'yes' && Settings::get('sftExt_type') == 'rectangle') {
+			$this->icon = '<i class="' . esc_attr( Settings::get('sftExt_fontawesome_icon_classes') ) . '"></i>';
+		}else if(Settings::get('sftExt_type') == 'round' || Settings::get('sftExt_type') == 'square'){
+			$this->icon = '<i class="' . esc_attr( Settings::get('sftExt_fontawesome_icon_classes') ) . '"></i>';
 		}
 	}
 	public function sftExt_enqueue() {
@@ -91,15 +92,22 @@ class Frontend {
 	}
 	public function generate_js() {
 		do_action( 'qm/debug', 'generating JS' );
+
+		$jsVars = [
+			'classes' => '\'' . $this->classes . '\'',
+			'icon' => '\'' . $this->icon . '\'',
+			'newTabUrl' => '\'' . esc_attr( Settings::get('sftExt_new_tab_url') ) . '\'',
+			'currentTabUrl' => '\'' . esc_attr( Settings::get('sftExt_current_tab_url') ) . '\'',
+			'btnType' => '\'' . esc_attr( Settings::get('sftExt_type') ) . '\'',
+			'text' => '\'' . esc_attr( Settings::get('sftExt_rectangle_text') ) . '\'',
+			'shouldShow' => ($this->displayButton ? 'true' : 'false'),
+		];
+
 		$js = '<script>';
 		$js .= 'window.sftExtBtn={};';
-		$js .= 'window.sftExtBtn.classes=\'' . $this->classes . '\';';
-		$js .= 'window.sftExtBtn.icon=\'' . $this->icon . '\';';
-		$js .= 'window.sftExtBtn.newTabUrl=\'' . esc_attr( $this->defaultSettings['sftExt_new_tab_url'] ) . '\';';
-		$js .= 'window.sftExtBtn.currentTabUrl=\'' . esc_attr( $this->defaultSettings['sftExt_current_tab_url'] ) . '\';';
-		$js .= 'window.sftExtBtn.btnType=\'' . esc_attr( $this->defaultSettings['sftExt_type'] ) . '\';';
-		$js .= 'window.sftExtBtn.text=\'' . esc_attr( $this->defaultSettings['sftExt_rectangle_text'] ) . '\';';
-		$js .= 'window.sftExtBtn.shouldShow=' . ($this->displayButton ? 'true' : 'false') . ';';
+		foreach ($jsVars as $key => $value) {
+			$js .= 'window.sftExtBtn.' . $key . '=' . $value . ';';
+		}
 		$js .= '</script>';
 		return $js;
 	}
@@ -108,30 +116,42 @@ class Frontend {
 
 	public function generate_css() {
 		do_action( 'qm/debug', 'generating custom CSS' );
+
+		$cssVars = [
+			'--sftExt_bgColor' 					=> esc_attr( Settings::get('sftExt_bg_color') ),
+			'--sftExt_textColor' 				=> esc_attr( Settings::get('sftExt_font_color') ),
+			'--sftExt_active' 					=> (!$this->displayButton ? 'none !important' : 'inline-block'),
+			'--sftExt_activeMobile'				=> ($this->hideOnMobile ? 'none !important' : 'inline-block'),
+			'--sftExt_mobileBreakPoint' 		=> '600px',
+			'--sftExt_rectangle_fontSize' 		=> esc_attr( Settings::get('sftExt_rectangle_font_size') ) . esc_attr( Settings::get('sftExt_rectangle_font_size_units') ),
+			'--sftExt_rectangle_letterSpacing' 	=> esc_attr( Settings::get('sftExt_letter_spacing') ),
+			'--sftExt_rectangle_borderRadius' 	=> esc_attr( Settings::get('sftExt_border_radius') ) . 'px',
+		];
+
 		$css = '<style>:root{';
-		$css .= '--sftExt_bgColor:' . esc_attr( $this->defaultSettings['sftExt_bg_color'] ) . ';';
-		$css .= '--sftExt_textColor:' . esc_attr( $this->defaultSettings['sftExt_font_color'] ) . ';';
-		$css .= '--sftExt_active:' . (!$this->displayButton ? 'none !important' : 'inline-block') . ';';
-		$css .= '--sftExt_activeMobile:' . ($this->hideOnMobile ? 'none !important' : 'inline-block') . ';';
-		$css .= '--sftExt_mobileBreakPoint:600px;';
-		$css .= '--sftExt_rectangle_fontSize:' . esc_attr( $this->defaultSettings['sftExt_rectangle_font_size'] ) . esc_attr( $this->defaultSettings['sftExt_rectangle_font_size_units'] ) .';';
-		$css .= '--sftExt_rectangle_letterSpacing:' . esc_attr( $this->defaultSettings['sftExt_letter_spacing'] ) . ';';
-		$css .= '--sftExt_rectangle_borderRadius:' . esc_attr( $this->defaultSettings['sftExt_border_radius'] ) . 'px;';
+		foreach ($cssVars as $key => $value) {
+			$css .= $key . ':' . $value . ';';
+		}
 		$css .= '}</style>';
 		return $css;
 	}
 
 	public function generate_html() {
-		$html = '<button id="sftExt-frontend-button" class="' . $this->classes . '" data-new-tab="' . esc_attr( $this->defaultSettings['sftExt_new_tab_url'] ) . '" data-url="' . esc_attr( $this->defaultSettings['sftExt_current_tab_url'] ) . '">';
-		$html .= '<div class="sftExt-inner">';
-		$html .= $this->icon ?? '';
-		$html .= '<span';
-		if ($this->defaultSettings['sftExt_type'] !== 'rectangle') {
-			$html .= ' class="sr-only"';
-		}
-		$html .= '>'. esc_attr( $this->defaultSettings['sftExt_rectangle_text'] ) .'</span>';
-		$html .= '</div>';
-		$html .= '</button>';
+		$button_classes = esc_attr($this->classes);
+		$data_new_tab = esc_attr(Settings::get('sftExt_new_tab_url'));
+		$data_url = esc_attr(Settings::get('sftExt_current_tab_url'));
+		$icon_html = $this->icon ?? '';
+		$rectangle_text = esc_attr(Settings::get('sftExt_rectangle_text'));
+		$span_class = Settings::get('sftExt_type') !== 'rectangle' ? ' class="sr-only"' : '';
+
+		$html = <<<HTML
+	<button id="sftExt-frontend-button" class="$button_classes" data-new-tab="$data_new_tab" data-url="$data_url">
+		<div class="sftExt-inner">
+			$icon_html<span$span_class>$rectangle_text</span>
+		</div>
+	</button>
+	HTML;
+
 		return $html;
 	}
 

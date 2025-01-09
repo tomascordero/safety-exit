@@ -149,8 +149,9 @@ it('generates the correct custom HTML', function () {
     $safetyExitFrontend = new Frontend();
     $safetyExitFrontend->run_setup();
     $html = $safetyExitFrontend->generate_html();
-    $this->assertIsString($html);
+    $minifiedHtml = preg_replace('/\s+/', ' ', trim($html));
+    $this->assertIsString($minifiedHtml);
 
-    $this->assertEquals($html, "<button id=\"sftExt-frontend-button\" class=\"bottom right rectangle\" data-new-tab=\"https://google.com\" data-url=\"https://google.com\"><div class=\"sftExt-inner\"><i class=\"fas fa-times\"></i><span>Safety Exit</span></div></button>");
+    $this->assertEquals($minifiedHtml, "<button id=\"sftExt-frontend-button\" class=\"bottom right rectangle\" data-new-tab=\"https://google.com\" data-url=\"https://google.com\"> <div class=\"sftExt-inner\"> <i class=\"fas fa-times\"></i><span>Safety Exit</span> </div> </button>");
 
 });
