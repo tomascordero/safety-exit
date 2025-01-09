@@ -25,9 +25,18 @@ class Admin {
     }
 
     public function init() {
+        add_action('admin_notices', array( $this, 'sftExt_php_version_notice' ));
         add_action( 'admin_menu', array( $this, 'safety_exit_add_options_page' ) );
         add_action( 'admin_init', array( $this, 'plugin_admin_init') );
         add_action( 'admin_enqueue_scripts',  array( $this, 'plugin_admin_enqueue_scripts') );
+    }
+
+    public function sftExt_php_version_notice() {
+        if (version_compare(PHP_VERSION, '7.4', '<')) {
+            echo '<div class="notice notice-warning is-dismissible">
+                    <p><strong>Warning:</strong> The Safety Exit plugin will require PHP 7.4 or higher starting in version 2.0. Your site is currently running PHP ' . PHP_VERSION . '. Please upgrade your PHP version to avoid any issues.</p>
+                </div>';
+        }
     }
 
     public function sftExt_generateCSS() {
