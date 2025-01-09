@@ -3,7 +3,7 @@ Contributors: tcordero
 Tags: quick exit, safety exit, exit, fast exit, panic button
 Donate link: https://tomascordero.com
 Requires at least: 5.2.0
-Tested up to: 6.4.3
+Tested up to: 6.7.1
 Requires PHP: 5.6.0
 Stable tag: 1.8.0
 License: GPL-2.0+
