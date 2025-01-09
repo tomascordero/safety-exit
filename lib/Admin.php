@@ -1,6 +1,8 @@
 <?php
 namespace SafetyExit;
 
+use SafetyExit\Helpers\Settings;
+
 /**
  * Creates the submenu item for the plugin.
  *
@@ -9,13 +11,17 @@ namespace SafetyExit;
  *
  * @package Custom_Admin_Settings
  */
-class Safety_Exit_Admin {
-
+class Admin {
     private $root = '';
     private $rootFile = '';
+
+    private $options;
+
     public function __construct( $file ) {
         $this->root = plugins_url() . '/safety-exit/';
         $this->rootFile = $file;
+
+        $this->options = Settings::getAll();
     }
 
     public function init() {
@@ -40,9 +46,7 @@ class Safety_Exit_Admin {
     // }
 
     public function sftExt_generateCSS() {
-        // die;
-        $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
-        $cssString = '#sftExt-frontend-button.rectangle{font-size: '. $options['sftExt_rectangle_font_size'] . $options['sftExt_rectangle_font_size_units'] . ';}' ;
+        $cssString = '#sftExt-frontend-button.rectangle{font-size: '. $this->options['sftExt_rectangle_font_size'] . $this->options['sftExt_rectangle_font_size_units'] . ';}' ;
         wp_parse_args(update_option('sftExt_settings'), array(
             'sftExt_css' => $cssString
         ));
@@ -78,34 +82,14 @@ class Safety_Exit_Admin {
 
         }
     }
-    private $btnDefaults = array(
-        'sftExt_position' => 'bottom right',
-        'sftExt_fontawesome_icon_classes' => 'fas fa-times',
-        'sftExt_type' => 'rectangle',
-        'sftExt_current_tab_url' => 'https://google.com',
-        'sftExt_new_tab_url' => 'https://google.com',
-        'sftExt_rectangle_text' => 'Safety Exit',
-        'sftExt_rectangle_icon_onOff' => 'yes',
-        'sftExt_rectangle_font_size_units' => 'rem',
-        'sftExt_rectangle_font_size' => '1',
-        'sftExt_bg_color' => 'rgba(58, 194, 208, 1)',
-        'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
-        'sftExt_letter_spacing' => 'inherit',
-        'sftExt_border_radius' => '100',
-        'sftExt_hide_mobile' => '',
-        'sftExt_show_all' => 'yes',
-        'sftExt_front_page' => 'yes',
-        'sftExt_pages' => array()
-    );
 
     public function plugin_admin_init(){
 
         if(current_user_can('administrator')){
 
             register_setting( 'pluginPage', 'sftExt_settings' );
-            $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
             $recClasses = '';
-            if($options['sftExt_type'] == 'rectangle') {
+            if($this->options['sftExt_type'] == 'rectangle') {
                 $recClasses = 'option-wrapper rectangle-only';
             }else{
                 $recClasses = 'option-wrapper rectangle-only hidden';
@@ -293,88 +277,87 @@ class Safety_Exit_Admin {
 	}
 
     function sftExt_options_render( $args ) {
-        $options = wp_parse_args(get_option('sftExt_settings'), $this->btnDefaults);
 
         switch($args['label_for']) {
             case 'sftExt_position':
                 ?>
                     <select id="sftExt_position" name='sftExt_settings[sftExt_position]'>
-                        <option value='bottom left' <?php selected( $options['sftExt_position'], 'bottom left' ); ?>>Bottom Left</option>
-                        <option value='bottom right' <?php selected( $options['sftExt_position'], 'bottom right' ); ?>>Bottom Right</option>
+                        <option value='bottom left' <?php selected( $this->options['sftExt_position'], 'bottom left' ); ?>>Bottom Left</option>
+                        <option value='bottom right' <?php selected( $this->options['sftExt_position'], 'bottom right' ); ?>>Bottom Right</option>
                     </select>
 
                 <?php
                 break;
             case 'sftExt_fontawesome_icon_classes':
                 ?>
-                    <div id="sftExt_icon_display" style="height: 75px;"><i class="fa-3x <?= esc_attr($options['sftExt_fontawesome_icon_classes']); ?>"></i></div>
+                    <div id="sftExt_icon_display" style="height: 75px;"><i class="fa-3x <?= esc_attr($this->options['sftExt_fontawesome_icon_classes']); ?>"></i></div>
                     <!-- <button id="sftExt_fontawesome_icon_classes_btn" >Change Icon</button> -->
-                    <input type="hidden" id="sftExt_fontawesome_icon_classes" name="sftExt_settings[sftExt_fontawesome_icon_classes]" value="<?= esc_attr( $options['sftExt_fontawesome_icon_classes'] ); ?>">
+                    <input type="hidden" id="sftExt_fontawesome_icon_classes" name="sftExt_settings[sftExt_fontawesome_icon_classes]" value="<?= esc_attr( $this->options['sftExt_fontawesome_icon_classes'] ); ?>">
 
                 <?php
                 break;
             case 'sftExt_bg_color':
                 ?>
-                    <div id="sftExt_color_picker_btn_bg_color" style="background-color: <?= esc_attr( $options['sftExt_bg_color'] )?>">Choose Color</div>
-                    <input type="hidden" id="sftExt_bg_color" name="sftExt_settings[sftExt_bg_color]" value="<?= esc_attr( $options['sftExt_bg_color'] ); ?>">
+                    <div id="sftExt_color_picker_btn_bg_color" style="background-color: <?= esc_attr( $this->options['sftExt_bg_color'] )?>">Choose Color</div>
+                    <input type="hidden" id="sftExt_bg_color" name="sftExt_settings[sftExt_bg_color]" value="<?= esc_attr( $this->options['sftExt_bg_color'] ); ?>">
 
                 <?php
                 break;
             case 'sftExt_font_color':
                 ?>
-                    <div id="sftExt_color_picker_btn_font_color" style="background-color: <?= esc_attr( $options['sftExt_font_color'] ); ?>">Choose Color</div>
-                    <input type="hidden" id="sftExt_font_color" name="sftExt_settings[sftExt_font_color]" value="<?= esc_attr( $options['sftExt_font_color'] ); ?>">
+                    <div id="sftExt_color_picker_btn_font_color" style="background-color: <?= esc_attr( $this->options['sftExt_font_color'] ); ?>">Choose Color</div>
+                    <input type="hidden" id="sftExt_font_color" name="sftExt_settings[sftExt_font_color]" value="<?= esc_attr( $this->options['sftExt_font_color'] ); ?>">
 
                 <?php
                 break;
             case 'sftExt_type':
                 ?>
                     <select id="sftExt_type" name='sftExt_settings[sftExt_type]'>
-                        <option value='round' <?php selected( $options['sftExt_type'], 'round' ); ?>>Round</option>
-                        <option value='square' <?php selected( $options['sftExt_type'], 'square' ); ?>>Square</option>
-                        <option value='rectangle' <?php selected( $options['sftExt_type'], 'rectangle' ); ?>>Rectangle</option>
+                        <option value='round' <?php selected( $this->options['sftExt_type'], 'round' ); ?>>Round</option>
+                        <option value='square' <?php selected( $this->options['sftExt_type'], 'square' ); ?>>Square</option>
+                        <option value='rectangle' <?php selected( $this->options['sftExt_type'], 'rectangle' ); ?>>Rectangle</option>
                     </select>
                 <?php
                 break;
             case 'sftExt_border_radius':
                 ?>
-                    <input type="number" id="sftExt_border_radius" name="sftExt_settings[sftExt_border_radius]" value="<?= esc_attr( $options['sftExt_border_radius'] ); ?>"> px
+                    <input type="number" id="sftExt_border_radius" name="sftExt_settings[sftExt_border_radius]" value="<?= esc_attr( $this->options['sftExt_border_radius'] ); ?>"> px
                 <?php
                 break;
             case 'sftExt_rectangle_font_size':
                 ?>
-                    <input type="number" id="sftExt_rectangle_font_size" name="sftExt_settings[sftExt_rectangle_font_size]" value="<?= esc_attr( $options['sftExt_rectangle_font_size'] ); ?>"> <span class="sftExt_units"><?= esc_attr( $options['sftExt_rectangle_font_size_units'] ); ?></span>
+                    <input type="number" id="sftExt_rectangle_font_size" name="sftExt_settings[sftExt_rectangle_font_size]" value="<?= esc_attr( $this->options['sftExt_rectangle_font_size'] ); ?>"> <span class="sftExt_units"><?= esc_attr( $this->options['sftExt_rectangle_font_size_units'] ); ?></span>
                 <?php
                 break;
             case 'sftExt_rectangle_font_size_units':
                 ?>
                     <select id="sftExt_rectangle_font_size_units" name='sftExt_settings[sftExt_rectangle_font_size_units]'>
-                        <option value='px' <?php selected( $options['sftExt_rectangle_font_size_units'], 'px' ); ?>>px</option>
-                        <option value='em' <?php selected( $options['sftExt_rectangle_font_size_units'], 'em' ); ?>>em</option>
-                        <option value='rem' <?php selected( $options['sftExt_rectangle_font_size_units'], 'rem' ); ?>>rem</option>
+                        <option value='px' <?php selected( $this->options['sftExt_rectangle_font_size_units'], 'px' ); ?>>px</option>
+                        <option value='em' <?php selected( $this->options['sftExt_rectangle_font_size_units'], 'em' ); ?>>em</option>
+                        <option value='rem' <?php selected( $this->options['sftExt_rectangle_font_size_units'], 'rem' ); ?>>rem</option>
                     </select>
                 <?php
                 break;
             case 'sftExt_current_tab_url':
                 ?>
-                    <input type="text" id="sftExt_current_tab_url" name="sftExt_settings[sftExt_current_tab_url]" value="<?= esc_attr( $options['sftExt_current_tab_url'] ); ?>">
+                    <input type="text" id="sftExt_current_tab_url" name="sftExt_settings[sftExt_current_tab_url]" value="<?= esc_attr( $this->options['sftExt_current_tab_url'] ); ?>">
                 <?php
                 break;
             case 'sftExt_new_tab_url':
                 ?>
-                    <input type="text" id="sftExt_new_tab_url" name="sftExt_settings[sftExt_new_tab_url]" value="<?= esc_attr( $options['sftExt_new_tab_url'] ); ?>">
+                    <input type="text" id="sftExt_new_tab_url" name="sftExt_settings[sftExt_new_tab_url]" value="<?= esc_attr( $this->options['sftExt_new_tab_url'] ); ?>">
                 <?php
                 break;
             case 'sftExt_rectangle_text':
                 ?>
-                    <input type="text" id="sftExt_rectangle_text" name="sftExt_settings[sftExt_rectangle_text]" value="<?= esc_attr( $options['sftExt_rectangle_text'] ); ?>">
+                    <input type="text" id="sftExt_rectangle_text" name="sftExt_settings[sftExt_rectangle_text]" value="<?= esc_attr( $this->options['sftExt_rectangle_text'] ); ?>">
                 <?php
                 break;
             case 'sftExt_rectangle_icon_onOff':
                 ?>
                     <select id="sftExt_rectangle_icon_onOff" name='sftExt_settings[sftExt_rectangle_icon_onOff]'>
-                        <option value='no' <?php selected( $options['sftExt_rectangle_icon_onOff'], 'no' ); ?>>No</option>
-                        <option value='yes' <?php selected( $options['sftExt_rectangle_icon_onOff'], 'yes' ); ?>>Yes</option>
+                        <option value='no' <?php selected( $this->options['sftExt_rectangle_icon_onOff'], 'no' ); ?>>No</option>
+                        <option value='yes' <?php selected( $this->options['sftExt_rectangle_icon_onOff'], 'yes' ); ?>>Yes</option>
                     </select>
                 <?php
                 break;
@@ -387,25 +370,25 @@ class Safety_Exit_Admin {
 
                 ?>
                 <?php foreach($postIDs as $key => $postID) : ?>
-                    <input type="checkbox" name="sftExt_settings[sftExt_pages][]" id="sftExt_pages" value="<?= $postID; ?>" <?= in_array( $postID, $options['sftExt_pages'] ) ? 'checked="checked"': ''?>> <?= get_the_title( $postID ); ?><br/>
+                    <input type="checkbox" name="sftExt_settings[sftExt_pages][]" id="sftExt_pages" value="<?= $postID; ?>" <?= in_array( $postID, $this->options['sftExt_pages'] ) ? 'checked="checked"': ''?>> <?= get_the_title( $postID ); ?><br/>
                 <?php endforeach; ?>
                 <?php
                 break;
             case 'sftExt_front_page':
                 ?>
-                    <input type="radio" name="sftExt_settings[sftExt_front_page]" id="sftExt_front_page" value="yes" <?php checked( $options['sftExt_front_page'], 'yes' ); ?>> Yes<br/>
-                    <input type="radio" name="sftExt_settings[sftExt_front_page]" id="sftExt_front_page" value="no" <?php checked( $options['sftExt_front_page'], 'no' ); ?>> No<br/>
+                    <input type="radio" name="sftExt_settings[sftExt_front_page]" id="sftExt_front_page" value="yes" <?php checked( $this->options['sftExt_front_page'], 'yes' ); ?>> Yes<br/>
+                    <input type="radio" name="sftExt_settings[sftExt_front_page]" id="sftExt_front_page" value="no" <?php checked( $this->options['sftExt_front_page'], 'no' ); ?>> No<br/>
                 <?php
                 break;
             case 'sftExt_show_all':
                 ?>
-                    <input type="radio" name="sftExt_settings[sftExt_show_all]" id="sftExt_show_all" class="sftExt_show_all" value="yes" <?php checked( $options['sftExt_show_all'], 'yes' ); ?>> Yes<br/>
-                    <input type="radio" name="sftExt_settings[sftExt_show_all]" id="sftExt_show_all" class="sftExt_show_all" value="no" <?php checked( $options['sftExt_show_all'], 'no' ); ?>> No<br/>
+                    <input type="radio" name="sftExt_settings[sftExt_show_all]" id="sftExt_show_all" class="sftExt_show_all" value="yes" <?php checked( $this->options['sftExt_show_all'], 'yes' ); ?>> Yes<br/>
+                    <input type="radio" name="sftExt_settings[sftExt_show_all]" id="sftExt_show_all" class="sftExt_show_all" value="no" <?php checked( $this->options['sftExt_show_all'], 'no' ); ?>> No<br/>
                 <?php
                 break;
             case 'sftExt_hide_mobile':
                 ?>
-                    <input type="checkbox" name="sftExt_settings[sftExt_hide_mobile]" id="sftExt_hide_mobile" class="sftExt_hide_mobile" value="yes" <?php checked( $options['sftExt_hide_mobile'], 'yes' ); ?>> Yes
+                    <input type="checkbox" name="sftExt_settings[sftExt_hide_mobile]" id="sftExt_hide_mobile" class="sftExt_hide_mobile" value="yes" <?php checked( $this->options['sftExt_hide_mobile'], 'yes' ); ?>> Yes
                 <?php
                 break;
         }

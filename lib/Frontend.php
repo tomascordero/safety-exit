@@ -1,6 +1,8 @@
 <?php
 
 namespace SafetyExit;
+
+use SafetyExit\Helpers\Settings;
 /**
  * Handle all frontend stuff
  *
@@ -12,7 +14,7 @@ namespace SafetyExit;
  *
  * @package Frontend_stuff
  */
-class Safety_Exit_Frontend {
+class Frontend {
 
 	private $buttonInitialized = false;
 
@@ -23,30 +25,11 @@ class Safety_Exit_Frontend {
 	private $icon = '';
 	private $hideOnMobile = false;
 
-	public function __construct() {
-
-		$this->defaultSettings = wp_parse_args(get_option('sftExt_settings'), array(
-			'sftExt_position' => 'bottom right',
-			'sftExt_fontawesome_icon_classes' => 'fas fa-times',
-			'sftExt_type' => 'rectangle',
-			'sftExt_current_tab_url' => 'https://google.com',
-			'sftExt_new_tab_url' => 'https://google.com',
-			'sftExt_rectangle_text' => 'Safety Exit',
-			'sftExt_rectangle_icon_onOff' => 'yes',
-			'sftExt_rectangle_font_size_units' => 'rem',
-			'sftExt_rectangle_font_size' => '1',
-			'sftExt_bg_color' => 'rgba(58, 194, 208, 1)',
-			'sftExt_font_color' => 'rgba(255, 255, 255, 1)',
-			'sftExt_letter_spacing' => 'inherit',
-			'sftExt_border_radius' => '100',
-			'sftExt_hide_mobile' => '',
-			'sftExt_show_all' => 'yes',
-			'sftExt_front_page' => 'yes',
-			'sftExt_pages' => array()
-		));
-
-
+	public function __construct()
+	{
+		$this->defaultSettings = Settings::getAll();
 	}
+
 	public function init() {
 		add_action('wp_enqueue_scripts', array($this, 'sftExt_enqueue'));
 		do_action( 'qm/debug', 'wp_enqueue_scripts fired' );
