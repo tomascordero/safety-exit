@@ -22,6 +22,14 @@ require plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
 
 use SafetyExit\Frontend;
 use SafetyExit\Admin;
+use SafetyExit\Helpers\ConfigLoader;
+
+if (!function_exists('sftExtConfig')) {
+    function sftExtConfig($key, $default = null)
+    {
+        return ConfigLoader::get($key, $default);
+    }
+}
 
 $path = realpath(dirname(__FILE__) . '/../../../')."/wp-includes/pluggable.php";
 
