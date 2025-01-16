@@ -1,0 +1,20 @@
+{
+  "js/admin.jsx": {
+    "file": "assets/admin-BeSFEson.js",
+    "name": "admin",
+    "src": "js/admin.jsx",
+    "isEntry": true,
+    "css": [
+      "assets/admin-BIyFuzY9.css"
+    ]
+  },
+  "js/frontend.cjs": {
+    "file": "assets/frontend-592IYlGR.js",
+    "name": "frontend",
+    "src": "js/frontend.cjs",
+    "isEntry": true,
+    "css": [
+      "assets/frontend-DSuKNQw8.css"
+    ]
+  }
+}

@@ -2,9 +2,15 @@
 import {
     defineConfig
 } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
     root: 'src',
+    plugins: [
+        react({
+            jsxRuntime: 'automatic', // Use the automatic runtime
+        })
+    ],
     server: {
         watch: {
             include: ['src/**/**'],
@@ -12,19 +18,16 @@ export default defineConfig({
         },
     },
     build: {
-        outDir: 'assets',
+        manifest: true,
         emptyOutDir: false,
         rollupOptions: {
             input: {
-                frontend: 'src/js/frontend.js',
-                // TODO: Refactor the admin scripts to not need external libraries.
-                admin: 'src/js/admin.js',
+                frontend: 'src/js/frontend.cjs',
+                admin: 'src/js/admin.jsx',
             },
             output: {
-                dir: 'assets',
-                entryFileNames: 'js/[name].js',
-                chunkFileNames: 'js/[name].js',
-                assetFileNames: 'css/[name].[ext]',
+                dir: 'dist',
+                format: 'esm',
             },
         },
     },
@@ -32,6 +35,10 @@ export default defineConfig({
         alias: {
             '@': '/src'
         }
+    },
+    esbuild: {
+        loader: 'jsx', // Ensure JSX files are processed correctly
+        include: /\.jsx?$/, // Matches .js and .jsx files
     },
     // CSS options
     css: {},

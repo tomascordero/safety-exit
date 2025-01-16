@@ -1,9 +1,7 @@
-const postcssPresetEnv = require('postcss-preset-env');
-const postcssMinify = require('postcss-minify');
-const autoprefixer = require('autoprefixer');
+import postcssPresetEnv from 'postcss-preset-env';
+import postcssMinify from 'postcss-minify';
 
-
-module.exports = {
+export default {
   plugins: [
     postcssPresetEnv({
       stage: 0,
