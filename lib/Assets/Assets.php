@@ -1,10 +1,13 @@
 <?php
 namespace SafetyExit\Assets;
 
+use SafetyExit\Helpers\Settings;
+
 class Assets
 {
     private array $manifest = [];
     private array $assets = [];
+    private array $options = [];
 
     private string $assetRoot;
 
@@ -13,6 +16,7 @@ class Assets
     public function __construct($assetRoot = null)
     {
         $this->isLocal = defined('IS_LOCAL') && IS_LOCAL;
+        $this->options = Settings::getAll();
 
         if ($this->isLocal) {
             $this->assetRoot = 'http://localhost:5173/';
@@ -62,11 +66,32 @@ class Assets
     public function admin(): void
     {
         // Enqueue styles
+        wp_enqueue_style( 'wp-components' );
         foreach($this->getStyles('admin') as $style) {
             $uuid = uniqid();
-            wp_enqueue_style('sftExt-admin-' . $uuid, $this->assetRoot . $style);
+            wp_enqueue_style("sftExt-admin-$uuid", $this->assetRoot . $style);
         }
+        $buttonStyles = "
+            :root {
+                --sftExt_bgColor: " . esc_attr( Settings::get('sftExt_bg_color') ) . ";
+                --sftExt_textColor: " . esc_attr( Settings::get('sftExt_font_color') ) . ";
+                --sftExt_active: inline-block;
+                --sftExt_activeMobile: inline-block;
+                --sftExt_mobileBreakPoint: 600px;
+                --sftExt_rectangle_fontSize: " . esc_attr( Settings::get('sftExt_rectangle_font_size') ) . esc_attr( Settings::get('sftExt_rectangle_font_size_units') ) . ";
+                --sftExt_rectangle_letterSpacing: " . esc_attr( Settings::get('sftExt_letter_spacing') ) . ";
+                --sftExt_rectangle_borderRadius: " . esc_attr( Settings::get('sftExt_border_radius') ) . "px;
+            }
+		";
+        wp_add_inline_style(
+            'wp-components',
+            $buttonStyles
+        );
 
+        $frontEndObject = [
+            'settings' => $this->options,
+            'nonce' => wp_create_nonce('wp_rest'),
+        ];
         // Enqueue scripts
         if ($this->isLocal) {
             add_action('admin_head', function() { ?>
@@ -78,9 +103,30 @@ class Assets
                     window.__vite_plugin_react_preamble_installed__ = true
                 </script>
             <?php });
-            wp_enqueue_script_module('sftExt-admin-' . uniqid(), $this->assetRoot . $this->getScripts('admin'), '', '', true);
+            wp_enqueue_script_module("sftExt-admin-script", $this->assetRoot . $this->getScripts('admin'), ['sftExt-admin-settings'], '', true);
+
+            wp_register_script(
+                'sftExt-admin-settings',
+                '',
+                [],
+                '',
+                true
+            );
+            wp_add_inline_script(
+                'sftExt-admin-settings',
+                sprintf(
+                    'window.SafetyExitSettings = %s;',
+                    wp_json_encode([
+                        'settings' => $this->options,
+                        'nonce' => wp_create_nonce('wp_rest'),
+                    ])
+                )
+            );
+            wp_enqueue_script('sftExt-admin-settings');
         } else {
-            wp_enqueue_script('sftExt-admin-' . uniqid(), $this->assetRoot . $this->getScripts('admin'), '', '', true);
+            wp_enqueue_script("sftExt-admin-script", $this->assetRoot . $this->getScripts('admin'), '', '', true);
+            wp_localize_script("sftExt-admin-script", 'SafetyExitSettings', $frontEndObject);
         }
+
     }
 }

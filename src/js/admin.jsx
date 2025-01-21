@@ -3,14 +3,15 @@ import '../css/admin.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-function App() {
-    return (
-        <div>
-            <h1>Hello, World!</h1>
-        </div>
-    );
-}
+import App from './App';
+import { SettingsProvider } from './providers/SettingsProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('sftExtApp'));
 
-root.render(<App />);
+const initialSettings = window.SafetyExitSettings?.settings || {};
+
+root.render(
+    <SettingsProvider initialSettings={initialSettings}>
+        <App />
+    </SettingsProvider>
+);

@@ -63,7 +63,7 @@ class Admin {
         // dd(sftExtConfig('assets.root'));
 
         $assets = new Assets($this->root);
-        $manifest = $assets->admin();
+        $assets->admin();
         if( $hook == 'toplevel_page_safety_exit' ) {
 
             // wp_enqueue_style('sftExt-admin-icon-picker', $this->root . 'assets/css/fontawesome-iconpicker.css');

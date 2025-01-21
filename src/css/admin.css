@@ -17,3 +17,76 @@
         padding-left: 10px;
     }
 }
+
+#sftExtApp {
+	height: 100%;
+	padding-bottom: 40px;
+	box-sizing: border-box;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.sftExt {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.layout {
+		flex: 1;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.live-view {
+		box-shadow: 10px 20px 73px -30px rgba(153,153,153,1);
+		background: #ffffff;
+		padding-top: 2em;
+		max-width: 500px;
+		width: 100%;
+		height: 375px;
+		border-radius: 10px;
+		position: relative;
+
+		.browser-chrome {
+			width: 100%;
+			height: 32px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			border-bottom: 1px solid #ccc;
+			display: flex;
+			flex-direction: row;
+			justify-content: start;
+			align-items: center;
+			gap: 5px;
+			padding: 0 10px;
+
+			.red, .yellow, .green {
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+			}
+
+			.red {
+				background: #ff5f56;
+			}
+
+			.yellow {
+				background: #ffbd2e;
+			}
+
+			.green {
+				background: #27c93f;
+			}
+		}
+
+		#sftExt-frontend-button {
+			position: absolute !important;
+		}
+	}
+}
