@@ -10,6 +10,7 @@ class Assets
     private array $options = [];
 
     private string $assetRoot;
+    private string $publicPluginRoot;
 
     private bool $isLocal = false;
 
@@ -17,6 +18,7 @@ class Assets
     {
         $this->isLocal = defined('IS_LOCAL') && IS_LOCAL;
         $this->options = Settings::getAll();
+        $this->publicPluginRoot = $assetRoot;
 
         if ($this->isLocal) {
             $this->assetRoot = 'http://localhost:5173/';
@@ -90,7 +92,7 @@ class Assets
 
         $frontEndObject = [
             'settings' => $this->options,
-            'nonce' => wp_create_nonce('wp_rest'),
+            'icons' => $this->getBaseIcons(),
         ];
         // Enqueue scripts
         if ($this->isLocal) {
@@ -116,10 +118,7 @@ class Assets
                 'sftExt-admin-settings',
                 sprintf(
                     'window.SafetyExitSettings = %s;',
-                    wp_json_encode([
-                        'settings' => $this->options,
-                        'nonce' => wp_create_nonce('wp_rest'),
-                    ])
+                    wp_json_encode($frontEndObject)
                 )
             );
             wp_enqueue_script('sftExt-admin-settings');
@@ -128,5 +127,22 @@ class Assets
             wp_localize_script("sftExt-admin-script", 'SafetyExitSettings', $frontEndObject);
         }
 
+    }
+
+    public function getBaseIcons(): array
+    {
+        $iconsFolder = plugin_dir_path( __FILE__ ) . '../../assets/icons/';
+        $icons = array();
+
+        if (is_dir($iconsFolder)) {
+            $files = scandir($iconsFolder);
+            foreach ($files as $file) {
+                if (pathinfo($file, PATHINFO_EXTENSION) === 'svg') {
+                    $icons[] = $this->publicPluginRoot . 'assets/icons/' . $file;
+                }
+            }
+        }
+
+        return $icons;
     }
 }

@@ -1,4 +1,3 @@
-// import { Button, TabPanel } from '@wordpress/components';
 import ControlPanel from './ControlPanel';
 import LiveView from './LiveView';
 import React from 'react';

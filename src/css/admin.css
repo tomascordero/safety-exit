@@ -39,7 +39,6 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		align-items: center;
 	}
 
 	.live-view {
@@ -88,5 +87,25 @@
 		#sftExt-frontend-button {
 			position: absolute !important;
 		}
+	}
+}
+
+.sftExt-icon-picker {
+	max-height: 150px;
+	overflow: scroll;
+	background: #ffffff;
+	padding: 20px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 10px;
+	border-radius: 10px;
+
+	& .sftExt-icon-picker-button {
+		background: none;
+		border: none;
+		border-radius: 10px;
+		cursor: pointer;
+		padding: 10px;
+		margin: 0;
 	}
 }

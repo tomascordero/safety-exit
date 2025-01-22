@@ -6,7 +6,7 @@ export default {
     postcssPresetEnv({
       stage: 0,
       browsers: 'cover 99.5%',
-      autoprefixer: { grid: true }
+      autoprefixer: { grid: false }
     }),
     postcssMinify(),
   ]
