@@ -38,7 +38,7 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		gap: 20px;
 	}
 
 	.live-view {
@@ -50,6 +50,7 @@
 		height: 375px;
 		border-radius: 10px;
 		position: relative;
+		margin-left: auto;
 
 		.browser-chrome {
 			width: 100%;
@@ -86,6 +87,59 @@
 
 		#sftExt-frontend-button {
 			position: absolute !important;
+		}
+	}
+
+	.control-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		max-width: calc(50% - 40px);
+		width: 100%;
+	}
+	.sftExt-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 10px;
+
+		.col-span-1 {
+			grid-column: span 1;
+		}
+		.col-span-2 {
+			grid-column: span 2;
+		}
+		.col-span-3 {
+			grid-column: span 3;
+		}
+		.col-span-4 {
+			grid-column: span 4;
+		}
+	}
+
+	.color-indicator {
+		width: 100%;
+		padding: 10px;
+		background-color: #ffffff;
+		border-radius: 5px;
+		border: 1px solid #8c8f94;
+
+		.color-card {
+			width: 100%;
+			height: 40px;
+			border-radius: 5px;
+			border: 1px solid #8c8f94;
+			cursor: pointer;
+		}
+
+		.color-text {
+			width: 100%;
+			text-align: center;
+			font-size: 14px;
+			color: #000000;
+			margin-top: 10px;
+			margin-bottom: 0;
+			border: none;
+			background-color: transparent;
 		}
 	}
 }

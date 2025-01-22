@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 export default function IconPicker() {
     const [icons, setIcons] = useState([]);
+    console.log('iconpicker')
 
     useEffect(() => {
         // let [list, chunkSize] = [window.SafetyExitSettings?.icons || [], 5];

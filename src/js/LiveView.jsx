@@ -5,7 +5,7 @@ import React from 'react';
 export default function LiveView() {
     const { settings, updateSetting } = useSettings();
 
-    console.log(settings);
+    // console.log(settings);
 
     return (
         <div className="live-view">
@@ -20,6 +20,11 @@ export default function LiveView() {
                     settings.sftExt_position,
                     settings.sftExt_type,
                 ].join(' ')}
+                style={{
+                    backgroundColor: settings.sftExt_bg_color,
+                    color: settings.sftExt_font_color,
+                    fontSize: settings.sftExt_font_size,
+                }}
             >Safety Exit</button>
         </div>
     );
