@@ -1,32 +1,44 @@
 import { Icon } from '@wordpress/components';
-import { useEffect, useState } from 'react';
+import React from 'react';
+import { BaseControl } from '@wordpress/components';
 
-export default function IconPicker() {
-    const [icons, setIcons] = useState([]);
-    console.log('iconpicker')
+function IconPicker( { onSelect } ) {
+    const [icons, setIcons] = React.useState([]);
 
-    useEffect(() => {
-        // let [list, chunkSize] = [window.SafetyExitSettings?.icons || [], 5];
-        // list = [...Array(Math.ceil(list.length / chunkSize))].map(_ => list.splice(0, chunkSize));
+    React.useEffect(() => {
         let list = window.SafetyExitSettings?.icons || [];
         setIcons(list);
     }, []);
 
+    const handleSelect = (icon) => {
+        onSelect(icon);
+    }
+
+    // const iconValue = settings.sftExt_icon_url || settings.sftExt_fontawesome_icon_classes
+
     return (
-        <div className="sftExt-icon-picker">
-            {icons.map((icon, index) => (
-                <button key={index} className="sftExt-icon-picker-button">
-                    <Icon
-                        key={index}
-                        icon={( {size} ) => (
-                            <img
-                                src={icon}
-                                style={{ width: size, height: size }}
-                            />
-                        )}
-                    />
-                </button>
-            ))}
-        </div>
+        <BaseControl>
+            <BaseControl.VisualLabel>
+                Button Icon
+            </BaseControl.VisualLabel>
+            <div className="sftExt-icon-picker">
+                {icons.map((icon, index) => (
+                    <button key={index} className="sftExt-icon-picker-button" onClick={() => {
+                        handleSelect(icon);
+                    }}>
+                        <Icon
+                            key={index}
+                            icon={( {size} ) => (
+                                <img
+                                    src={icon}
+                                />
+                            )}
+                        />
+                    </button>
+                ))}
+            </div>
+        </BaseControl>
     );
 }
+
+export default React.memo(IconPicker);

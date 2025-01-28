@@ -134,6 +134,8 @@ class Assets
         $iconsFolder = plugin_dir_path( __FILE__ ) . '../../assets/icons/';
         $icons = array();
 
+        // Need to serve these up like: ['fileName' => 'path/to/file']
+        // In the database I need to crate two new fields.
         if (is_dir($iconsFolder)) {
             $files = scandir($iconsFolder);
             foreach ($files as $file) {

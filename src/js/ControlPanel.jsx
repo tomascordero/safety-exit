@@ -1,28 +1,28 @@
-import { SelectControl, Popover } from '@wordpress/components';
-import { useSettings } from './providers/SettingsProvider';
+import { SelectControl } from '@wordpress/components';
+import { useSettings, useSetting } from './providers/SettingsProvider';
 import IconPicker from './components/IconPicker';
 import ColorInput from './components/ColorInput';
 import React from 'react';
 
 export default function ControlPanel() {
-    const { settings, updateSetting } = useSettings();
-    const [toggleIconSelector, setToggleIconSelector] = React.useState(false);
-
-    const handleIconChange = () => {
-        setToggleIconSelector(!toggleIconSelector);
-    }
+    // const { settings, updateSetting } = useSettings();
+    const bgColorSetting = useSetting('sftExt_bg_color');
+    const fontColorSetting = useSetting('sftExt_font_color');
+    const positionSetting = useSetting('sftExt_position');
 
     const handlePositionChange = (e) => {
-        updateSetting('sftExt_position', e);
+        positionSetting.update(e);
     }
 
     const handleBgColorChange = (color) => {
-        updateSetting('sftExt_bg_color', color);
+        bgColorSetting.update(color);
     }
 
     const handleFontColorChange = (color) => {
-        updateSetting('sftExt_font_color', color);
+        fontColorSetting.update(color);
     }
+
+    // const iconValue = settings.sftExt_icon_url || settings.sftExt_fontawesome_icon_classes;
 
     return (
         <div className="control-panel">
@@ -47,27 +47,16 @@ export default function ControlPanel() {
                                 value: 'bottom right'
                             }
                         ]}
-                        value={settings.sftExt_position}
+                        value={positionSetting.value}
                     />
                 </div>
                 <div className="col-span-2">
-                    {/* TODO: Need to create a better picker */}
-                    <button onClick={handleIconChange}>
-                        Choose Icon
-                        { toggleIconSelector && <Popover
-                            offset={10}
-                            placement="right-start"
-                            onClose={() => {}}
-                            onFocusOutside={() => {}}
-                            >
-                            <IconPicker />
-                        </Popover>}
-                    </button>
+                    {/* <IconInput label="Button Icon" value={iconValue} onChange={console.log} /> */}
                 </div>
             </div>
-            <ColorInput label="Background Color" value={settings.sftExt_bg_color} onChange={handleBgColorChange}/>
-            <ColorInput label="Font Color" value={settings.sftExt_font_color} onChange={handleFontColorChange}/>
-            {/* btn font color picker */}
+            <IconPicker onSelect={console.log}/>
+            <ColorInput label="Background Color" value={bgColorSetting.value} onChange={handleBgColorChange}/>
+            <ColorInput label="Font Color" value={fontColorSetting.value} onChange={handleFontColorChange}/>
             {/* btn type (rectangle / circle) */}
             {/* btn text */}
             {/* btn include icon */}

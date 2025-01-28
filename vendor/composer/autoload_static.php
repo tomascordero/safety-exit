@@ -23,6 +23,7 @@ class ComposerStaticInit85412737557de168d25fde3e0a4536ea
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'SafetyExit\\Admin' => __DIR__ . '/../..' . '/lib/Admin.php',
+        'SafetyExit\\Api' => __DIR__ . '/../..' . '/lib/Api.php',
         'SafetyExit\\Assets\\Assets' => __DIR__ . '/../..' . '/lib/Assets/Assets.php',
         'SafetyExit\\Exceptions\\InvalidSetting' => __DIR__ . '/../..' . '/lib/Exceptions/InvalidSetting.php',
         'SafetyExit\\Frontend' => __DIR__ . '/../..' . '/lib/Frontend.php',
