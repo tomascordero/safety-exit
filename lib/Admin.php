@@ -73,11 +73,54 @@ class Admin {
         }
     }
 
+    public function sanitize_settings( $input ) {
+        $output = [];
+        $output['sftExt_position'] = sanitize_text_field( $input['sftExt_position'] );
+        $output['sftExt_fontawesome_icon_classes'] = sanitize_text_field( $input['sftExt_fontawesome_icon_classes'] );
+        $output['sftExt_bg_color'] = sanitize_hex_color( $input['sftExt_bg_color'] );
+        $output['sftExt_font_color'] = sanitize_hex_color( $input['sftExt_font_color'] );
+        $output['sftExt_type'] = sanitize_text_field( $input['sftExt_type'] );
+        $output['sftExt_border_radius'] = absint( $input['sftExt_border_radius'] );
+        $output['sftExt_rectangle_font_size'] = absint( $input['sftExt_rectangle_font_size'] );
+        $output['sftExt_rectangle_font_size_units'] = sanitize_text_field( $input['sftExt_rectangle_font_size_units'] );
+        $output['sftExt_current_tab_url'] = esc_url_raw( $input['sftExt_current_tab_url'] );
+        $output['sftExt_new_tab_url'] = esc_url_raw( $input['sftExt_new_tab_url'] );
+        $output['sftExt_rectangle_text'] = sanitize_text_field( $input['sftExt_rectangle_text'] );
+        $output['sftExt_letter_spacing'] = sanitize_text_field( $input['sftExt_letter_spacing'] );
+        if(!isset($input['sftExt_rectangle_icon_onOff'])){
+            $output['sftExt_rectangle_icon_onOff'] = 'no';
+        }else{
+            $output['sftExt_rectangle_icon_onOff'] = sanitize_text_field( $input['sftExt_rectangle_icon_onOff'] );
+        }
+        if(!isset($input['sftExt_hide_mobile'])){
+            $output['sftExt_hide_mobile'] = '';
+        }else{
+            $output['sftExt_hide_mobile'] = sanitize_text_field( $input['sftExt_hide_mobile'] );
+        }
+        if(!isset($input['sftExt_front_page'])){
+            $output['sftExt_front_page'] = '';
+        }else{
+            $output['sftExt_front_page'] = sanitize_text_field( $input['sftExt_front_page'] );
+        }
+        if(!isset($input['sftExt_show_all'])){
+            $output['sftExt_show_all'] = '';
+        }else{
+            $output['sftExt_show_all'] = sanitize_text_field( $input['sftExt_show_all'] );
+        }
+        if(!isset($input['sftExt_pages'])){
+            $output['sftExt_pages'] = [];
+        }else{
+            $output['sftExt_pages'] = array_map( 'absint', $input['sftExt_pages'] );
+        }
+
+        return $output;
+    }
+
     public function plugin_admin_init(){
 
         if(current_user_can('administrator')){
 
-            register_setting( 'pluginPage', 'sftExt_settings' );
+            register_setting( 'pluginPage', 'sftExt_settings', [$this, 'sanitize_settings'] );
             $recClasses = '';
             if($this->options['sftExt_type'] == 'rectangle') {
                 $recClasses = 'option-wrapper rectangle-only';
