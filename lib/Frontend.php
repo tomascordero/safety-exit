@@ -93,20 +93,21 @@ class Frontend {
 	public function generate_js() {
 		do_action( 'qm/debug', 'generating JS' );
 
+		// Properly escape JavaScript values to prevent XSS
 		$jsVars = [
-			'classes' => '\'' . $this->classes . '\'',
-			'icon' => '\'' . $this->icon . '\'',
-			'newTabUrl' => '\'' . esc_attr( Settings::get('sftExt_new_tab_url') ) . '\'',
-			'currentTabUrl' => '\'' . esc_attr( Settings::get('sftExt_current_tab_url') ) . '\'',
-			'btnType' => '\'' . esc_attr( Settings::get('sftExt_type') ) . '\'',
-			'text' => '\'' . esc_attr( Settings::get('sftExt_rectangle_text') ) . '\'',
+			'classes' => wp_json_encode( $this->classes ),
+			'icon' => wp_json_encode( $this->icon ),
+			'newTabUrl' => wp_json_encode( Settings::get('sftExt_new_tab_url') ),
+			'currentTabUrl' => wp_json_encode( Settings::get('sftExt_current_tab_url') ),
+			'btnType' => wp_json_encode( Settings::get('sftExt_type') ),
+			'text' => wp_json_encode( Settings::get('sftExt_rectangle_text') ),
 			'shouldShow' => ($this->displayButton ? 'true' : 'false'),
 		];
 
 		$js = '<script>';
 		$js .= 'window.sftExtBtn={};';
 		foreach ($jsVars as $key => $value) {
-			$js .= 'window.sftExtBtn.' . $key . '=' . $value . ';';
+			$js .= 'window.sftExtBtn.' . esc_js( $key ) . '=' . $value . ';';
 		}
 		$js .= '</script>';
 		return $js;
@@ -117,20 +118,31 @@ class Frontend {
 	public function generate_css() {
 		do_action( 'qm/debug', 'generating custom CSS' );
 
+		// Validate and sanitize CSS values
+		$fontSize = absint( Settings::get('sftExt_rectangle_font_size') );
+		$fontSizeUnits = Settings::get('sftExt_rectangle_font_size_units');
+		$borderRadius = absint( Settings::get('sftExt_border_radius') );
+
+		// Validate font size units
+		$allowedUnits = array( 'px', 'em', 'rem' );
+		if ( !in_array( $fontSizeUnits, $allowedUnits ) ) {
+			$fontSizeUnits = 'rem';
+		}
+
 		$cssVars = [
 			'--sftExt_bgColor' 					=> esc_attr( Settings::get('sftExt_bg_color') ),
 			'--sftExt_textColor' 				=> esc_attr( Settings::get('sftExt_font_color') ),
 			'--sftExt_active' 					=> (!$this->displayButton ? 'none !important' : 'inline-block'),
 			'--sftExt_activeMobile'				=> ($this->hideOnMobile ? 'none !important' : 'inline-block'),
 			'--sftExt_mobileBreakPoint' 		=> '600px',
-			'--sftExt_rectangle_fontSize' 		=> esc_attr( Settings::get('sftExt_rectangle_font_size') ) . esc_attr( Settings::get('sftExt_rectangle_font_size_units') ),
+			'--sftExt_rectangle_fontSize' 		=> $fontSize . $fontSizeUnits,
 			'--sftExt_rectangle_letterSpacing' 	=> esc_attr( Settings::get('sftExt_letter_spacing') ),
-			'--sftExt_rectangle_borderRadius' 	=> esc_attr( Settings::get('sftExt_border_radius') ) . 'px',
+			'--sftExt_rectangle_borderRadius' 	=> $borderRadius . 'px',
 		];
 
 		$css = '<style>:root{';
 		foreach ($cssVars as $key => $value) {
-			$css .= $key . ':' . $value . ';';
+			$css .= esc_attr( $key ) . ':' . $value . ';';
 		}
 		$css .= '}</style>';
 		return $css;
