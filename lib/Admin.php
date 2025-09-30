@@ -77,7 +77,9 @@ class Admin {
 
         if(current_user_can('administrator')){
 
-            register_setting( 'pluginPage', 'sftExt_settings' );
+            register_setting( 'pluginPage', 'sftExt_settings', array(
+                'sanitize_callback' => array( $this, 'sanitize_settings' )
+            ) );
             $recClasses = '';
             if($this->options['sftExt_type'] == 'rectangle') {
                 $recClasses = 'option-wrapper rectangle-only';
@@ -396,5 +398,115 @@ class Admin {
                 break;
         }
 
+    }
+
+    /**
+     * Sanitize plugin settings to prevent XSS attacks
+     *
+     * @param array $input Raw input data
+     * @return array Sanitized data
+     */
+    public function sanitize_settings( $input ) {
+        // Verify nonce for security
+        if ( !isset( $_POST['sftExt_settings_nonce_field'] ) ||
+             !wp_verify_nonce( $_POST['sftExt_settings_nonce_field'], 'sftExt_settings_nonce' ) ) {
+            wp_die( 'Security check failed. Please try again.' );
+        }
+
+        // Check user capabilities
+        if ( !current_user_can( 'manage_options' ) ) {
+            wp_die( 'You do not have sufficient permissions to access this page.' );
+        }
+
+        $sanitized = array();
+
+        // Define allowed values for each field
+        $allowed_values = array(
+            'sftExt_position' => array( 'bottom left', 'bottom right' ),
+            'sftExt_type' => array( 'round', 'square', 'rectangle' ),
+            'sftExt_rectangle_icon_onOff' => array( 'yes', 'no' ),
+            'sftExt_rectangle_font_size_units' => array( 'px', 'em', 'rem' ),
+            'sftExt_show_all' => array( 'yes', 'no' ),
+            'sftExt_front_page' => array( 'yes', 'no' ),
+            'sftExt_hide_mobile' => array( 'yes', 'no' )
+        );
+
+        // Sanitize each field based on its type
+        foreach ( $input as $key => $value ) {
+            switch ( $key ) {
+                case 'sftExt_position':
+                case 'sftExt_type':
+                case 'sftExt_rectangle_icon_onOff':
+                case 'sftExt_rectangle_font_size_units':
+                case 'sftExt_show_all':
+                case 'sftExt_front_page':
+                case 'sftExt_hide_mobile':
+                    // Validate against allowed values
+                    if ( isset( $allowed_values[ $key ] ) && in_array( $value, $allowed_values[ $key ] ) ) {
+                        $sanitized[ $key ] = sanitize_text_field( $value );
+                    } else {
+                        // Use default value if invalid
+                        $defaults = Settings::getDefaults();
+                        $sanitized[ $key ] = $defaults[ $key ];
+                    }
+                    break;
+
+                case 'sftExt_fontawesome_icon_classes':
+                    // Sanitize FontAwesome classes - only allow alphanumeric, hyphens, and spaces
+                    $sanitized[ $key ] = sanitize_text_field( preg_replace( '/[^a-zA-Z0-9\s\-]/', '', $value ) );
+                    break;
+
+                case 'sftExt_current_tab_url':
+                case 'sftExt_new_tab_url':
+                    // Validate and sanitize URLs
+                    $url = esc_url_raw( $value );
+                    if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
+                        $sanitized[ $key ] = $url;
+                    } else {
+                        // Use default if invalid URL
+                        $defaults = Settings::getDefaults();
+                        $sanitized[ $key ] = $defaults[ $key ];
+                    }
+                    break;
+
+                case 'sftExt_rectangle_text':
+                    // Sanitize text input
+                    $sanitized[ $key ] = sanitize_text_field( $value );
+                    break;
+
+                case 'sftExt_bg_color':
+                case 'sftExt_font_color':
+                    // Sanitize color values - allow hex, rgb, rgba, and named colors
+                    $sanitized[ $key ] = sanitize_text_field( $value );
+                    break;
+
+                case 'sftExt_border_radius':
+                case 'sftExt_rectangle_font_size':
+                    // Sanitize numeric values
+                    $sanitized[ $key ] = absint( $value );
+                    break;
+
+                case 'sftExt_letter_spacing':
+                    // Sanitize CSS property
+                    $sanitized[ $key ] = sanitize_text_field( $value );
+                    break;
+
+                case 'sftExt_pages':
+                    // Sanitize array of page IDs
+                    if ( is_array( $value ) ) {
+                        $sanitized[ $key ] = array_map( 'absint', $value );
+                    } else {
+                        $sanitized[ $key ] = array();
+                    }
+                    break;
+
+                default:
+                    // For any unknown fields, sanitize as text
+                    $sanitized[ $key ] = sanitize_text_field( $value );
+                    break;
+            }
+        }
+
+        return $sanitized;
     }
 }

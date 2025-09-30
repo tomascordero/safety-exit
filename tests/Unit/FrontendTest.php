@@ -37,6 +37,15 @@ beforeEach(function () {
             return true;
         },
         'do_action' => true,
+        'wp_json_encode' => function($data) {
+            return json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+        },
+        'esc_js' => function($text) {
+            return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+        },
+        'absint' => function($value) {
+            return abs(intval($value));
+        },
     ]);
 });
 
@@ -119,7 +128,9 @@ it('generates the correct custom JS', function () {
     $js = $safetyExitFrontend->generate_js();
     $this->assertIsString($js);
 
-    $this->assertEquals($js, "<script>window.sftExtBtn={};window.sftExtBtn.classes='bottom right rectangle';window.sftExtBtn.icon='<i class=\"fas fa-times\"></i>';window.sftExtBtn.newTabUrl='https://google.com';window.sftExtBtn.currentTabUrl='https://google.com';window.sftExtBtn.btnType='rectangle';window.sftExtBtn.text='Safety Exit';window.sftExtBtn.shouldShow=true;</script>");
+    // Updated expectation to match JSON-encoded output format with Unicode escapes
+    $expectedJs = "<script>window.sftExtBtn={};window.sftExtBtn.classes=\"bottom right rectangle\";window.sftExtBtn.icon=\"\u003Ci class=\u0022fas fa-times\u0022\u003E\u003C\/i\u003E\";window.sftExtBtn.newTabUrl=\"https:\/\/google.com\";window.sftExtBtn.currentTabUrl=\"https:\/\/google.com\";window.sftExtBtn.btnType=\"rectangle\";window.sftExtBtn.text=\"Safety Exit\";window.sftExtBtn.shouldShow=true;</script>";
+    $this->assertEquals($js, $expectedJs);
 
 });
 
@@ -135,7 +146,9 @@ it('generates the correct custom CSS', function () {
     $css = $safetyExitFrontend->generate_css();
     $this->assertIsString($css);
 
-    $this->assertEquals($css, "<style>:root{--sftExt_bgColor:rgba(58, 194, 208, 1);--sftExt_textColor:rgba(255, 255, 255, 1);--sftExt_active:inline-block;--sftExt_activeMobile:inline-block;--sftExt_mobileBreakPoint:600px;--sftExt_rectangle_fontSize:1rem;--sftExt_rectangle_letterSpacing:inherit;--sftExt_rectangle_borderRadius:100px;}</style>");
+    // Updated expectation to match esc_css() escaped output format
+    $expectedCss = "<style>:root{--sftExt_bgColor:rgba(58, 194, 208, 1);--sftExt_textColor:rgba(255, 255, 255, 1);--sftExt_active:inline-block;--sftExt_activeMobile:inline-block;--sftExt_mobileBreakPoint:600px;--sftExt_rectangle_fontSize:1rem;--sftExt_rectangle_letterSpacing:inherit;--sftExt_rectangle_borderRadius:100px;}</style>";
+    $this->assertEquals($css, $expectedCss);
 
 });
 

@@ -3,6 +3,7 @@
 	<form method="post" action="options.php">
 		<?php
 			settings_fields( 'pluginPage' );
+			wp_nonce_field( 'sftExt_settings_nonce', 'sftExt_settings_nonce_field' );
 			do_settings_sections( 'pluginPage' );
 			submit_button();
 		?>
