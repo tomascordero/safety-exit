@@ -5,7 +5,7 @@ Donate link: https://tomascordero.com
 Requires at least: 5.2.0
 Tested up to: 6.8.2
 Requires PHP: 5.6.0
-Stable tag: 1.8.1
+Stable tag: 1.9.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,7 +47,7 @@ Currently there are only two options for button placement. \"Bottom Left\" and \
 2. Back end configuration of the button
 
 == Changelog ==
-1.8.1:
+1.9.0:
 	- Security: Fixed Cross-Site Scripting (XSS) vulnerability by implementing proper input sanitization and output escaping
 	- Security: Added nonce verification for admin form submissions
 	- Security: Enhanced validation for all user inputs including URLs, CSS values, and JavaScript variables
